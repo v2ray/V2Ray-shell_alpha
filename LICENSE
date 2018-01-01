@@ -1,0 +1,10 @@
+V2Ray-shell License
+
+WARNING, ANY PROBLEMS (INCLUDING, BUT NOT LIMITED TO, NATIONAL SECURITY, LEGAL, HARDWARE, SOFTWARE, COPYRIGHT, ETHICS, PERSONAL INJURIES) FOR THE USE OF THE V2RAY-SHELL. V2RAY-SHELL AUTHORS DO NOT TAKE ANY RESPONSIBILITY.
+
+V2Ray-shell License is public domain. 
+All of the code and documentation in V2Ray-shell has been dedicated to the public domain by the authors(however, the authors are anonymous).
+
+If you want to release again, you need to know PyQt5 is released under the GPL v3 license and under a commercial license that allows for the development of proprietary applications. 
+Of course if you do not want to publish this script in GPL v3. You can use PySide to publish this script using LGPL.
+If you use the two companies (QT or Riverbank Computing) any one of the commercial license, closed source is allowed.

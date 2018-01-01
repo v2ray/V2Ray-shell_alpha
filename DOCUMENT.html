@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8' ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	</head>
+	<body>
+		<h2 id="h2-1">帮助文档</h2>
+		<p>
+			<strong>注意</strong>：此脚本还属于内测中。很多功能都没有经过严格测试。<br>
+
+			<strong>测试前请备份好V2Ray-core配置文件</strong><br>
+
+			<strong>测试前请备份好V2Ray-core配置文件</strong><br>
+
+			<strong>测试前请备份好V2Ray-core配置文件</strong>
+		</p>
+		<h3 id="h3-1">目标人群</h3>
+		<p>由于脚本还在内测中。所以目前脚本针对的目标人群不是所有人。<br>
+			如果你是下列人群，欢迎测试这个脚本帮助改进。</p>
+		<ul>
+			<li>对技术感觉兴趣，愿意学习新技术</li>
+			<li>熟悉Qt程序，可以指正脚本中的错误地方</li>
+			<li>脚本使用过程中出错，知道如何修改相应的代码解决问题</li>
+			<li>脚本使用过程中出错，知道如何复现出错问题，定位出错原因</li>
+			<li>脚本导入导出JSON配置错误，并知道如何修改成正确配置</li>
+			<li>熟习
+				<a href="https://www.v2ray.com/chapter_02/01_overview.html">V2Ray官方文档</a>，并且知道如何配置v2ray-core JSON配置文件
+			</li>
+			<li>不怕被冷落</li>
+		</ul>
+		<h3 id="bug">BUG提交</h3>
+		<p>如果你
+			<a href="https://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html">提交一个BUG</a>，但无法提供复现方法与步骤或者解决方法。不会得到优先处理。<br>
+			任何要求增加新功能的要求将不会被优生处理。<br>
+			复现步骤时，请把icons, translations, config.v2rayshell这个三个文件放到src/bridgehouse/目录中。<br>
+			在命令行运行
+			<code>python3 bridge.py</code>,以便获得Python Traceback数据。<br>
+		</p>
+		<ul>
+			<li>编辑器不支持编辑带有注释的JSON文件。请自行移除注释。 
+				<a href="https://plus.google.com/+DouglasCrockfordEsq/posts/RK8qyGVaGSr">原因</a>
+			</li>
+			<li>编辑器生成的配置只能保证符合文档规范，无法保证配置是否有用。</li>
+			<li>使用编辑器生成的配置文件之前请使用如下命令检查配置是否正确 
+				<code>v2ray -test config.json</code> (暂无计划将此功能集成在脚本中)
+			</li>
+			<li>编辑JSON文档暂无错误提示。</li>
+			<li>编辑器不对输入的数据做合法验证。比如IP地址可以输入IPv4,IPv6,域名,或者其他任意数据</li>
+			<li>如果想直接使用编辑器，可以在src/bridgehouse/editMap/ 目录找到 nauticalChartPanel.py</li>
+			<li>代理服务器延迟测试，并非为本地计算机到VPS的延迟。这个延迟是访问http://www.google.com的延迟。</li>
+			<li>如果频繁测试google.com服务器可能会引起DDOS。VPS有被拉黑的风险。最小测试时间间隔为60秒。
+				对此，你可以在自己的VPS开启http协议用作代理连接状态检查。(当然检查V2Ray-core的日志文件也是个有效的方法,同样暂无计划将此功能集成在脚本中。)</li>
+			<li>代理服务器无法连接时自动切换到另一个配置，可能不太稳定。暂时还没有很好的解决方案。</li>
+			<li>编辑JSON文档时，不会自动分析in/outbound(Detour)已有的policy level。<br>在面板中添加新的in/outbound(Detour)时,所有的policy level会出现在PolicyTAB列表中(V2Ray-core V3.1之前的配置文件会有此问题)。</li>
+			<li>如果v2ray-shell崩溃关闭，会可能导致正在运行的v2ray进程变成
+				<a href="https://zh.wikipedia.org/wiki/%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B">孤儿进程</a>,这时需要手动关闭v2ray。
+			</li>
+			<li>测试服务器连接状态功能关闭，服务器延迟测试也会自己关闭。</li>
+			<li>编译二进制文件，使用二进制文件的一切问题无法处理。</li>
+			<li>build.py文件为开发人员使用，可以删除。</li>
+		</ul>
+		<h3 id="h3-3">参与开发</h3>
+		<p>欢迎任何对此脚本感兴趣的开发者参与开发。<br>
+			但请知道，参与这个脚本的开发者必须放弃对脚本的一切权利(开发者同样也包括原始作者)。<br>
+			如果你无法接受这个条件，你可以自由复制这个脚本单独发行。<br>
+			但请注意如果使用PyQt请遵循Riverbank公司的
+			<a href="https://www.riverbankcomputing.com/commercial/license-faq">协议</a>。<br>
+			或者使用PySide请遵循Qt公司
+			<a href="http://code.qt.io/cgit/pyside/pyside-setup.git/tree/?h=5.9">相应协议</a><br>
+			为了兼顾两家公司的协议，所以此脚本才会使用
+			<a href="https://zh.wikipedia.org/wiki/%E5%85%AC%E6%9C%89%E9%A2%86%E5%9F%9F">公有领域协议</a><br>
+			如果你购买了Riverbank或Qt的商业授权。闭源是被允许。
+		</p>
+		<h3 id="h3-4">维护</h3>
+		<p>由于作者还有其他工作。只能用业余时间去维护这个项目。<br>
+			有一年的有效维护保证。<br>
+			每个季度维护一次(致命错误，其他重要情况除外)。<br>
+			到2018年12月会视下一年安排，会作出如何接着维护这个项目的决定。<br>
+			一但项目稳定版本发行，需要维护的地方将很少。</p>
+		<h3 id="h3-5">新功能增加</h3>
+		<p>由于这个脚本支持多平台运行。为了减少维护成本，很多功能不增加。<br>
+			如开机自启动，设置系统代理，向导生成配置，自动生成配置，配置模板，二维码等等...<br>
+			也无法提供
+			<a href="https://zh.wikipedia.org/wiki/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1">负载均衡</a>，
+			<a href="https://zh.wikipedia.org/wiki/%E6%9C%8D%E5%8A%A1%E8%B4%A8%E9%87%8F">服务质量</a>等等...<br>
+			脚本中路由配置的编辑暂时不支持,坑太大暂时不填...<br>
+			后续的维护主要针对v2ray-core JSON配置文件编辑器进行修改。减少很多不必要的控件。
+		</p>
+		<h3 id="h3-6">二进制文件</h3>
+		<p>此脚本不直接提供二进制文件。请自行编译。<br>
+			编译方法:<br>
+			先安装pyinstaller,安装方法之一 
+			<code>pip install pyinstaller</code><br>
+			然后到/src/bridgehouse/目录，在命令行中执行如下编译命令:<br>
+		</p>
+		<p>
+			<code>pyinstaller -F --noconsole -name v2ray-shell bridge.py</code> <br>
+			或者使用 
+			<code>pyinstaller v2ray-shell.spec</code> 生成可独立运行的二进制文件可在dist目录中找到。<br>
+		</p>
+		<p>windows平台亦可直接使用build.py直接生成二进制文件,有可能失败。
+			windows平台确保有libeay32.dll与ssleay32.dll与安装包同目录。<br>
+			这两个文件可以在Python PyQt5安装目录中找到(../Lib/site-packages/PyQt5/Qt/bin/)<br>
+			请确保icons与translations与二进制文件同一个目录，以便使用相应功能。<br>
+			发布二进制文件时，请附带此脚本的源代码与相应协议。<br>
+
+			<strong>备注</strong> :
+			<em>这个测试在windows 10 平台通过，其他平台未知。对于编译二进制文件， 与其出现的一切问题无法处理</em><br>
+
+			<strong>谨慎使用第三方发布的二进制文件</strong><br>
+
+			<strong>谨慎使用第三方发布的二进制文件</strong><br>
+
+			<strong>谨慎使用第三方发布的二进制文件</strong>
+		</p>
+		<h3 id="h3-7">翻译</h3>
+		<p>欢迎有能力与时间的朋友参与脚本的翻译与修正。<br>
+			或者帮助设计无版权图标(带Alpha通道的PSD或者TIF文件受欢迎)。
+			翻译方法：<br> </p>
+		<blockquote>
+			<ol>
+				<li>
+					<a href="https://login.qt.io/login">注册QT账号</a> 
+					<a href="https://www.qt.io/download-qt-for-application-development">下载QT开发包</a> 或者下载在线安装包<br>
+
+					<a href="http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run">Linux Host</a><br>
+
+					<a href="http://download.qt.io/official_releases/online_installers/qt-unified-mac-x64-online.dmg">macOS Host</a><br>
+
+					<a href="http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe">Windows Host</a><br>
+				</li>
+				<li>打开v2rayshell.pro文件，在TRANSLATIONS项目里增加相应语言。<br></li>
+				<li>命令行中找到v2ray-shell的v2rayshell.pro文件。执行此命令
+					<code>pylupdate5 v2rayshell.pro</code>生成ts文件。<br>
+				</li>
+				<li>到translations目录找到相应的ts目标文件。<br></li>
+				<li>找到QT开发包的Qt Linguist，使用Linguist打开ts文件并开始翻译。Qt Linguist的使用方法可以查看帮助文档Qt Linguist Manual。<br></li>
+				<li>翻译好后文件后，在Qt Linguist中找到File-&gt;Release As 发布翻译好的qm文件。<br></li>
+				<li>最后打开v2ray-shell脚本，在Option-&gt;Preference设置相应的翻译文件并重新启动脚本测试。</li>
+			</ol>
+		</blockquote>
+		<h3 id="pyqt5">PyQt5学习</h3>
+		<p>此脚本是自底向上开发，几乎所有的脚本都可以单独运行并测试。<br>
+			开发者也是第一次接触QT编程。学习过程并不困难。欢迎大家一起来学习，交流指正代码中的错误地方。<br>
+			在学习的过程中请善用
+			<a href="https://en.wikipedia.org/wiki/Category:Internet_search_engines">搜索引擎</a>，与使用
+			<a href="https://stackoverflow.com/">stackoverflow</a> 
+			<a href="https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/master/README-zh_CN.md">提问</a>。<br>
+			其中QT开发文档是最有力的助手。虽然使用的编程语言不同，但并不影响文档的使用。<br>
+
+			<a href="https://riverbankcomputing.com/software/pyqt/download5">PyQt5的Demo代码参考</a>。<br>
+			一些学习网站:
+		</p>
+		<ul>
+			<li>
+				<a href="https://pythonspot.com/en/pyqt5/">Pythonspot</a>
+			</li>
+			<li>
+				<a href="http://zetcode.com/gui/pyqt5/">zetcode</a>
+			</li>
+			<li>
+				<a href="http://pythonthusiast.pythonblogs.com/index.php?op=Search&amp;blogId=230&amp;searchTerms=pyqt">PythonBlogs</a>
+			</li>
+			<li>
+				<a href="https://wiki.python.org/moin/PyQt">Python wiki</a>
+			</li>
+			<li>
+				<a href="http://wiki.qt.io/PySide_for_Android_guide">PySide for Android</a>
+			</li>
+			<li>
+				<a href="http://www.cnblogs.com/archisama/tag/PyQt5/">Archi的中文教程</a>
+			</li>
+			<li>
+				<a href="http://blog.csdn.net/column/details/py-qt.html">皮皮blog</a>
+			</li>
+		</ul>
+		<h3 id="h3-9">其他</h3>
+		<p>这个脚本在2017年10月1日开始编写。使用PyQt5的原因是比较熟悉Python语言。选择QT是因为跨平台友好。<br>
+			原计划只做个v2ray-core的JSON配置编辑器,写着写着又写了个启动器，现在变成坑了。精力有限，不想搞太深...<br>
+			在将来的版本中可能会改写成C++与QML结合(有点渺茫)......</p>
+	</body>
+</html>
