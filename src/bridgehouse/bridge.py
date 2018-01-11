@@ -22,6 +22,11 @@ if __name__ == "__main__":
     srcPath = path.path().split("/")
     sys.path.append("/".join(srcPath[:-1]))
 
+filePath = sys.path[0]
+# Detect if running in a bundle
+if getattr(sys, 'frozen', False):
+    filePath = sys._MEIPASS
+
 from bridgehouse.extension import (proxyTest, bridgePreference, updatePanel, 
                                    runV2raycore, bridgetreasureChest, bugReport)
 from bridgehouse.editMap import nauticalChartPanel
@@ -91,8 +96,8 @@ class bridgePanel(QMainWindow, QObject):
         self.iconStart = QIcon()
         self.iconStop  = QIcon()
         self.__iconSize = QSize(32, 32)
-        self.iconStart.addPixmap(QPixmap("./icons/start.png"), QIcon.Normal, QIcon.On)
-        self.iconStop.addPixmap(QPixmap("./icons/stop.png"), QIcon.Disabled, QIcon.On)
+        self.iconStart.addPixmap(QPixmap(filePath + "/icons/start.png"), QIcon.Normal, QIcon.On)
+        self.iconStop.addPixmap(QPixmap(filePath + "/icons/stop.png"), QIcon.Disabled, QIcon.On)
         self.currentRowRightClicked = False
         self.v2rayshellTrayIcon = QSystemTrayIcon()
         self.v2rayshellTrayIcon.setIcon(self.iconStart)
@@ -526,10 +531,11 @@ class bridgePanel(QMainWindow, QObject):
                 self.tableWidgetBridge.setItem(row, column, QTableWidgetItem(str(hostName)))
                 self.tableWidgetBridge.resizeColumnsToContents()
         elif(column == 2):
-            fileName = self.onopenV2rayConfigJSONFile()
-            if (fileName):
-                self.tableWidgetBridge.setItem(row, column, QTableWidgetItem(str(fileName)))
-                self.tableWidgetBridge.resizeColumnsToContents()
+            fileNames = self.onopenV2rayConfigJSONFile()
+            if (fileNames):
+                for fileName in fileNames:
+                    self.tableWidgetBridge.setItem(row, column, QTableWidgetItem(str(fileName)))
+                    self.tableWidgetBridge.resizeColumnsToContents()
         elif(column == 3):
             self.onproxyserverTimeLagTest()
         elif(column == 4):
@@ -652,17 +658,16 @@ class bridgePanel(QMainWindow, QObject):
         open a new v2ray config file to tabelWidget
         """
         options = QFileDialog.Options()
-        filePath, _ = QFileDialog.getOpenFileName(self,
+        filePaths, _ = QFileDialog.getOpenFileNames(self,
                                                   self.translate("bridgePanel", "Open V2Ray-core Config File"),
                                                   "",
                                                   """
-                                                  V2Ray config file (config.json);;
-                                                  json file (*.json)
+                                                  V2Ray config file (*.json);;
                                                   """,
                                                   options = options)
         
-        if (filePath):
-            return filePath
+        if (filePaths):
+            return filePaths
         else:
             return False 
 
@@ -740,20 +745,21 @@ class bridgePanel(QMainWindow, QObject):
             nc.exec_()
 
     def tableWidgetBridgeAddNewV2rayConfigFile(self):
-        configFileName = self.onopenV2rayConfigJSONFile()
-        if (configFileName):
-            rowCount = self.tableWidgetBridge.rowCount()
-            radioButtonStopStart = QRadioButton(self)
-            radioButtonStopStart.setIcon(self.iconStop)
-            radioButtonStopStart.setIconSize(self.__iconSize)
-            self.radioButtonGroup.addButton(radioButtonStopStart)
-    
-            self.tableWidgetBridge.setRowCount(rowCount+1)
-            self.tableWidgetBridge.setCellWidget(rowCount, 0, radioButtonStopStart)
-            self.tableWidgetBridge.setItem(rowCount, 1, QTableWidgetItem(""))
-            self.tableWidgetBridge.setItem(rowCount, 2, QTableWidgetItem(configFileName))
-            self.tableWidgetBridge.setItem(rowCount, 3, QTableWidgetItem(self.getProxyAddressFromJSONFile(configFileName)))
-            self.tableWidgetBridge.resizeColumnsToContents()
+        configFileNames = self.onopenV2rayConfigJSONFile()
+        if (configFileNames):
+            for configFileName in configFileNames:
+                rowCount = self.tableWidgetBridge.rowCount()
+                radioButtonStopStart = QRadioButton(self)
+                radioButtonStopStart.setIcon(self.iconStop)
+                radioButtonStopStart.setIconSize(self.__iconSize)
+                self.radioButtonGroup.addButton(radioButtonStopStart)
+
+                self.tableWidgetBridge.setRowCount(rowCount+1)
+                self.tableWidgetBridge.setCellWidget(rowCount, 0, radioButtonStopStart)
+                self.tableWidgetBridge.setItem(rowCount, 1, QTableWidgetItem(""))
+                self.tableWidgetBridge.setItem(rowCount, 2, QTableWidgetItem(configFileName))
+                self.tableWidgetBridge.setItem(rowCount, 3, QTableWidgetItem(self.getProxyAddressFromJSONFile(configFileName)))
+                self.tableWidgetBridge.resizeColumnsToContents()
         else:
             pass
     

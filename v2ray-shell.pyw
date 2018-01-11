@@ -37,7 +37,10 @@ trusted-host = pypi.douban.com
                 self.text.insert(2.0, e)
             else:
                 #os.system('"{}{}"'.format(src_path, "bridge.py"))
-                subprocess.call('"{}{}"'.format(src_path, "bridge.py"), shell = True)
+                if sys.platform == 'win32':
+                    subprocess.call('pythonw "{}{}"'.format(src_path, "bridge.py"), shell=True)
+                else:
+                    subprocess.call('"{}{}"'.format(src_path, "bridge.py"), shell = True)
                 self.root.destroy()
 
     def check_PyQt5_installed(self):        
