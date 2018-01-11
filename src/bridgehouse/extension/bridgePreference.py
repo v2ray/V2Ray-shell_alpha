@@ -182,7 +182,7 @@ class bridgepreferencesPanel(QDialog):
         filePath, _ = QFileDialog.getOpenFileName(self,
                                                       self.translate("bridgepreferencesPanel", "Open V2ray execute File"),
                                                       "",
-                                                      "All File (*.*)",
+                                                      "All File (*)",
                                                       options = options)
         if (filePath):
             self.lineEditFilePath.setText(filePath)

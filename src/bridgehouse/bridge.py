@@ -803,6 +803,12 @@ class bridgePanel(QMainWindow, QObject):
          
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    
+    if hasattr(Qt, "AA_EnableHighDpiScaling"):  #### hope it's working. i don't have hight dpi monitor
+        app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    if hasattr(Qt, "AA_UseHighDpiPixmpas"):
+        app.setAttribute(Qt.AA_UseHighDpiPixmpas)
+        
     app.setQuitOnLastWindowClosed(False)
     ex = bridgePanel(app)
     ex.setGeometry(300, 120, 1200, 768)

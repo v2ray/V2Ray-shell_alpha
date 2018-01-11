@@ -69,7 +69,7 @@ trusted-host = pypi.douban.com
          
     def install_PyQt5(self):
         test = subprocess.Popen(
-                ["pip","install","PyQt5"], 
+                ["pip3","install","PyQt5"], 
                 stdout=subprocess.PIPE)
         output = test.communicate()[0]
         self.text.delete(1.0, END)
