@@ -77,6 +77,21 @@ windows平台确保有libeay32.dll与ssleay32.dll与安装包同目录。<br>
 ubuntu-17.10测试时，pyinstaller使用的是python2.7。请改为python3.6运行。<br>
 命令行中使用which pyinstaller找到pyinstaller文件。<br>
 修改 `#!/usr/bin/python` 为 `#!/usr/bin/python3` <br>
+GNOME桌面可以试着用下面代码制作一个桌面程序的启动器，[相关文档](https://standards.freedesktop.org/desktop-entry-spec/latest/index.html)。<br>
+V2Ray-shell_path修改为相应的V2Ray-shell存放的绝对路径。
+```Desktop Entry
+[Desktop Entry]
+Version=1.0
+Name=v2rayshell
+Comment=This is my v2ray-shell
+Exec=V2Ray-shell_path/v2ray-shell.pyw
+Icon=V2Ray-shell_path/src/bridgehouse/icons/start.png
+Path=V2Ray-shell_path/
+Terminal=false
+Type=Application
+Categories=Utility;Application;
+Name[en_US]=v2rayshell
+```
 
 发布二进制文件时，请附带此脚本的源代码与相应协议。<br>
 **备注** :*这个测试在windows 10 平台通过，其他平台未知。对于编译二进制文件， 与其出现的一切问题无法处理*<br>

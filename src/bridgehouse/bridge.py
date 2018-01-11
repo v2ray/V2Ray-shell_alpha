@@ -663,6 +663,7 @@ class bridgePanel(QMainWindow, QObject):
                                                   "",
                                                   """
                                                   V2Ray config file (*.json);;
+                                                  All File (*);;
                                                   """,
                                                   options = options)
         

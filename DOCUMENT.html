@@ -107,6 +107,20 @@
 			修改 
 			<code>#!/usr/bin/python</code> 为 
 			<code>#!/usr/bin/python3</code> <br>
+			GNOME桌面可以试着用下面代码制作一个桌面程序的启动器，
+			<a href="https://standards.freedesktop.org/desktop-entry-spec/latest/index.html">相关文档</a>。<br>
+			V2Ray-shell_path修改为相应的V2Ray-shell存放的绝对路径。
+<pre><span class="pl-en">[Desktop Entry]</span>
+<span class="pl-k">Version</span>=1.0
+<span class="pl-k">Name</span>=v2rayshell
+<span class="pl-k">Comment</span>=This is my v2ray-shell
+<span class="pl-k">Exec</span>=V2Ray-shell_path/v2ray-shell.pyw
+<span class="pl-k">Icon</span>=V2Ray-shell_path/src/bridgehouse/icons/start.png
+<span class="pl-k">Path</span>=V2Ray-shell_path/
+<span class="pl-k">Terminal</span>=false
+<span class="pl-k">Type</span>=Application
+<span class="pl-k">Categories</span>=Utility;Application;
+Name[en_US]=v2rayshell</pre>
 		</p>
 		<p>发布二进制文件时，请附带此脚本的源代码与相应协议。<br>
 
