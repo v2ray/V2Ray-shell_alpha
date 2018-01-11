@@ -531,10 +531,11 @@ class bridgePanel(QMainWindow, QObject):
                 self.tableWidgetBridge.setItem(row, column, QTableWidgetItem(str(hostName)))
                 self.tableWidgetBridge.resizeColumnsToContents()
         elif(column == 2):
-            fileName = self.onopenV2rayConfigJSONFile()
-            if (fileName):
-                self.tableWidgetBridge.setItem(row, column, QTableWidgetItem(str(fileName)))
-                self.tableWidgetBridge.resizeColumnsToContents()
+            fileNames = self.onopenV2rayConfigJSONFile()
+            if (fileNames):
+                for fileName in fileNames:
+                    self.tableWidgetBridge.setItem(row, column, QTableWidgetItem(str(fileName)))
+                    self.tableWidgetBridge.resizeColumnsToContents()
         elif(column == 3):
             self.onproxyserverTimeLagTest()
         elif(column == 4):
@@ -657,7 +658,7 @@ class bridgePanel(QMainWindow, QObject):
         open a new v2ray config file to tabelWidget
         """
         options = QFileDialog.Options()
-        filePath, _ = QFileDialog.getOpenFileName(self,
+        filePaths, _ = QFileDialog.getOpenFileNames(self,
                                                   self.translate("bridgePanel", "Open V2Ray-core Config File"),
                                                   "",
                                                   """
@@ -666,8 +667,8 @@ class bridgePanel(QMainWindow, QObject):
                                                   """,
                                                   options = options)
         
-        if (filePath):
-            return filePath
+        if (filePaths):
+            return filePaths
         else:
             return False 
 
@@ -745,20 +746,21 @@ class bridgePanel(QMainWindow, QObject):
             nc.exec_()
 
     def tableWidgetBridgeAddNewV2rayConfigFile(self):
-        configFileName = self.onopenV2rayConfigJSONFile()
-        if (configFileName):
-            rowCount = self.tableWidgetBridge.rowCount()
-            radioButtonStopStart = QRadioButton(self)
-            radioButtonStopStart.setIcon(self.iconStop)
-            radioButtonStopStart.setIconSize(self.__iconSize)
-            self.radioButtonGroup.addButton(radioButtonStopStart)
-    
-            self.tableWidgetBridge.setRowCount(rowCount+1)
-            self.tableWidgetBridge.setCellWidget(rowCount, 0, radioButtonStopStart)
-            self.tableWidgetBridge.setItem(rowCount, 1, QTableWidgetItem(""))
-            self.tableWidgetBridge.setItem(rowCount, 2, QTableWidgetItem(configFileName))
-            self.tableWidgetBridge.setItem(rowCount, 3, QTableWidgetItem(self.getProxyAddressFromJSONFile(configFileName)))
-            self.tableWidgetBridge.resizeColumnsToContents()
+        configFileNames = self.onopenV2rayConfigJSONFile()
+        if (configFileNames):
+            for configFileName in configFileNames:
+                rowCount = self.tableWidgetBridge.rowCount()
+                radioButtonStopStart = QRadioButton(self)
+                radioButtonStopStart.setIcon(self.iconStop)
+                radioButtonStopStart.setIconSize(self.__iconSize)
+                self.radioButtonGroup.addButton(radioButtonStopStart)
+
+                self.tableWidgetBridge.setRowCount(rowCount+1)
+                self.tableWidgetBridge.setCellWidget(rowCount, 0, radioButtonStopStart)
+                self.tableWidgetBridge.setItem(rowCount, 1, QTableWidgetItem(""))
+                self.tableWidgetBridge.setItem(rowCount, 2, QTableWidgetItem(configFileName))
+                self.tableWidgetBridge.setItem(rowCount, 3, QTableWidgetItem(self.getProxyAddressFromJSONFile(configFileName)))
+                self.tableWidgetBridge.resizeColumnsToContents()
         else:
             pass
     
