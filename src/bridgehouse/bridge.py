@@ -662,8 +662,7 @@ class bridgePanel(QMainWindow, QObject):
                                                   self.translate("bridgePanel", "Open V2Ray-core Config File"),
                                                   "",
                                                   """
-                                                  V2Ray config file (config.json);;
-                                                  json file (*.json)
+                                                  V2Ray config file (*.json);;
                                                   """,
                                                   options = options)
         
