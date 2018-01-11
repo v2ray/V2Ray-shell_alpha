@@ -69,11 +69,15 @@
 
 `pyinstaller -F --noconsole -name v2ray-shell bridge.py` <br>
 或者使用 `pyinstaller v2ray-shell.spec` 生成可独立运行的二进制文件可在dist目录中找到。<br>
-
 windows平台亦可直接使用build.py直接生成二进制文件,有可能失败。
 windows平台确保有libeay32.dll与ssleay32.dll与安装包同目录。<br>
 这两个文件可以在Python PyQt5安装目录中找到(../Lib/site-packages/PyQt5/Qt/bin/)<br>
 请确保icons与translations与二进制文件同一个目录，以便使用相应功能。<br>
+
+ubuntu-17.10测试时，pyinstaller使用的是python2.7。请改为python3.6运行。<br>
+命令行中使用which pyinstaller找到pyinstaller文件。<br>
+修改 `#!/usr/bin/python` 为 `#!/usr/bin/python3` <br>
+
 发布二进制文件时，请附带此脚本的源代码与相应协议。<br>
 **备注** :*这个测试在windows 10 平台通过，其他平台未知。对于编译二进制文件， 与其出现的一切问题无法处理*<br>
 **谨慎使用第三方发布的二进制文件**<br>
