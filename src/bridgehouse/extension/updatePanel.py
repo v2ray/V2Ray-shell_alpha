@@ -495,7 +495,8 @@ class v2rayUpdatePanel(QDialog):
             "v2ray-linux-mips64le.zip",
             "v2ray-linux-mipsle.zip",
             "v2ray-openbsd-32.zip",
-            "v2ray-openbsd-64.zip")
+            "v2ray-openbsd-64.zip",
+            "v2ray-linux-s390x.zip")
         
         self.protocol      = protocol
         self.proxyhostName = proxyhostName

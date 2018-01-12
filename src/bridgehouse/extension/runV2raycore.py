@@ -156,7 +156,7 @@ class executeProgramPanel(QWidget):
             filePath, _ = QFileDialog.getOpenFileName(self,
                                                       "Open V2ray execute File",
                                                       "",
-                                                      "All File (*.*)",
+                                                      "All File (*)",
                                                       options = options)
             if (filePath):
                 self.lineEditOption.clear()
