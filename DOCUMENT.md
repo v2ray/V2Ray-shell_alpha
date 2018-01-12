@@ -1,4 +1,4 @@
-## 帮助文档
+## [帮助文档](https://github.com/v2ray/V2Ray-shell_alpha/wiki/%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
 
 **注意**：此脚本还属于内测中。很多功能都没有经过严格测试。<br>
 **测试前请备份好V2Ray-core配置文件**<br>

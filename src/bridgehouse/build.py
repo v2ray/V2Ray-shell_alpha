@@ -2,13 +2,23 @@
 
 from pathlib import Path
 import shutil, os, sys
+from PyInstaller.__main__ import run
 
-if (Path("bridge.py").exists() and Path("v2ray-shell.spec").exists() and sys.platform.startswith('win')):
+is_win = sys.platform.startswith('win')
+spec = "v2ray-shell.spec"
+
+if (Path("bridge.py").exists() and Path(spec).exists()):
     """
     DEVELOPER USE ONLY, NO ANY SUPPORT OR BUG REPORT!!
     """
-    file = "v2ray-shell.exe"
-    os.system('"{} {}"'.format("pyinstaller", "v2ray-shell.spec"))
+    file = "v2ray-shell"
+    if is_win:
+        file = "v2ray-shell.exe"
+
+    if len(sys.argv) == 1:
+        sys.argv.append(spec)
+    run()
+
     if (Path(file).exists()):os.remove(file)
     try:
         shutil.rmtree("./build")
