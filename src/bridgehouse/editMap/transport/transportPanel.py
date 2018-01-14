@@ -244,6 +244,8 @@ class TransportPanel(TransportSettingPanel,
         self.mkcpPanel = self.mkcp.createmKcpSettingPanel()
         self.tcpPanel  = self.tcp.createTCPSettingPanel()
         self.wsPanel   = self.ws.createwsSettingPanel()
+        self.mkcpPanel.hide()
+        self.wsPanel.hide()
         
         vboxTransportProtocols = QVBoxLayout()
         vboxTransportProtocols.addWidget(self.mkcpPanel)
