@@ -407,15 +407,12 @@ class updateV2ray(QObject):
                     if re.search("/v2ray$", absoluteFilePath):     ### other
                         self.newV2rayPath = None
                         self.newV2rayPath = QFileInfo(QFile(absoluteFilePath))
-                        if self.newV2rayPath and checkFilesize(self.newV2rayPath):
-                            os.chmod(self.newV2rayPath, 0o755)
-                            os.chmod(self.newV2rayPath[:5]+"v2ctl", 0o755)
-                            break
+                        if self.newV2rayPath and checkFilesize(self.newV2rayPath):break
                 zip_ref.extractall(fileInfo.absolutePath())
                 if sys.platform.startswith('win'):pass
                 else:
-                    os.chmod(newV2rayPath.absoluteFilePath(), 0o755)
-                    os.chmod(newV2rayPath.absoluteFilePath()[:-5]+"v2ctl", 0o755)
+                    os.chmod(self.newV2rayPath.absoluteFilePath(), 0o755)
+                    os.chmod(self.newV2rayPath.absoluteFilePath()[:-5]+"v2ctl", 0o755)
             if self.newV2rayPath:
                 if (self.stopV2ray):self.stopV2ray.emit()
                 self.bridgetreasureChest.setV2raycoreFilePath(self.newV2rayPath.absoluteFilePath())
