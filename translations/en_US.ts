@@ -170,17 +170,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="430"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="431"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="432"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="433"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="434"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="435"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
@@ -390,11 +390,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
-        <source>Detour To outboundDetour: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="55"/>
         <source>Email: </source>
         <translation type="unfinished"></translation>
@@ -452,6 +447,11 @@
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="172"/>
         <source>Default: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
+        <source>Detour To InboundDetour: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -766,7 +766,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="254"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="256"/>
         <source>Transport Setting</source>
         <translation type="unfinished"></translation>
     </message>
@@ -794,17 +794,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="296"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="298"/>
         <source>TCP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="292"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="294"/>
         <source>mKcp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="294"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="296"/>
         <source>ws</source>
         <translation type="unfinished"></translation>
     </message>
@@ -867,191 +867,191 @@
 <context>
     <name>bridgePanel</name>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Start/Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="524"/>
+        <location filename="../src/bridgehouse/bridge.py" line="551"/>
         <source>Host Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Config Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Time Lag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="127"/>
+        <location filename="../src/bridgehouse/bridge.py" line="149"/>
         <source>Add V2Ray-core Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="133"/>
+        <location filename="../src/bridgehouse/bridge.py" line="155"/>
         <source>Save V2Ray-shell Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="139"/>
+        <location filename="../src/bridgehouse/bridge.py" line="161"/>
         <source>Open V2Ray-shell Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="218"/>
+        <location filename="../src/bridgehouse/bridge.py" line="240"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="145"/>
+        <location filename="../src/bridgehouse/bridge.py" line="167"/>
         <source>Quit V2Ray-shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="148"/>
+        <location filename="../src/bridgehouse/bridge.py" line="170"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="171"/>
+        <location filename="../src/bridgehouse/bridge.py" line="193"/>
         <source>Add V2Ray Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="174"/>
+        <location filename="../src/bridgehouse/bridge.py" line="196"/>
         <source>Edit V2Ray Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="176"/>
+        <location filename="../src/bridgehouse/bridge.py" line="198"/>
         <source>Proxy Time Lag Check...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="178"/>
+        <location filename="../src/bridgehouse/bridge.py" line="200"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="186"/>
+        <location filename="../src/bridgehouse/bridge.py" line="208"/>
         <source>preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="188"/>
+        <location filename="../src/bridgehouse/bridge.py" line="210"/>
         <source>Setting V2Ray-shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="191"/>
+        <location filename="../src/bridgehouse/bridge.py" line="213"/>
         <source>&amp;options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="195"/>
+        <location filename="../src/bridgehouse/bridge.py" line="217"/>
         <source>&amp;help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="196"/>
+        <location filename="../src/bridgehouse/bridge.py" line="218"/>
         <source>check V2Ray-core update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="199"/>
+        <location filename="../src/bridgehouse/bridge.py" line="221"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="206"/>
+        <location filename="../src/bridgehouse/bridge.py" line="228"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="208"/>
+        <location filename="../src/bridgehouse/bridge.py" line="230"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="217"/>
+        <location filename="../src/bridgehouse/bridge.py" line="239"/>
         <source>Show/Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="505"/>
+        <location filename="../src/bridgehouse/bridge.py" line="532"/>
         <source>Check V2Ray-core update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="524"/>
+        <location filename="../src/bridgehouse/bridge.py" line="551"/>
         <source>Enter Host Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="579"/>
+        <location filename="../src/bridgehouse/bridge.py" line="607"/>
         <source>Proxy Time Lag Check</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="590"/>
+        <location filename="../src/bridgehouse/bridge.py" line="618"/>
         <source>Warnnig...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="592"/>
+        <location filename="../src/bridgehouse/bridge.py" line="620"/>
         <source>There no any server is running, 
 [File]-&gt;[Add V2Ray-core Config File] (Ctrl+n) add a config.json.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="640"/>
+        <location filename="../src/bridgehouse/bridge.py" line="668"/>
         <source>Open V2Ray-sehll Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="657"/>
+        <location filename="../src/bridgehouse/bridge.py" line="685"/>
         <source>Open V2Ray-core Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="737"/>
+        <location filename="../src/bridgehouse/bridge.py" line="765"/>
         <source>V2Ray config file edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="780"/>
+        <location filename="../src/bridgehouse/bridge.py" line="809"/>
         <source>Across the Great Wall, we can reach every corner in the world.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="782"/>
+        <location filename="../src/bridgehouse/bridge.py" line="811"/>
         <source>You weren&apos;t thinking about that when you were creating it.
 Because if you did? You never would have gone through with it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="784"/>
+        <location filename="../src/bridgehouse/bridge.py" line="813"/>
         <source>May you do good and not evil.
 May you find forgiveness for yourself and forgive others.
 May you share freely, never taking more than you give.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="792"/>
+        <location filename="../src/bridgehouse/bridge.py" line="821"/>
         <source>About V2Ray-shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="802"/>
+        <location filename="../src/bridgehouse/bridge.py" line="831"/>
         <source>Bug Report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1623,23 +1623,23 @@ How Fix:
 <context>
     <name>runV2raycore</name>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="61"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="73"/>
         <source>{}   Error Code:{}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="86"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="132"/>
         <source>{} is stop now...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="89"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="135"/>
         <source>
 {} is ready to run...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="46"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="57"/>
         <source>v2ray file path had no seted.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1675,41 +1675,41 @@ How Fix:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="361"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="362"/>
         <source>update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="353"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="354"/>
         <source>The newest v2ray-core: {} .
 version: {} was downloaded,
 Please check.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="361"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="362"/>
         <source>The newest v2ray-core: {} .
  version: {} was installed. 
 Please restart V2ray-shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Morning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Afternoon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Evening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1722,172 +1722,172 @@ Please restart V2ray-shell</source>
 <context>
     <name>v2rayUpdatePanel</name>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Day</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Sunday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Monday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Tuesday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Wednesday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Thursday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Friday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Saturday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="518"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="525"/>
         <source>Via Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="529"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="536"/>
         <source>Proxy: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="534"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="541"/>
         <source>Check</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="536"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="543"/>
         <source> Check the latest V2Ray-core version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="546"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="553"/>
         <source>The current version of V2Ray is: {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="549"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="556"/>
         <source>V2Ray-core Download Path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="555"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="562"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="586"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="593"/>
         <source>Automatic Updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="593"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="600"/>
         <source>at</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="598"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="605"/>
         <source> Download: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="611"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="618"/>
         <source>Then </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="613"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="620"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="615"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="622"/>
         <source>Manual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="633"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="640"/>
         <source>Apply and Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="635"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="642"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Morning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Afternoon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Evening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="787"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="794"/>
         <source>Checking...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="827"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="834"/>
         <source>The latest version is: {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Select a Day for update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Select a time for update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="619"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="626"/>
         <source>Silently</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="621"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="628"/>
         <source>Install V2Ray-core</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="538"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="545"/>
         <source>Can&apos;t get V2Ray-core&apos;s version</source>
         <translation type="unfinished"></translation>
     </message>

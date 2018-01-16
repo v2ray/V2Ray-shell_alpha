@@ -171,17 +171,17 @@
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="430"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="431"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="432"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="433"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="434"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="435"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
@@ -393,7 +393,7 @@
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
         <source>Detour To outboundDetour: </source>
-        <translation>转向额外的传入连接配置: </translation>
+        <translation type="obsolete">转向额外的传入连接配置: </translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="55"/>
@@ -454,6 +454,11 @@
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="172"/>
         <source>Default: </source>
         <translation>默认值: </translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
+        <source>Detour To InboundDetour: </source>
+        <translation>转向额外的传入连接配置: </translation>
     </message>
 </context>
 <context>
@@ -772,7 +777,7 @@
         <translation>TCP 传输方式设置</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="254"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="256"/>
         <source>Transport Setting</source>
         <translation>低层协议传输设置</translation>
     </message>
@@ -800,17 +805,17 @@
         <translation>数据流所使用的网络: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="296"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="298"/>
         <source>TCP</source>
         <translation>TCP</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="292"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="294"/>
         <source>mKcp</source>
         <translation>mKcp</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="294"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="296"/>
         <source>ws</source>
         <translation>ws</translation>
     </message>
@@ -873,180 +878,180 @@
 <context>
     <name>bridgePanel</name>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Start/Stop</source>
         <translation>开始/停止</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="524"/>
+        <location filename="../src/bridgehouse/bridge.py" line="551"/>
         <source>Host Name</source>
         <translation>服务器名</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Config Name</source>
         <translation>配置路径</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Proxy</source>
         <translation>代理地址</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="110"/>
+        <location filename="../src/bridgehouse/bridge.py" line="132"/>
         <source>Time Lag</source>
         <translation>延迟</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="127"/>
+        <location filename="../src/bridgehouse/bridge.py" line="149"/>
         <source>Add V2Ray-core Config File</source>
         <translation>添加V2Ray-core配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="133"/>
+        <location filename="../src/bridgehouse/bridge.py" line="155"/>
         <source>Save V2Ray-shell Config File</source>
         <translation>保存V2Ray-shell配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="139"/>
+        <location filename="../src/bridgehouse/bridge.py" line="161"/>
         <source>Open V2Ray-shell Config File</source>
         <translation>打开V2Ray-shell配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="218"/>
+        <location filename="../src/bridgehouse/bridge.py" line="240"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="145"/>
+        <location filename="../src/bridgehouse/bridge.py" line="167"/>
         <source>Quit V2Ray-shell</source>
         <translation>退出V2Ray-shell</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="148"/>
+        <location filename="../src/bridgehouse/bridge.py" line="170"/>
         <source>&amp;File</source>
         <translation>&amp;文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="171"/>
+        <location filename="../src/bridgehouse/bridge.py" line="193"/>
         <source>Add V2Ray Config File</source>
         <translation>添加V2Ray配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="174"/>
+        <location filename="../src/bridgehouse/bridge.py" line="196"/>
         <source>Edit V2Ray Config File</source>
         <translation>编辑V2Ray配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="176"/>
+        <location filename="../src/bridgehouse/bridge.py" line="198"/>
         <source>Proxy Time Lag Check...</source>
         <translation>检查代理延迟...</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="178"/>
+        <location filename="../src/bridgehouse/bridge.py" line="200"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="186"/>
+        <location filename="../src/bridgehouse/bridge.py" line="208"/>
         <source>preferences</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="188"/>
+        <location filename="../src/bridgehouse/bridge.py" line="210"/>
         <source>Setting V2Ray-shell</source>
         <translation>设置V2Ray-shell</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="191"/>
+        <location filename="../src/bridgehouse/bridge.py" line="213"/>
         <source>&amp;options</source>
         <translation>&amp;选项</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="195"/>
+        <location filename="../src/bridgehouse/bridge.py" line="217"/>
         <source>&amp;help</source>
         <translation>&amp;帮助</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="196"/>
+        <location filename="../src/bridgehouse/bridge.py" line="218"/>
         <source>check V2Ray-core update</source>
         <translation>更新V2Ray-core</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="199"/>
+        <location filename="../src/bridgehouse/bridge.py" line="221"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="206"/>
+        <location filename="../src/bridgehouse/bridge.py" line="228"/>
         <source>Start</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="208"/>
+        <location filename="../src/bridgehouse/bridge.py" line="230"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="217"/>
+        <location filename="../src/bridgehouse/bridge.py" line="239"/>
         <source>Show/Hide</source>
         <translation>显示/隐藏</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="505"/>
+        <location filename="../src/bridgehouse/bridge.py" line="532"/>
         <source>Check V2Ray-core update</source>
         <translation>更新V2Ray-core</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="524"/>
+        <location filename="../src/bridgehouse/bridge.py" line="551"/>
         <source>Enter Host Name:</source>
         <translation>输入服务器名称:</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="579"/>
+        <location filename="../src/bridgehouse/bridge.py" line="607"/>
         <source>Proxy Time Lag Check</source>
         <translation>检查代理服务器</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="590"/>
+        <location filename="../src/bridgehouse/bridge.py" line="618"/>
         <source>Warnnig...</source>
         <translation>警告...</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="592"/>
+        <location filename="../src/bridgehouse/bridge.py" line="620"/>
         <source>There no any server is running, 
 [File]-&gt;[Add V2Ray-core Config File] (Ctrl+n) add a config.json.</source>
         <translation>没有任何代理服务器在运行.\n通过[文件]-&gt;[添加V2Ray-core配置文件](Ctrl+n)添加配置文件。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="640"/>
+        <location filename="../src/bridgehouse/bridge.py" line="668"/>
         <source>Open V2Ray-sehll Config File</source>
         <translation>打开V2Ray-shell配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="657"/>
+        <location filename="../src/bridgehouse/bridge.py" line="685"/>
         <source>Open V2Ray-core Config File</source>
         <translation>打开V2Ray-core配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="737"/>
+        <location filename="../src/bridgehouse/bridge.py" line="765"/>
         <source>V2Ray config file edit</source>
         <translation>编辑V2Ray配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="780"/>
+        <location filename="../src/bridgehouse/bridge.py" line="809"/>
         <source>Across the Great Wall, we can reach every corner in the world.</source>
         <translation>越过长城，走向世界。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="782"/>
+        <location filename="../src/bridgehouse/bridge.py" line="811"/>
         <source>You weren&apos;t thinking about that when you were creating it.
 Because if you did? You never would have gone through with it.</source>
         <translation>你在创造它时，你并没有想这些。
 因为如果你想了?就永远不会完成它。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="784"/>
+        <location filename="../src/bridgehouse/bridge.py" line="813"/>
         <source>May you do good and not evil.
 May you find forgiveness for yourself and forgive others.
 May you share freely, never taking more than you give.</source>
@@ -1055,12 +1060,12 @@ May you share freely, never taking more than you give.</source>
 愿你宽心与人分享，所取不多于你所施予。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="792"/>
+        <location filename="../src/bridgehouse/bridge.py" line="821"/>
         <source>About V2Ray-shell</source>
         <translation>关于 V2Ray-shell</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="802"/>
+        <location filename="../src/bridgehouse/bridge.py" line="831"/>
         <source>Bug Report</source>
         <translation>报告错误</translation>
     </message>
@@ -1710,24 +1715,24 @@ How Fix:
 <context>
     <name>runV2raycore</name>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="61"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="73"/>
         <source>{}   Error Code:{}</source>
         <translation>{}   错误代码:{}</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="86"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="132"/>
         <source>{} is stop now...</source>
         <translation>{}  已经停止运行...</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="89"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="135"/>
         <source>
 {} is ready to run...</source>
         <translation>
 {}  准备运行中...</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="46"/>
+        <location filename="../src/bridgehouse/extension/runV2raycore.py" line="57"/>
         <source>v2ray file path had no seted.</source>
         <translation>没有设置V2Ray可执行文件的路径。</translation>
     </message>
@@ -1763,41 +1768,41 @@ How Fix:
         <translation>下载失败: {}.</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="361"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="362"/>
         <source>update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="353"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="354"/>
         <source>The newest v2ray-core: {} .
 version: {} was downloaded,
 Please check.</source>
         <translation>最新的:{} 版本是:{}。已经下载完成。请查看。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="361"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="362"/>
         <source>The newest v2ray-core: {} .
  version: {} was installed. 
 Please restart V2ray-shell</source>
         <translation>最新的:{} 版本是:{}。已经安装完成。请重新启动V2Ray-shell</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Morning</source>
         <translation>早上</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Afternoon</source>
         <translation>下午</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Evening</source>
         <translation>晚上</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="448"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="454"/>
         <source>Night</source>
         <translation>半夜</translation>
     </message>
@@ -1810,62 +1815,62 @@ Please restart V2ray-shell</source>
 <context>
     <name>v2rayUpdatePanel</name>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Day</source>
         <translation>每一天</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Sunday</source>
         <translation>每个星期天</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Monday</source>
         <translation>每个星期一</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Tuesday</source>
         <translation>每个星期二</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Wednesday</source>
         <translation>每个星期三</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Thursday</source>
         <translation>每个星期四</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Friday</source>
         <translation>每个星期五</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Every Saturday</source>
         <translation>每个星期六</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="518"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="525"/>
         <source>Via Proxy</source>
         <translation>通过代理服务器</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="529"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="536"/>
         <source>Proxy: </source>
         <translation>代理服务器: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="534"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="541"/>
         <source>Check</source>
         <translation>检查</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="536"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="543"/>
         <source> Check the latest V2Ray-core version</source>
         <translation> 检查最新的V2Ray-core版本</translation>
     </message>
@@ -1875,47 +1880,47 @@ Please restart V2ray-shell</source>
         <translation type="obsolete">无法确定当前使用的V2Ray版本</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="546"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="553"/>
         <source>The current version of V2Ray is: {}</source>
         <translation>当前使用的V2Ray版本是:{}</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="549"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="556"/>
         <source>V2Ray-core Download Path: </source>
         <translation>V2Ray-core下载地址: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="555"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="562"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="586"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="593"/>
         <source>Automatic Updates</source>
         <translation>自动更新</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="593"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="600"/>
         <source>at</source>
         <translation>在</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="598"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="605"/>
         <source> Download: </source>
         <translation> 下载: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="611"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="618"/>
         <source>Then </source>
         <translation>然后 </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="613"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="620"/>
         <source>Auto</source>
         <translation>自动</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="615"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="622"/>
         <source>Manual</source>
         <translation>手动</translation>
     </message>
@@ -1925,67 +1930,67 @@ Please restart V2ray-shell</source>
         <translation type="obsolete"> 安装 V2Ray-core</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="633"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="640"/>
         <source>Apply and Close</source>
         <translation>应用并退出</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="635"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="642"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Morning</source>
         <translation>早上</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Afternoon</source>
         <translation>下午</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Evening</source>
         <translation>晚上</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Night</source>
         <translation>半夜</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="787"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="794"/>
         <source>Checking...</source>
         <translation>检查...</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="827"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="834"/>
         <source>The latest version is: {}</source>
         <translation>最新的版本是:{}</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="473"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="479"/>
         <source>Select a Day for update</source>
         <translation>选择更新日期</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="734"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="741"/>
         <source>Select a time for update</source>
         <translation>选择更新时间段</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="619"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="626"/>
         <source>Silently</source>
         <translation>后台静默</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="621"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="628"/>
         <source>Install V2Ray-core</source>
         <translation>安装V2Ray-core</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/updatePanel.py" line="538"/>
+        <location filename="../src/bridgehouse/extension/updatePanel.py" line="545"/>
         <source>Can&apos;t get V2Ray-core&apos;s version</source>
         <translation>无法确定当前使用的V2Ray版本</translation>
     </message>
