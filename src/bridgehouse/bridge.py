@@ -16,7 +16,7 @@ import sys, copy
 v2rayshellDebug = False
 
 if __name__ == "__main__":
-    v2rayshellDebug = True
+    v2rayshellDebug = False
     ### this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
@@ -40,25 +40,42 @@ class proxyTryconnect(QObject):
     
     def __init__(self):
         super(proxyTryconnect, self).__init__()
-        self.trytimes = 0
+        self.trytimes = 1
         self.keeptrytimes = False
         self.resetTime = False
-        self.reset = QTimer()
-
-    def setresetTime(self, time):
-        self.resetTime = copy.deepcopy(int(time)) + 30
-        self.reset.timeout.connect(lambda: self.setTrytimes(self.keeptrytimes))
-        self.reset.start(1000 * self.resetTime)
+        self.resetTimeCount = 0
+        self.periodicCheck = QTimer()
     
-    def setTrytimes(self, times):
-        self.trytimes = times
-        ### keep the times for timeout reset times
-        self.keeptrytimes = copy.deepcopy(times)
-        
-    def trytimesDecrease(self):
-        if self.trytimes == 0:
+    def periodicCheckProxyStatus(self):
+        self.resetTimeCount += 1
+        if self.resetTimeCount <= self.resetTime and self.trytimes <= 0:
             self.reconnectproxy.emit()
-            return True
+            self.reset()
+        elif self.resetTimeCount >= self.resetTime and self.trytimes > 0:
+            self.resetTimeCount = 0
+    
+    def reset(self):
+        self.resetTimeCount = 0
+        self.trytimes = copy.deepcopy(self.keeptrytimes)
+
+    def setresetTime(self, seconds, trytimes):
+        if not isinstance(seconds, int): seconds = 60
+        if not isinstance(trytimes, int): trytimes = 3
+        if seconds == 0: seconds = 1
+        if trytimes == 0: self.trytimes = 1
+        else: self.trytimes = copy.deepcopy(trytimes)
+        self.keeptrytimes = copy.deepcopy(self.trytimes)
+        
+        self.resetTime = seconds * self.keeptrytimes
+            
+        self.periodicCheck.timeout.connect(self.periodicCheckProxyStatus)
+        self.periodicCheck.start(1000)
+    
+    def stopperiodicCheckProxyStatus(self):
+        self.periodicCheck.stop()
+        self.periodicCheck.disconnect(self.periodicCheckProxyStatus)
+    
+    def trytimesDecrease(self):
         self.trytimes -= 1
 
 class bridgePanel(QMainWindow, QObject):
@@ -109,8 +126,8 @@ class bridgePanel(QMainWindow, QObject):
         self.trytimes = self.bridgetreasureChest.getConnectiontrytimes()
         self.interval = self.bridgetreasureChest.getConnectioninterval() 
         self.proxyTryConnect = proxyTryconnect()
-        self.proxyTryConnect.setTrytimes(self.trytimes)
-        self.proxyTryConnect.setresetTime(self.trytimes * self.interval)
+        if v2rayshellDebug: self.proxyTryConnect.setresetTime(6, 3)
+        else: self.proxyTryConnect.setresetTime(self.interval, self.trytimes)
         self.labelBridge = (self.translate("bridgePanel", "Start/Stop"), 
                             self.translate("bridgePanel", "Host Name"), 
                             self.translate("bridgePanel", "Config Name"), 
@@ -382,8 +399,9 @@ class bridgePanel(QMainWindow, QObject):
                 
                 self.bridgetreasureChest.setProxy(proxyAddress)
                 
-                self.autoCheckTimer.start(1000 * invervalTime)
-                
+                if v2rayshellDebug: self.autoCheckTimer.start(6000)
+                else: self.autoCheckTimer.start(1000 * invervalTime)
+
                 self.autoCheckTimer.singleShot(100, lambda:  self.startCheckProxy(
                     timeout      = timeout, 
                     proxyAddress = proxyAddress,
@@ -434,15 +452,19 @@ class bridgePanel(QMainWindow, QObject):
             labelTimeLag.setText("{}:{}".format(proxyStatus.getProxyErrorString(), 
                                                 proxyStatus.getProxyErrorCode()))
             
-            self.proxyTryConnect.trytimesDecrease()                       
+            self.proxyTryConnect.trytimesDecrease()
             return labelTimeLag
     
     def swapNextConfigFile(self):
         self.onv2raycoreStop()
         try:
-            self.proxyTryConnect.setTrytimes(self.bridgetreasureChest.getConnectiontrytimes())
+            self.trytimes = self.bridgetreasureChest.getConnectiontrytimes()
+            self.interval = self.bridgetreasureChest.getConnectioninterval()
+            self.proxyTryConnect.stopperiodicCheckProxyStatus()
+            if v2rayshellDebug: self.proxyTryConnect.setresetTime(6, 3)
+            else: self.proxyTryConnect.setresetTime(self.interval, self.trytimes)
         except Exception:
-            self.proxyTryConnect.setTrytimes(3)
+            self.proxyTryConnect.setresetTime(60, 3)
         
         if (self.bridgetreasureChest.connectionisSwitch()):
             ### swap next row's configFile
