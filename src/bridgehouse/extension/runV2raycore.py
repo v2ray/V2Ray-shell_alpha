@@ -3,10 +3,20 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout,
                              QPushButton, QTextEdit, QLabel,
                              QLineEdit, QGridLayout, QFileDialog, QButtonGroup)
 from PyQt5.QtCore import (QProcess, QSize, QIODevice, QProcessEnvironment,
-                          QObject, pyqtSignal, QCoreApplication)
+                          QObject, pyqtSignal, QCoreApplication, QFileInfo,
+                          QFile)
 from PyQt5.Qt import QTextCursor
 
-import re
+import re, sys, codecs, os, signal
+
+v2rayshellDebug = False
+
+if __name__ == "__main__":
+    v2rayshellDebug = True
+    ### this for debug test
+    path = QFileInfo(sys.argv[0])
+    srcPath = path.absoluteFilePath().split("/")
+    sys.path.append("/".join(srcPath[:-3]))
 
 class runV2raycore(QObject):
     """
@@ -39,6 +49,7 @@ class runV2raycore(QObject):
         self.start.connect(self.onstart)
         self.stop.connect(self.onstop)
         self.translate = QCoreApplication.translate
+        self.pidFile = ".v2rayPID"
         
     def onstart(self):
         if (self.v2rayProcess.state() == QProcess.NotRunning):
@@ -51,6 +62,7 @@ class runV2raycore(QObject):
                     command = '"'+ self.v2rayPath + '" ' + self.v2rayOption
                 else:
                     command = "{} {}".format(self.v2rayPath, self.v2rayOption)
+                self.killOrphanProcess()
                 self.v2rayProcess.start(command, QIODevice.ReadWrite)
                 self.outputTextEdit.insertPlainText("{}\n\n".format(command))
 
@@ -63,8 +75,42 @@ class runV2raycore(QObject):
                         self.v2rayProcess.errorString(), 
                         self.v2rayProcess.error())))
                 self.outputTextEdit.moveCursor(QTextCursor.End)
+            elif (self.v2rayProcess.state() == QProcess.Running):
+                self.createPIDFile(self.v2rayProcess.processId())
 
             self.outputTextEdit.textChanged.connect(self.getV2raycoreVersion)
+            
+    def killOrphanProcess(self):
+        openFile = QFileInfo(self.pidFile)
+        
+        fileName = openFile.fileName()
+        if QFile.exists(fileName): openFile = QFile(fileName)
+        else: return
+        v2rayPID = None
+
+        try: 
+            openFile.open(QIODevice.ReadOnly | QIODevice.Text)
+            v2rayPID = str(openFile.readAll(), "utf-8")
+        except Exception: pass
+
+        try: os.kill(int(v2rayPID), signal.SIGTERM)
+        except Exception: pass
+
+    def createPIDFile(self, processId):
+        outFile = QFileInfo(self.pidFile)
+        
+        fileName = outFile.fileName()
+        if QFile.exists(fileName): QFile.remove(fileName)
+            
+        outFile = QFile(fileName)
+        
+        v2rayPID = str(processId)
+        
+        try:
+            outFile.open(QIODevice.WriteOnly | QIODevice.Text)
+            outFile.write(codecs.encode(v2rayPID , "utf-8"))
+        except Exception: pass
+        outFile.close()
             
     def getV2raycoreVersion(self):
         text = self.outputTextEdit.toPlainText()
@@ -168,7 +214,6 @@ class executeProgramPanel(QWidget):
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication
-    import sys
     app = QApplication(sys.argv)
     ex = executeProgramPanel()
     ex.show()

@@ -19,7 +19,7 @@
 ### BUG提交
 如果你[提交一个BUG](https://www.chiark.greenend.org.uk/~sgtatham/bugs-cn.html)，但无法提供复现方法与步骤或者解决方法。不会得到优先处理。<br>
 任何要求增加新功能的要求将不会被优生处理。<br>
-复现步骤时，请把icons, translations, config.v2rayshell这个三个文件放到src/bridgehouse/目录中。<br>
+复现步骤时，translations, config.v2rayshell这个三个文件放到src/bridgehouse/目录中。<br>
 在命令行运行`python3 bridge.py`,以便获得Python Traceback数据。<br>
 
 * 编辑器不支持编辑带有注释的JSON文件。请自行移除注释。 [原因](https://plus.google.com/+DouglasCrockfordEsq/posts/RK8qyGVaGSr)
@@ -31,9 +31,7 @@
 * 代理服务器延迟测试，并非为本地计算机到VPS的延迟。这个延迟是访问http://www.google.com的延迟。
 * 如果频繁测试google.com服务器可能会引起DDOS。VPS有被拉黑的风险。最小测试时间间隔为60秒。
 对此，你可以在自己的VPS开启http协议用作代理连接状态检查。(当然检查V2Ray-core的日志文件也是个有效的方法,同样暂无计划将此功能集成在脚本中。)
-* 代理服务器无法连接时自动切换到另一个配置，可能不太稳定。暂时还没有很好的解决方案。
 * 编辑JSON文档时，不会自动分析in/outbound(Detour)已有的policy level。<br>在面板中添加新的in/outbound(Detour)时,所有的policy level会出现在PolicyTAB列表中(V2Ray-core V3.1之前的配置文件会有此问题)。
-* 如果v2ray-shell崩溃关闭，会可能导致正在运行的v2ray进程变成[孤儿进程](https://zh.wikipedia.org/wiki/%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B),这时需要手动关闭v2ray。
 * 测试服务器连接状态功能关闭，服务器延迟测试也会自己关闭。
 * 编译二进制文件，使用二进制文件的一切问题无法处理。
 * build.py文件为开发人员使用，可以删除。
@@ -50,7 +48,6 @@
 ### 维护
 由于作者还有其他工作。只能用业余时间去维护这个项目。<br>
 有一年的有效维护保证。<br>
-每个季度维护一次(致命错误，其他重要情况除外)。<br>
 到2018年12月会视下一年安排，会作出如何接着维护这个项目的决定。<br>
 一但项目稳定版本发行，需要维护的地方将很少。
 
@@ -59,7 +56,7 @@
 如开机自启动，设置系统代理，向导生成配置，自动生成配置，配置模板，二维码等等...<br>
 也无法提供[负载均衡](https://zh.wikipedia.org/wiki/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1)，[服务质量](https://zh.wikipedia.org/wiki/%E6%9C%8D%E5%8A%A1%E8%B4%A8%E9%87%8F)等等...<br>
 脚本中路由配置的编辑暂时不支持,坑太大暂时不填...<br>
-后续的维护主要针对v2ray-core JSON配置文件编辑器进行修改。减少很多不必要的控件。
+学习golang中...
 
 ### 二进制文件
 此脚本不直接提供二进制文件。请自行编译。<br>
