@@ -385,27 +385,27 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
         self.btnGroupInbound.buttonClicked.connect(self.onbtnGroupInbound)
         self.tableWidgetInbound.itemSelectionChanged.connect(self.ontableWidgetInboundItemSelection)
         self.tableWidgetInbound.itemClicked.connect(self.ontableWidgetInboundItemSelection)
-        self.updateList.setOutboundTag.connect(self.onupdateInVmessPanelcomboBox)
+        self.updateList.setInboundTag.connect(self.onupdateInVmessPanelcomboBox)
         
     def onupdateInVmessPanelcomboBox(self):
-        allOutboundTags = self.treasureChest.getOutboundTags()
+        allIntboundTags = self.treasureChest.getInboundTags()
         if (self.comboBoxInboundProtocol.currentText() == "vmess"):
-            currentTag = self.comboBoxInVmessOutboundTags.currentText()
-            self.comboBoxInVmessOutboundTags.clear()
-            self.comboBoxInVmessOutboundTags.addItem("")
-            self.comboBoxInVmessOutboundTags.addItems(allOutboundTags)
-            self.comboBoxInVmessOutboundTags.setCurrentText(currentTag)
+            currentTag = self.comboBoxInVmessInboundTags.currentText()
+            self.comboBoxInVmessInboundTags.clear()
+            self.comboBoxInVmessInboundTags.addItem("")
+            self.comboBoxInVmessInboundTags.addItems(allIntboundTags)
+            self.comboBoxInVmessInboundTags.setCurrentText(currentTag)
         else:
-            self.comboBoxInVmessOutboundTags.clear()
-            self.comboBoxInVmessOutboundTags.addItem("")
-            self.comboBoxInVmessOutboundTags.addItems(allOutboundTags)
+            self.comboBoxInVmessInboundTags.clear()
+            self.comboBoxInVmessInboundTags.addItem("")
+            self.comboBoxInVmessInboundTags.addItems(allIntboundTags)
 
-    def setcomboBoxInVmessOutboundTags(self, tag = None, currentRow = None):
+    def setcomboBoxInVmessInboundTags(self, tag = None, currentRow = None):
         """
         update the self.comboBoxInVmessOutboudTags real time, 
         when outbound had added, deleted, changed
         """
-        allOutboundTags = self.treasureChest.getOutboundTags()
+        allIntboundTags = self.treasureChest.getInboundTags()
         if (tag != None and currentRow != None):
             if (currentRow == 0):
                 currentBound = self.treasureChest.getInbound()
@@ -414,16 +414,17 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
             if (currentBound["protocol"] == "vmess"):
                 try:
                     currentDetourtoTag = currentBound["settings"]["detour"]["to"]
-                except:### KeyError
-                    currentDetourtoTag =  ""
-                self.comboBoxInVmessOutboundTags.clear()
-                self.comboBoxInVmessOutboundTags.addItem("")
-                self.comboBoxInVmessOutboundTags.addItems(allOutboundTags)
-                self.comboBoxInVmessOutboundTags.setCurrentText(currentDetourtoTag)
+                except Exception:### KeyError
+                    currentDetourtoTag = ""
+                self.comboBoxInVmessInboundTags.clear()
+                if (tag in allIntboundTags): allIntboundTags.remove(tag)
+                self.comboBoxInVmessInboundTags.addItem("")
+                self.comboBoxInVmessInboundTags.addItems(allIntboundTags)
+                self.comboBoxInVmessInboundTags.setCurrentText(currentDetourtoTag)
         else:
-            self.comboBoxInVmessOutboundTags.clear()
-            self.comboBoxInVmessOutboundTags.addItem("")
-            self.comboBoxInVmessOutboundTags.addItems(allOutboundTags)
+            self.comboBoxInVmessInboundTags.clear()
+            self.comboBoxInVmessInboundTags.addItem("")
+            self.comboBoxInVmessInboundTags.addItems(allIntboundTags)
 
     def onbtnGroupInbound(self, e):
         if (e.text() == self.translate("InboundPanel", "Add")):
@@ -461,13 +462,13 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
         if (rowCount == 0):
             tag = self.treasureChest.setInbound(inboundJSONData)
             settableWidgetInbound(tag, ipAddress, protocol)
-            self.setcomboBoxInVmessOutboundTags(tag, rowCount)
+            self.setcomboBoxInVmessInboundTags(tag, rowCount)
             self.settingInboundPanalDefault()
         else:
             tag = self.treasureChest.addInboundDetour(inboundJSONData)
             if (tag):
                 settableWidgetInbound(tag, ipAddress, protocol)
-                self.setcomboBoxInVmessOutboundTags(tag, rowCount)
+                self.setcomboBoxInVmessInboundTags(tag, rowCount)
                 self.settingInboundPanalDefault()
             else:
                 ### TODO
@@ -504,7 +505,7 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
                     ### TODO
                     pass
                 else:
-                    self.setcomboBoxInVmessOutboundTags(inboundJSONData["tag"], currentRow)
+                    self.setcomboBoxInVmessInboundTags(inboundJSONData["tag"], currentRow)
                     settableWidgetInbound(str(inboundJSONData["tag"]), 
                                           str(inboundJSONData["listen"]) + ":" + str(inboundJSONData["port"]), 
                                           str(inboundJSONData["protocol"]))
@@ -513,7 +514,7 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
                     ### TODO
                     pass
                 else:
-                    self.setcomboBoxInVmessOutboundTags(inboundJSONData["tag"], currentRow)
+                    self.setcomboBoxInVmessInboundTags(inboundJSONData["tag"], currentRow)
                     settableWidgetInbound(str(inboundJSONData["tag"]), 
                                           str(inboundJSONData["listen"]) + ":" + str(inboundJSONData["port"]), 
                                           str(inboundJSONData["protocol"]))
@@ -529,7 +530,7 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
                 inboundJSONData = copy.deepcopy(self.treasureChest.getInbound())
                 if (inboundJSONData):
                     self.settingInboundPanelFromJSONFile(inboundJSONData)
-                    self.setcomboBoxInVmessOutboundTags(inboundJSONData["tag"], currentRow)
+                    self.setcomboBoxInVmessInboundTags(inboundJSONData["tag"], currentRow)
                 else:
                     ### TODO
                     pass
@@ -537,7 +538,7 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
                 inboundJSONData = copy.deepcopy(self.treasureChest.getInboundDetour(tag.text()))
                 if (inboundJSONData):
                     self.settingInboundPanelFromJSONFile(inboundJSONData)
-                    self.setcomboBoxInVmessOutboundTags(inboundJSONData["tag"], currentRow)
+                    self.setcomboBoxInVmessInboundTags(inboundJSONData["tag"], currentRow)
                 else:
                     ### TODO
                     pass

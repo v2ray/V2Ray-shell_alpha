@@ -9,5 +9,5 @@ class updateListSignal(QObject):
     
     when have new level or email will emit to they panel. fresh the list.
     """
-    setOutboundTag      = pyqtSignal()
+    setInboundTag       = pyqtSignal()
     updateLevelandEmail = pyqtSignal()

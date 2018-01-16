@@ -50,8 +50,8 @@ class InboundVmessPanel(QWidget):
         
     def createVmessSettingPanel(self):
         labelDetourTo = QLabel(
-            self.translate("InboundVmessPanel", "Detour To outboundDetour: "), self)
-        self.comboBoxInVmessOutboundTags = QComboBox()
+            self.translate("InboundVmessPanel", "Detour To InboundDetour: "), self)
+        self.comboBoxInVmessInboundTags = QComboBox()
         labelEmail    = QLabel(
             self.translate("InboundVmessPanel", "Email: "), self)
         self.lineEditInVmessMail   = QLineEdit()
@@ -80,12 +80,12 @@ class InboundVmessPanel(QWidget):
         self.spinBoxInVmessLevel.setValue(10)
         self.spinBoxInVmessAlterID.setValue(30)
         self.lineEditInVmessUUID.setInputMask("HHHHHHHH-HHHH-HHHH-HHHH-HHHHHHHHHHHH; ")
-        self.comboBoxInVmessOutboundTags.setView(QListView())
-        #self.comboBoxInVmessOutboundTags.setStyleSheet("QComboBox {min-width: 128px; }" "QComboBox QAbstractItemView::item {min-width: 128px; }")
+        self.comboBoxInVmessInboundTags.setView(QListView())
+        #self.comboBoxInVmessInboundTags.setStyleSheet("QComboBox {min-width: 128px; }" "QComboBox QAbstractItemView::item {min-width: 128px; }")
         
         hboxDetourTo = QHBoxLayout()
         hboxDetourTo.addWidget(labelDetourTo)
-        hboxDetourTo.addWidget(self.comboBoxInVmessOutboundTags)
+        hboxDetourTo.addWidget(self.comboBoxInVmessInboundTags)
         #hboxDetourTo.addStretch()
         
         hboxID = QHBoxLayout()
@@ -303,9 +303,9 @@ class InboundVmessPanel(QWidget):
             client = False
 
         if (detour):
-            self.comboBoxInVmessOutboundTags.insertItem(self.comboBoxInVmessOutboundTags.currentIndex(), 
+            self.comboBoxInVmessInboundTags.insertItem(self.comboBoxInVmessInboundTags.currentIndex(), 
                                                         str(inboundVmessJSONFile["detour"]["to"]))
-            self.comboBoxInVmessOutboundTags.setCurrentText(str(inboundVmessJSONFile["detour"]["to"]))
+            self.comboBoxInVmessInboundTags.setCurrentText(str(inboundVmessJSONFile["detour"]["to"]))
                 
         if (defaultLevelAlterID):
             try:
@@ -396,9 +396,9 @@ class InboundVmessPanel(QWidget):
         else:
             del inboundVmessJSONFile["default"]
             
-        OutboundTags = self.comboBoxInVmessOutboundTags.currentText()
-        if (OutboundTags != ""):
-            inboundVmessJSONFile["detour"]["to"] = OutboundTags
+        InboundTags = self.comboBoxInVmessInboundTags.currentText()
+        if (InboundTags != ""):
+            inboundVmessJSONFile["detour"]["to"] = InboundTags
         else:
             del inboundVmessJSONFile["detour"]
             
@@ -412,7 +412,7 @@ class InboundVmessPanel(QWidget):
         self.spinBoxDefaultLevel.setValue(10)
         self.spinBoxInVmessAlterID.setValue(30)
         self.spinBoxInVmessLevel.setValue(10)
-        self.comboBoxInVmessOutboundTags.setCurrentIndex(0)
+        self.comboBoxInVmessInboundTags.setCurrentIndex(0)
         self.lineEditInVmessMail.clear()
         self.lineEditInVmessUUID.clear()
         

@@ -133,7 +133,7 @@ class treasureChest():
     def removeOutboundDetour(self, tag):
         if (tag in self.__outboundDetour.keys()):
             del self.__outboundDetour[tag]
-            self.updateList.setOutboundTag.emit()
+            self.updateList.setInboundTag.emit()
             return True
         else:
             return False
@@ -315,7 +315,7 @@ class treasureChest():
             if (self.__validBoundTags(tag)): return False
             if tag == "": return False
             self.__outbound[tag] = copy.deepcopy(outboundJSONData)
-            self.updateList.setOutboundTag.emit()
+            self.updateList.setInboundTag.emit()
             self.updateList.updateLevelandEmail.emit()
             return tag
         elif (openFromJSONFile):
@@ -325,7 +325,7 @@ class treasureChest():
                 tag = outboundJSONData["tag"] = "outbound-{}".format(self.getRandomHex())
                 self.__outbound.clear()
                 self.__outbound[tag] = copy.deepcopy(outboundJSONData)
-                self.updateList.setOutboundTag.emit()
+                self.updateList.setInboundTag.emit()
                 self.updateList.updateLevelandEmail.emit()
                 return tag
             else:
@@ -336,13 +336,13 @@ class treasureChest():
                                                                    self.getRandomHex())
                     self.__outbound.clear()
                     self.__outbound[tag] = copy.deepcopy(outboundJSONData)
-                    self.updateList.setOutboundTag.emit()
+                    self.updateList.setInboundTag.emit()
                     self.updateList.updateLevelandEmail.emit()
                     return tag
                 else:
                     self.__outbound.clear()
                     self.__outbound[tag] = copy.deepcopy(outboundJSONData)
-                    self.updateList.setOutboundTag.emit()
+                    self.updateList.setInboundTag.emit()
                     self.updateList.updateLevelandEmail.emit()
                     return tag
 
@@ -353,13 +353,13 @@ class treasureChest():
         if (self.__validBoundTags(oldTag) and (openFromJSONFile == False)):
             self.removeOutboundDetour(oldTag)
             self.addOutboundDetour(newoutboundDetourJSONData, openFromJSONFile)
-            self.updateList.setOutboundTag.emit()
+            self.updateList.setInboundTag.emit()
             return True
         elif (openFromJSONFile):
             for i in newoutboundDetourJSONData:
                 if i == {}: break
                 self.addOutboundDetour(i, openFromJSONFile)
-                self.updateList.setOutboundTag.emit()
+                self.updateList.setInboundTag.emit()
             return True
         else:
             return False
