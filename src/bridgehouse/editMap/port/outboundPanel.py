@@ -14,8 +14,8 @@ if __name__ == "__main__":
     v2rayshellDebug = True
     ### this for debug test
     path = QFileInfo(sys.argv[0])
-    srcPath = path.path().split("/")
-    sys.path.append("/".join(srcPath[:-3]))
+    srcPath = path.absoluteFilePath().split("/")
+    sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.outbound import (blackholePanel, freedomPanel, shadowsocksPanel, socksPanel, vmessPanel)
 from bridgehouse.editMap.transport import muxPanel, transportPanel

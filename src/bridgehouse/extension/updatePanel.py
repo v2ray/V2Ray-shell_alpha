@@ -5,12 +5,12 @@ from PyQt5.QtWidgets import (QVBoxLayout,QPushButton, QHBoxLayout, QDialog,
                              QRadioButton, QMessageBox, QProgressDialog,
                              QApplication, QCheckBox, QSpacerItem)
 from PyQt5.QtCore import (QFile, QFileInfo, QIODevice, QUrl, pyqtSignal, 
-                          QObject, QTime, Qt, QDate, QDir, QCoreApplication)
+                          QObject, QTime, Qt, QDate, QDir, QCoreApplication, qWarning)
 from PyQt5.QtNetwork import (QNetworkProxy, QNetworkRequest, QNetworkAccessManager, 
                              QNetworkReply)
 from PyQt5.QtGui import QFont
 
-import json, sys, copy
+import json, sys, copy, re, os
 
 v2rayshellDebug = False
 
@@ -18,8 +18,8 @@ if __name__ == "__main__":
     v2rayshellDebug = True
     ### this for debug test
     path = QFileInfo(sys.argv[0])
-    srcPath = path.path().split("/")
-    sys.path.append("/".join(srcPath[:-2]))
+    srcPath = path.absoluteFilePath().split("/")
+    sys.path.append("/".join(srcPath[:-3]))
 
 class updateV2rayQTime(QTime):
     def __init__(self):
@@ -326,6 +326,7 @@ class updateV2ray(QObject):
             
         if v2rayshellDebug:
             checkDonwloadinfo()
+            print("checking download info")
 
     def getdownloadPath(self, usingVersion):
         download = False
@@ -375,7 +376,7 @@ class updateV2ray(QObject):
             return True
 
     def unzipdownloadFile(self, downladFile, latestVersion):
-        import zipfile, re
+        import zipfile
         fileInfo = None
         self.newV2rayPath = None
         if QFile.exists(downladFile):
@@ -406,20 +407,25 @@ class updateV2ray(QObject):
                     if re.search("/v2ray$", absoluteFilePath):     ### other
                         self.newV2rayPath = None
                         self.newV2rayPath = QFileInfo(QFile(absoluteFilePath))
-                        if self.newV2rayPath and checkFilesize(self.newV2rayPath):break
-                if (self.stopV2ray):
-                    self.stopV2ray.emit()
+                        if self.newV2rayPath and checkFilesize(self.newV2rayPath):
+                            os.chmod(self.newV2rayPath, 0o755)
+                            os.chmod(self.newV2rayPath[:5]+"v2ctl", 0o755)
+                            break
                 zip_ref.extractall(fileInfo.absolutePath())
+                if sys.platform.startswith('win'):pass
+                else:
+                    os.chmod(newV2rayPath.absoluteFilePath(), 0o755)
+                    os.chmod(newV2rayPath.absoluteFilePath()[:-5]+"v2ctl", 0o755)
             if self.newV2rayPath:
+                if (self.stopV2ray):self.stopV2ray.emit()
                 self.bridgetreasureChest.setV2raycoreFilePath(self.newV2rayPath.absoluteFilePath())
                 self.bridgetreasureChest.setV2raycoreVersion(latestVersion)
                 self.bridgetreasureChest.save.emit()
-                self.startV2ray.emit()
+                if (self.startV2ray):self.startV2ray.emit()
                 return True
             else: return False
         
     def checkNewestfileDownload(self, usingVersion, latestVersion):
-        import re
         if usingVersion == False: return True
         v = re.search("v", usingVersion)
         if (v):
