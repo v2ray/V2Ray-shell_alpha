@@ -529,6 +529,7 @@ class bridgePanel(QMainWindow, QObject):
                                                                   port                = hostPort,
                                                                   bridgetreasureChest = self.bridgetreasureChest)
             self.createupdatePanel.createPanel()
+            self.createupdatePanel.setAttribute(Qt.WA_DeleteOnClose)
             self.createupdatePanel.setWindowIcon(self.iconStart)
             self.createupdatePanel.setWindowTitle(
                 self.translate("bridgePanel", "Check V2Ray-core update"))
@@ -605,6 +606,7 @@ class bridgePanel(QMainWindow, QObject):
                                              proxyprotocol  = protocol, 
                                              getproxyStatus = proxyStatus)
             proxy.createproxyTestPanel()
+            proxy.setAttribute(Qt.WA_DeleteOnClose)
             proxy.setWindowTitle(self.translate("bridgePanel", "Proxy Time Lag Check"))
             proxy.setWindowIcon(self.iconStart)
             proxy.resize(QSize(600, 480))
@@ -616,6 +618,7 @@ class bridgePanel(QMainWindow, QObject):
             
     def noPoxyServerRunning(self):
         warningPanel = QDialog()
+        warningPanel.setAttribute(Qt.WA_DeleteOnClose)
         warningPanel.setWindowTitle(self.translate("bridgePanel", "Warnnig..."))
         warningPanel.setWindowIcon(self.iconStop)
         labelMsg = QLabel(
@@ -624,7 +627,7 @@ class bridgePanel(QMainWindow, QObject):
         vbox.addWidget(labelMsg)
         warningPanel.setLayout(vbox)
         warningPanel.move(QApplication.desktop().screen().rect().center()-warningPanel.rect().center())
-        warningPanel.show()
+        warningPanel.open()
         warningPanel.exec_()
 
     def getProxyAddressFromJSONFile(self, filePath):
@@ -699,11 +702,12 @@ class bridgePanel(QMainWindow, QObject):
 
     def createBridgepreferencesPanel(self):
         self.createpreferencesPanel = bridgePreference.bridgepreferencesPanel(self.bridgetreasureChest)
+        self.createpreferencesPanel.setAttribute(Qt.WA_DeleteOnClose)
         self.createpreferencesPanel.createpreferencesPanel()
         self.createpreferencesPanel.setWindowIcon(self.iconStart)
         self.createpreferencesPanel.move(
             QApplication.desktop().screen().rect().center()-self.createpreferencesPanel.rect().center())
-        self.createpreferencesPanel.show()
+        self.createpreferencesPanel.open()
         self.createpreferencesPanel.exec_()
     
     def settingv2rayshelltableWidget(self):
@@ -760,6 +764,7 @@ class bridgePanel(QMainWindow, QObject):
         v2rayConfigFileName = self.tableWidgetBridge.item(clickedRow.rightClickedRow, 2)
         if (v2rayConfigFileName):
             nc = nauticalChartPanel.nauticalChartPanel(v2rayConfigFileName.text())
+            nc.setAttribute(Qt.WA_DeleteOnClose)
             nc.createPanel()
             nc.setWindowTitle(
                 self.translate("bridgePanel", "V2Ray config file edit"))
@@ -817,16 +822,18 @@ class bridgePanel(QMainWindow, QObject):
         vbox.addWidget(DwayneRichardHipp)
         
         dialogAbout = QDialog()
+        dialogAbout.setAttribute(Qt.WA_DeleteOnClose)
         dialogAbout.setWindowTitle(self.translate("bridgePanel", "About V2Ray-shell"))
         dialogAbout.setWindowIcon(self.iconStart)
         dialogAbout.move(
             QApplication.desktop().screen().rect().center()-dialogAbout.rect().center())
         dialogAbout.setLayout(vbox)
-        dialogAbout.show()
+        dialogAbout.open()
         dialogAbout.exec_()
         
     def bugReportPanel(self):
         self.bugReport = bugReport.bugReport()
+        self.bugReport.setAttribute(Qt.WA_DeleteOnClose)
         self.bugReport.setWindowTitle(self.translate("bridgePanel", "Bug Report"))
         self.bugReport.setWindowIcon(self.iconStart)
         self.bugReport.createPanel()
