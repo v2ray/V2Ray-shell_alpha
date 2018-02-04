@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QTableWidget, QAbstractItemView, QTableWidgetItem,
                              QApplication, QSystemTrayIcon)
 from PyQt5.QtCore import (Qt, QFileInfo, QTimer, QEvent, QObject,
                           pyqtSignal, QCoreApplication, QTranslator)
-from PyQt5.QtGui import QIcon, QPixmap, QFont
+from PyQt5.QtGui import QIcon, QPixmap, QFont, QKeySequence
 from PyQt5.Qt import QSize, QCursor
 from PyQt5.QtNetwork import QNetworkProxy
 
@@ -107,8 +107,8 @@ class bridgePanel(QMainWindow, QObject):
         self.bridgetreasureChest = bridgetreasureChest.bridgetreasureChest()
         self.app = app
         self.translate = QCoreApplication.translate
-        self.__v2rayshellVersion = "20171119"
-        self.__windowTitile = "V2Ray-shell"
+        self.__v2rayshellVersion = "20180204"
+        self.__windowTitile = "V2Ray-shell" + " " + self.__v2rayshellVersion
         self.runv2raycore = False
         self.iconStart = QIcon()
         self.iconStop  = QIcon()
@@ -144,25 +144,28 @@ class bridgePanel(QMainWindow, QObject):
 
         self.actionNewV2rayConfigFile = QAction(
             self.translate("bridgePanel", "Add V2Ray-core Config File"), self)
-        self.actionNewV2rayConfigFile.setShortcut("Ctrl+n")
+        self.actionNewV2rayConfigFile.setShortcut(QKeySequence.New)
         self.actionNewV2rayConfigFile.setStatusTip(
             self.translate("bridgePanel", "Add V2Ray-core Config File"))
         
         self.actionSaveV2rayshellConfigFile = QAction(
             self.translate("bridgePanel", "Save V2Ray-shell Config File"), self)
-        self.actionSaveV2rayshellConfigFile.setShortcut("Ctrl+s")
+        self.actionSaveV2rayshellConfigFile.setShortcut(QKeySequence.Save)
         self.actionSaveV2rayshellConfigFile.setStatusTip(
             self.translate("bridgePanel", "Save V2Ray-shell Config File"))
         
         self.actionReloadV2rayshellConfigFile = QAction(
             self.translate("bridgePanel", "Open V2Ray-shell Config File"), self)
-        self.actionReloadV2rayshellConfigFile.setShortcut("Ctrl+o")
+        self.actionReloadV2rayshellConfigFile.setShortcut(QKeySequence.Open)
         self.actionReloadV2rayshellConfigFile.setStatusTip(
             self.translate("bridgePanel", "Open V2Ray-shell Config File"))
         
         self.actionQuitV2rayshellPanel = QAction(
             self.translate("bridgePanel", "Quit"), self)
-        self.actionQuitV2rayshellPanel.setShortcut("Ctrl+Shift+q")
+        if sys.platform.startswith('win'):
+            self.actionQuitV2rayshellPanel.setShortcut("Ctrl+Q")
+        else:
+            self.actionQuitV2rayshellPanel.setShortcut(QKeySequence.Quit)
         self.actionQuitV2rayshellPanel.setStatusTip(
             self.translate("bridgePanel", "Quit V2Ray-shell"))
 
