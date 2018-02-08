@@ -13,8 +13,17 @@ if (Path("bridge.py").exists() and Path(spec).exists()):
     """
     file = "v2ray-shell"
     if is_win:
+        import site
         file = "v2ray-shell.exe"
-
+        packages = site.getsitepackages()
+        libeay32 = packages[1]+"/PyQt5/Qt/bin/libeay32.dll"
+        ssleay32 = packages[1]+"/PyQt5/Qt/bin/ssleay32.dll"
+        if (Path(libeay32).exists() and Path(ssleay32).exists()):
+            try:
+                shutil.copy(libeay32, "./")
+                shutil.copy(ssleay32, "./")
+            except Exception: pass
+            
     if len(sys.argv) == 1:
         sys.argv.append(spec)
     run()
