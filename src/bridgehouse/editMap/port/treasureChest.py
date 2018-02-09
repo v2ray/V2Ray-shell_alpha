@@ -12,6 +12,7 @@ class treasureChest():
     def __init__(self):
         self.__log            = {}
         self.__dns            = {}
+        self.__api            = {}
         self.__routing        = {}
         self.__policy         = {}
         self.__inbound        = {}
@@ -26,6 +27,7 @@ class treasureChest():
     def clear(self):
         self.__log            = {}
         self.__dns            = {}
+        self.__api            = {}
         self.__routing        = {}
         self.__policy         = {}
         self.__inbound        = {}
@@ -43,6 +45,7 @@ class treasureChest():
         
     def getAllTags(self):
         allTags = set()
+        allTags.add("api") ## v2ray 3.7 have new tag
         if (len(self.__outbound) > 0):
             for i in self.__outbound.items():
                 allTags.add(i[1]["tag"])
@@ -264,6 +267,16 @@ class treasureChest():
                 self.addLevel(str(i))
         self.updateList.updateLevelandEmail.emit()
         
+    def setApi(self, JSONDataApi):
+        try:
+            self.__api["tag"] = copy.deepcopy(JSONDataApi["tag"])
+            self.__api["services"] = copy.deepcopy(JSONDataApi["services"])
+        except Exception: pass
+    
+    def getApi(self):
+        api = copy.deepcopy(self.__api)
+        return api
+        
     def getPolicy(self):
         poliy = copy.deepcopy(self.__policy)
         
@@ -446,6 +459,7 @@ class treasureChest():
                             "transport": {},
                             "dns": {},
                             "routing": {},
+                            "api": {},
                             "policy": {
                                 "levels":{}
                                 }
@@ -453,6 +467,10 @@ class treasureChest():
         
         v2rayJSONFile["log"]     = self.getLog()
         v2rayJSONFile["dns"]     = self.getDns()
+        if (len(self.__api) > 0):
+            v2rayJSONFile["api"]     = self.getApi()
+        else:
+            del v2rayJSONFile["api"]
         v2rayJSONFile["routing"] = self.getRouting()
         v2rayJSONFile["policy"]["levels"]  = self.getPolicy()
         

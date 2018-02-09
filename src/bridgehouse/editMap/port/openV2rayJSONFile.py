@@ -47,6 +47,7 @@ class openV2rayJSONFile():
         boundJSONData.py
         self.__log            = {}
         self.__dns            = {}
+        self.__api            = {}
         self.__routing        = {}
         self.__policy         = {}
         self.__inbound        = {}
@@ -74,6 +75,12 @@ class openV2rayJSONFile():
         except KeyError as e:
             logbook.writeLog("", "Parse json File Error", e)
             JSONData["dns"] = {}
+            
+        try:
+            JSONData["api"]
+        except KeyError as e:
+            logbook.writeLog("", "Parse json File Error", e)
+            JSONData["api"] = {}
             
         try:
             JSONData["routing"]
@@ -121,6 +128,7 @@ class openV2rayJSONFile():
         self.treasureChest.clear()
         self.treasureChest.setLog(JSONData["log"])
         self.treasureChest.setDns(JSONData["dns"])
+        self.treasureChest.setApi(JSONData["api"])
         self.treasureChest.setPolicy(JSONData["policy"]["levels"])
         self.treasureChest.setRouting(JSONData["routing"])
         self.treasureChest.setInbound(JSONData["inbound"], openFromJSONFile = True)
