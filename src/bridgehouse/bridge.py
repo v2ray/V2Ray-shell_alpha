@@ -677,7 +677,7 @@ class bridgePanel(QMainWindow, QObject):
                 if (filePath):
                     self.bridgetreasureChest.clear()
                     self.tableWidgetBridge.setRowCount(0)
-                    self.bridgetreasureChest.inibridgeJSONData(v2rayshellConfigFileName = filePath)
+                    self.bridgetreasureChest.initbridgeJSONData(v2rayshellConfigFileName = filePath)
                     self.settingv2rayshelltableWidget()
             openV2rayshellConfigFile()
     
@@ -712,7 +712,7 @@ class bridgePanel(QMainWindow, QObject):
     
     def settingv2rayshelltableWidget(self):
         v2rayConfigFiles = self.bridgetreasureChest.getV2raycoreconfigFiles()
-        if v2rayConfigFiles == False:return
+        if not v2rayConfigFiles:return
         v2rayConfigFilesNumber = len(v2rayConfigFiles)
         if (v2rayConfigFilesNumber > 0):
             self.tableWidgetBridge.setRowCount(0)

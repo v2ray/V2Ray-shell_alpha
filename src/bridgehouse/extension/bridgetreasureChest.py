@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from PyQt5.QtCore import (QObject, pyqtSignal, QFile, QFileInfo, 
-                          QIODevice, Qt, QCoreApplication, QDir)
+                          QIODevice, Qt, QCoreApplication, QDir,
+                          qDebug)
 from PyQt5.QtWidgets import QDialog, QMessageBox, QApplication
 from PyQt5.QtNetwork import QNetworkProxy
 
@@ -44,8 +45,10 @@ class bridgetreasureChest(QObject):
         }
         """
         self.translate = QCoreApplication.translate
-        
-        self.v2rayshellConfigFileName = "config.v2rayshell"
+
+        self.v2rayshellConfigFileName = QDir.currentPath() + "/" + "config.v2rayshell"
+        qDebug(self.v2rayshellConfigFileName)
+
         self.preferences = {
             "v2ray-core": False,
             "v2ray-coreFilePath": False,
@@ -79,6 +82,7 @@ class bridgetreasureChest(QObject):
                               self.translate("v2rayUpdatePanel", "Every Saturday"),
                               self.translate("v2rayUpdatePanel", "Every Sunday"),
                               self.translate("v2rayUpdatePanel", "Every Day"))
+
         self.downloadFiles = (
             "v2ray-windows-64.zip",
             "v2ray-macos.zip",
@@ -120,11 +124,11 @@ class bridgetreasureChest(QObject):
         self.afternoon = (13, 14, 15, 16, 17)
         self.evening   = (18, 19, 20, 21)
         self.night     = (22, 23, 24, 0, 1, 2, 3, 4)
-        
+
         self.msgBox = QMessageBox()
         self.fly = QApplication.desktop().screen().rect().center()-self.msgBox.rect().center()
-        
-        self.inibridgeJSONData(False)
+
+        self.initbridgeJSONData(False)
         self.save.connect(self.saveV2raycoreJSONFile)
 
     def clear(self):
@@ -140,7 +144,7 @@ class bridgetreasureChest(QObject):
                 },
             "language": False
             }
-        
+
         self.update = {
             "enable" : False,
             "schedule": {
@@ -151,10 +155,10 @@ class bridgetreasureChest(QObject):
             "downloadFile": False,
             "silentInstall": False
             }
-        
+
         self.configFiles = []
         self.init = False
-        
+
     def clearUpdate(self):
         self.update = {
             "enable" : False,
@@ -183,16 +187,16 @@ class bridgetreasureChest(QObject):
 
     def setLanguage(self, language):
         self.preferences["language"] = copy.deepcopy(language)
-        
+
     def getLanguage(self):
         return self.preferences["language"]
-    
+
     def getAllLanguage(self):
         return self.allLanguages
-        
+
     def setProxyAddress(self, address):
         self.proxyAddres = copy.deepcopy(address)
-        
+
     def setProxyProtocol(self, protocol: (QNetworkProxy.HttpProxy, QNetworkProxy.Socks5Proxy)):
         if not isinstance(protocol, int):
             raise TypeError
@@ -250,7 +254,7 @@ class bridgetreasureChest(QObject):
         if enable:
             self.updateEnable = True
             self.update["enable"] = True
-        elif enable == False:
+        elif not enable:
             self.updateEnable = False
             self.update["enable"] = False
 
@@ -399,7 +403,7 @@ class bridgetreasureChest(QObject):
                 self.translate("updateV2ray", "Evening"), 
                 self.translate("updateV2ray", "Night"))
     
-    def inibridgeJSONData(self, v2rayshellConfigFileName = False):
+    def initbridgeJSONData(self, v2rayshellConfigFileName = False):
         """
         open v2rayshell config JSON File. save it to memory.
         """
@@ -410,14 +414,14 @@ class bridgetreasureChest(QObject):
 
         fileInfo = QFileInfo(self.v2rayshellConfigFileName)
         self.fileName = fileInfo.fileName()
-        self.openFile = QFile(self.fileName)
+        self.openFile = QFile(self.v2rayshellConfigFileName)
         
         self.openFile.open(QIODevice.ReadOnly | QIODevice.Text)
         if self.openFile.error() != self.openFile.NoError:
             self.msgBox.information(QDialog().move(self.fly), 
-                               "{}".format(self.fileName), 
+                               "{}".format(self.fileName),
                                self.translate("bridgetreasureChest", "Unable to open the file {}:  {}.").format(
-                                   self.fileName, 
+                                   self.v2rayshellConfigFileName,
                                    self.openFile.errorString()))
             self.msgBox.move(
                 QApplication.desktop().screen().rect().center()-self.msgBox.rect().center())
