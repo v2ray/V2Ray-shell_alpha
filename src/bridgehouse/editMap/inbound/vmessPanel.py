@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QSpinBox,
-                             QHBoxLayout, QVBoxLayout, QListView, 
-                             QTableWidget, QAbstractItemView, QPushButton, 
-                             QGroupBox, QComboBox, QTableWidgetItem)
+                             QHBoxLayout, QVBoxLayout, QListView,
+                             QTableWidget, QAbstractItemView, QPushButton,
+                             QGroupBox, QComboBox, QTableWidgetItem,
+                             QCheckBox)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 
 listMethod = "aes-128-cfb", "aes-128-gcm", "chacha20-poly1305", "auto", "none"
@@ -38,7 +39,8 @@ class InboundVmessPanel(QWidget):
                                          },
                                      "detour": {
                                          "to": "tag_to_detour"
-                                         }
+                                         },
+                                     "disableInsecureEncryption": False
                                      }
         self.translate = QCoreApplication.translate
         
@@ -52,6 +54,10 @@ class InboundVmessPanel(QWidget):
         labelDetourTo = QLabel(
             self.translate("InboundVmessPanel", "Detour To InboundDetour: "), self)
         self.comboBoxInVmessInboundTags = QComboBox()
+        self.checkBoxdisableInsecureEncryption = QCheckBox(
+            self.translate("InboundVmessPanel", "Disable Insecure Encryption"), self)
+        self.checkBoxdisableInsecureEncryption.setChecked(False)
+        
         labelEmail    = QLabel(
             self.translate("InboundVmessPanel", "Email: "), self)
         self.lineEditInVmessMail   = QLineEdit()
@@ -139,6 +145,7 @@ class InboundVmessPanel(QWidget):
         
         vboxVmessPanel = QVBoxLayout()
         vboxVmessPanel.addLayout(hboxDetourTo)
+        vboxVmessPanel.addWidget(self.checkBoxdisableInsecureEncryption)
         vboxVmessPanel.addWidget(self.createVmessDefaultSettingPanel())
         vboxVmessPanel.addWidget(groupBoxClientsSetting)
         
@@ -268,7 +275,7 @@ class InboundVmessPanel(QWidget):
         self.tableWidgetInVmessUser.setRowCount(0)
         detour = True; defaultLevelAlterID = True; client = True
         
-        if (inboundVmessJSONFile == None): inboundVmessJSONFile ={}
+        if (not inboundVmessJSONFile): inboundVmessJSONFile ={}
 
         try:
             inboundVmessJSONFile["detour"]
@@ -278,6 +285,12 @@ class InboundVmessPanel(QWidget):
             inboundVmessJSONFile["detour"] = {}
             inboundVmessJSONFile["detour"]["to"] = ""
             detour = False
+            
+        try:
+            inboundVmessJSONFile["disableInsecureEncryption"]
+        except KeyError as e:
+            logbook.writeLog("InboundVmess", "KeyError", e)
+            inboundVmessJSONFile["disableInsecureEncryption"] = False
             
         try:
             inboundVmessJSONFile["default"]
@@ -301,6 +314,9 @@ class InboundVmessPanel(QWidget):
             logbook.writeLog("InboundVmess", "KeyError", e)
             inboundVmessJSONFile["clients"] = []
             client = False
+            
+        if (inboundVmessJSONFile["disableInsecureEncryption"]):
+            self.checkBoxdisableInsecureEncryption.setChecked(True)    
 
         if (detour):
             self.comboBoxInVmessInboundTags.insertItem(self.comboBoxInVmessInboundTags.currentIndex(), 
@@ -318,7 +334,7 @@ class InboundVmessPanel(QWidget):
             except (TypeError, ValueError) as e:
                 logbook.writeLog("InboundVmess Default Level and AlterID", "ValueError or TypeError", e)
                 settingdefaultLevelAlterID()
-        elif (defaultLevelAlterID == False):
+        elif (not defaultLevelAlterID):
             settingdefaultLevelAlterID(default = False)
             
         if (client):
@@ -401,6 +417,11 @@ class InboundVmessPanel(QWidget):
             inboundVmessJSONFile["detour"]["to"] = InboundTags
         else:
             del inboundVmessJSONFile["detour"]
+        
+        if (self.checkBoxdisableInsecureEncryption.isChecked()):
+            inboundVmessJSONFile["disableInsecureEncryption"] = True
+        else:
+            inboundVmessJSONFile["disableInsecureEncryption"] = False
             
         return inboundVmessJSONFile
     
@@ -415,8 +436,10 @@ class InboundVmessPanel(QWidget):
         self.comboBoxInVmessInboundTags.setCurrentIndex(0)
         self.lineEditInVmessMail.clear()
         self.lineEditInVmessUUID.clear()
+        self.checkBoxdisableInsecureEncryption.setChecked(False)
         
     def createUUID(self):
+        #TODO use QT UUID generate
         return str(uuid.uuid4())
     
     def validateUUID4(self, uuidString):
