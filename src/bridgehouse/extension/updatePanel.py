@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import (QVBoxLayout,QPushButton, QHBoxLayout, QDialog,
                              QRadioButton, QMessageBox, QProgressDialog,
                              QApplication, QCheckBox, QSpacerItem)
 from PyQt5.QtCore import (QFile, QFileInfo, QIODevice, QUrl, pyqtSignal, 
-                          QObject, QTime, Qt, QDate, QDir, QCoreApplication, qWarning)
+                          QObject, QTime, Qt, QDate, QDir, QCoreApplication, 
+                          qWarning, qDebug, QTimer)
 from PyQt5.QtNetwork import (QNetworkProxy, QNetworkRequest, QNetworkAccessManager, 
                              QNetworkReply)
 from PyQt5.QtGui import QFont
@@ -114,13 +115,21 @@ class updateV2ray(QObject):
         self.msgBox = QMessageBox()
         self.fly = QApplication.desktop().screen().rect().center()-self.msgBox.rect().center()
         self.silentInstall = False
+        self.installOption ="auto"
         if (self.v2rayAPI and self.downloadURL and checkDownloadInfo): self.getV2raycoreInfoFromGithub()
         elif (self.v2rayAPI and self.downloadURL and downloadV2raycore): self.downloadV2raycore()
         else: pass
+    
+    def getv2raycoreAPIURL(self):
+        return self.v2raycoreAPIURL
+    
+    def enableSilentInstall(self):
+        self.silentInstall = True
 
     def downloadV2raycore(self, url = False):
         if (url):
             self.downloadURL = url
+
         fileInfo = QFileInfo(self.downloadURL.path())
         self.fileName = fileName = fileInfo.fileName()
     
@@ -133,7 +142,7 @@ class updateV2ray(QObject):
         self.outFile = QFile(fileName)
         
         if not self.outFile.open(QIODevice.WriteOnly):
-            if (self.silentInstall == False):
+            if (not self.silentInstall):
                 self.msgBox.information(QDialog().move(self.fly), 
                                    self.translate("updateV2ray", "Download {}").format(fileName), 
                                    self.translate("updateV2ray", 
@@ -145,7 +154,7 @@ class updateV2ray(QObject):
 
         self.httpRequestAborted = False
         
-        if (self.silentInstall == False):
+        if (not self.silentInstall):
             self.progressDialog = QProgressDialog()
             self.progressDialog.setLabelText(
                 self.translate("updateV2ray", "v2ray-core is downloading..."))
@@ -157,7 +166,7 @@ class updateV2ray(QObject):
         self.reply = self.qnam.get(QNetworkRequest(url))
         self.reply.finished.connect(self.httpFinished)
         self.reply.readyRead.connect(self.httpReadyRead)
-        if (self.silentInstall == False):
+        if (not self.silentInstall):
             self.reply.downloadProgress.connect(self.updateDataReadProgress)
 
     def httpReadyRead(self):
@@ -186,10 +195,10 @@ class updateV2ray(QObject):
 
             self.reply.deleteLater()
             self.reply = None
-            if self.silentInstall == False: self.progressDialog.hide()
+            if not self.silentInstall: self.progressDialog.hide()
             return
         
-        if self.silentInstall == False: self.progressDialog.hide()
+        if not self.silentInstall: self.progressDialog.hide()
         self.outFile.flush()
         self.outFile.close()
 
@@ -197,7 +206,7 @@ class updateV2ray(QObject):
 
         if self.reply.error():
             self.outFile.remove()
-            if self.silentInstall == False:
+            if not self.silentInstall:
                 self.msgBox.information(QDialog().move(self.fly), 
                                    self.translate("updateV2ray", "Download"), 
                                    self.translate("updateV2ray", "Download failed: {}.").format(self.reply.errorString()))
@@ -273,9 +282,10 @@ class updateV2ray(QObject):
         self.v2rayAPI = v2rayAPI()
         self.bridgetreasureChest = bridgetreasureChest
         proxy = None
-        self.silentInstall = self.bridgetreasureChest.getsilentInstall()
+        if (self.bridgetreasureChest.getsilentInstall()):
+            self.enableSilentInstall()
 
-        if v2rayshellDebug == False:
+        if not v2rayshellDebug:
             """
             if in debug mode, use the panel's proxy
             """
@@ -293,15 +303,8 @@ class updateV2ray(QObject):
         currentDate  = QDate().currentDate().dayOfWeek()
         
         scheduleTime = self.bridgetreasureChest.getupdateScheduletime()
-        currentTime = False
-        if updateV2rayQTime().isMorning():
-            currentTime = 1
-        elif updateV2rayQTime().isAfternoon():
-            currentTime = 2
-        elif updateV2rayQTime().isEvening():
-            currentTime = 3
-        elif updateV2rayQTime().isNight():
-            currentTime = 4
+
+        currentTime = self.getcurrentTime()
 
         self.downloadFile  = self.bridgetreasureChest.getupdatedownloadFile()
         self.installOption = self.bridgetreasureChest.getupdateinstallOption()
@@ -317,16 +320,28 @@ class updateV2ray(QObject):
         else:
             correctTime = False
         
-        def checkDonwloadinfo():
-            self.getV2raycoreInfoFromGithub(self.v2raycoreAPIURL)
-            self.v2rayAPI.checkDownloadInfo.connect(lambda:self.getdownloadPath(self.usingVersion))
-        
         if (correctTime and correctDate):
-            checkDonwloadinfo()
+            self.checkDonwloadinfo()
             
         if v2rayshellDebug:
-            checkDonwloadinfo()
+            self.checkDonwloadinfo()
             print("checking download info")
+    
+    def getcurrentTime(self):
+        currentTime = False
+        if updateV2rayQTime().isMorning():
+            currentTime = 1
+        elif updateV2rayQTime().isAfternoon():
+            currentTime = 2
+        elif updateV2rayQTime().isEvening():
+            currentTime = 3
+        elif updateV2rayQTime().isNight():
+            currentTime = 4
+        return currentTime
+    
+    def checkDonwloadinfo(self):
+        self.getV2raycoreInfoFromGithub(self.v2raycoreAPIURL)
+        self.v2rayAPI.checkDownloadInfo.connect(lambda:self.getdownloadPath(self.usingVersion))
 
     def getdownloadPath(self, usingVersion):
         download = False
@@ -344,10 +359,25 @@ class updateV2ray(QObject):
                 download = True 
 
             if (download and self.downloadPath):
-                self.checkdownloadFileExists(self.downloadPath)
-                self.downloadV2raycore(QUrl(self.downloadPath))
-                self.downloadFinish.connect(
-                    lambda: self.installDownloadFile(self.downloadFile, self.latestVersion))
+                self.downloadV2rayCoreNow(self.downloadFile, self.downloadPath, self.latestVersion)
+
+    def downloadV2rayCoreNow(self,
+                             downloadFile,
+                             downloadPath,
+                             latestVersion,
+                             bridgetreasureChest=False,
+                             bridgeSingal=False):
+        if (bridgetreasureChest):
+            self.bridgetreasureChest = bridgetreasureChest
+            
+        if (bridgeSingal):
+            self.startV2ray = bridgeSingal[0]
+            self.stopV2ray  = bridgeSingal[1]
+
+        self.checkdownloadFileExists(downloadPath)
+        self.downloadV2raycore(QUrl(downloadPath))
+        self.downloadFinish.connect(
+            lambda: self.installDownloadFile(downloadFile, latestVersion))
 
     def installDownloadFile(self, downloadFile, latestVersion):
         if self.installOption == "manual":
@@ -358,7 +388,7 @@ class updateV2ray(QObject):
                                "The newest v2ray-core: {} .\nversion: {} was downloaded,\nPlease check.").format(
                                    downloadFile, latestVersion))
         elif self.installOption == "auto":
-            if self.unzipdownloadFile(downloadFile, latestVersion) and (self.silentInstall == False):
+            if self.unzipdownloadFile(downloadFile, latestVersion) and (not self.silentInstall):
                 self.msgBox.information(
                     QDialog().move(self.fly), 
                     self.translate("updateV2ray", "update"), 
@@ -367,7 +397,7 @@ class updateV2ray(QObject):
                                        downloadFile, latestVersion))
 
     def checkdownloadFileExists(self, downloadPath):
-        if (downloadPath == False or downloadPath == ""): return False
+        if (not downloadPath or downloadPath == ""): return False
         filePath = QUrl(downloadPath)
         fileInfo = QFileInfo(filePath.path()) 
         fileName = fileInfo.fileName()
@@ -423,23 +453,29 @@ class updateV2ray(QObject):
             else: return False
         
     def checkNewestfileDownload(self, usingVersion, latestVersion):
-        if usingVersion == False: return True
-        v = re.search("v", usingVersion)
+        if not usingVersion: return True
+        v = re.search("v", str(usingVersion))
         if (v):
             usingVersion = usingVersion[1:].split('.')
         else:
             return False
         del v
-        v = re.search("v", latestVersion)
+        v = re.search("v", str(latestVersion))
         if (v): 
             latestVersion = latestVersion[1:].split('.')
         else:
             return False
-        if (latestVersion[0] > usingVersion[0]):
+        latestMilestone, latestRelease = int(latestVersion[0]), int(latestVersion[1])
+        
+        usingMilestone, usingRelease = int(usingVersion[0]), int(usingVersion[1])
+         
+        if (latestMilestone > usingMilestone):
             return True
-        elif (latestVersion[0] == usingVersion[0]) and (latestVersion[1] > usingVersion[1]):
+        
+        if ((latestMilestone == usingMilestone) and (latestRelease > usingRelease)):
             return True
-        else: return False
+
+        return False
         
     def partsoftheDay(self):
         """
@@ -453,6 +489,121 @@ class updateV2ray(QObject):
                 self.translate("updateV2ray", "Evening"), 
                 self.translate("updateV2ray", "Night"))
 
+
+class autoCheckUpdate():
+    def __init__(self, 
+                 v2rayapi=False,
+                 bridgetreasureChest=False,
+                 bridgeSingal=False):
+        if (v2rayapi):
+            self.v2rayAPI = v2rayapi
+        else:
+            self.v2rayAPI = v2rayAPI()
+        
+        self.bridgeSingal = bridgeSingal
+        self.bridgetreasureChest = bridgetreasureChest
+        if not self.bridgetreasureChest:
+            from bridgehouse.extension import bridgetreasureChest
+            self.bridgetreasureChest = bridgetreasureChest.bridgetreasureChest()
+            
+        self.updateV2Ray = updateV2ray(v2rayapi=self.v2rayAPI)
+        
+        if (self.bridgetreasureChest.getsilentInstall()):
+            self.updateV2Ray.enableSilentInstall()
+
+        self.usingVersion = self.bridgetreasureChest.getV2raycoreVersion()
+        self.downloadFile = self.bridgetreasureChest.getupdatedownloadFile()
+        self.installOption = self.bridgetreasureChest.getupdateinstallOption()
+        self.downloadPath = False
+        self.releaseVersion = None
+        Qt.Everyday = 8
+
+        self.checkGithubV2RaycoreLastestReleaseVersion()
+        self.startAutoupdateV2rayCore()
+
+    def startAutoupdateV2rayCore(self):
+        self.checkLastestRelease = QTimer()
+        self.checkLastestRelease.timeout.connect(
+            self.checkGithubV2RaycoreLastestReleaseVersion)
+        self.checkLastestRelease.start(1000 * 60 * 60 * 6) # Check every six hours
+        
+        self.rundownload = QTimer()
+        self.rundownload.timeout.connect(self.tryupdateV2Raycore)
+        self.rundownload.start(1000 * 60 * 60) # try download every hour, Max times is morning
+        
+        QTimer.singleShot(1000 * 30, self.checkUpdateWhenStart)
+        
+    def checkUpdateWhenStart(self):
+        # run update when script first run
+        if (self.updateV2Ray.checkNewestfileDownload(self.usingVersion,
+                                                     self.bridgetreasureChest.getLatestReleaseV2rayCore())):
+            self.updateV2Ray.downloadV2rayCoreNow(
+                self.downloadFile,
+                self.bridgetreasureChest.getLatestReleaseV2rayCoreDownloadPath(),
+                self.bridgetreasureChest.getLatestReleaseV2rayCore(),
+                self.bridgetreasureChest,
+                self.bridgeSingal)
+        
+    def checkGithubV2RaycoreLastestReleaseVersion(self):
+        self.updateV2Ray.getV2raycoreInfoFromGithub(self.updateV2Ray.getv2raycoreAPIURL())
+        self.v2rayAPI.checkDownloadInfo.connect(self.getdownloadPath)
+        
+    def getdownloadPath(self):
+        self.bridgetreasureChest.setLatestReleaseV2rayCore(self.v2rayAPI.getV2raycoreVersion())
+
+        if (self.v2rayAPI.getv2raycoreAPI()):
+            for file, filePath in self.v2rayAPI.getdownloadINFO().items():
+                if self.downloadFile == file:
+                    self.bridgetreasureChest.setLatestReleaseV2rayCoreDownloadPath(filePath)
+                    break
+
+    def tryupdateV2Raycore(self):
+        if (not self.updateV2Ray.checkNewestfileDownload( # before update check version
+            self.usingVersion, self.bridgetreasureChest.getLatestReleaseV2rayCore())):
+            return
+        
+        # before update check currentDate
+        correctDate = False
+        correctTime = False
+
+        scheduleDate = self.bridgetreasureChest.getupdateScheduledate()
+        scheduleTime = self.bridgetreasureChest.getupdateScheduletime()
+
+        currentDate  = QDate().currentDate().dayOfWeek()
+        currentTime = self.updateV2Ray.getcurrentTime()
+        
+        if (scheduleDate == currentDate):
+            correctDate = True
+
+        if (scheduleDate == Qt.Everyday):
+            correctDate = True
+            
+        if (scheduleTime == currentTime):
+            correctTime = True
+            
+        if (correctTime and correctDate):
+            self.updateV2Ray.downloadV2rayCoreNow(
+                self.downloadFile,
+                self.bridgetreasureChest.getLatestReleaseV2rayCoreDownloadPath(),
+                self.bridgetreasureChest.getLatestReleaseV2rayCore(),
+                self.bridgetreasureChest,
+                self.bridgeSingal)
+        else:
+            qDebug("Downloading pass,\n\
+                    The Using Version is:{}\n\
+                    The Latest Release Version is:{}\n\
+                    The download Path is:{}".format(self.usingVersion,
+                                                    self.bridgetreasureChest.getLatestReleaseV2rayCore(),
+                                                    self.bridgetreasureChest.getLatestReleaseV2rayCoreDownloadPath()))
+
+        if v2rayshellDebug:
+            self.updateV2Ray.downloadV2rayCoreNow(
+                self.downloadFile,
+                self.bridgetreasureChest.getLatestReleaseV2rayCoreDownloadPath(),
+                self.bridgetreasureChest.getLatestReleaseV2rayCore(),
+                self.bridgetreasureChest)
+            qDebug("Downloading...\n{}".format(self.bridgetreasureChest.getLatestReleaseV2rayCoreDownloadPath()))
+        
 class v2rayUpdatePanel(QDialog):
     def __init__(self,
                  protocol      = False, 
@@ -510,7 +661,7 @@ class v2rayUpdatePanel(QDialog):
             self.v2rayAPI  = v2rayAPI()
             
         self.bridgetreasureChest = bridgetreasureChest
-        if self.bridgetreasureChest == False:
+        if not self.bridgetreasureChest:
             from bridgehouse.extension import bridgetreasureChest
             self.bridgetreasureChest = bridgetreasureChest.bridgetreasureChest()
             
@@ -659,11 +810,20 @@ class v2rayUpdatePanel(QDialog):
         vboxUpdatPanel.addStretch()
         
         if v2rayshellDebug:
+            hbox = QHBoxLayout()
             self.updatev2ray = updateV2ray()
+            self.autoupdate = autoCheckUpdate()
             self.__testBtn = QPushButton("__Test")
-            vboxUpdatPanel.addWidget(self.__testBtn)
+            self.__testGetGithubRelease = QPushButton("__TestGetGithubRelease")
+            self.__testDownload = QPushButton("__TestDownloadformGithub")
+            hbox.addWidget(self.__testBtn)
+            hbox.addWidget(self.__testGetGithubRelease)
+            hbox.addWidget(self.__testDownload)
+            vboxUpdatPanel.addLayout(hbox)
             #self.__testBtn.clicked.connect(lambda: self.updatev2ray.unzipdownloadFile("v2ray-linux-mips64le.zip"))
             self.__testBtn.clicked.connect(lambda:self.updatev2ray.enableUpdateSchedule(self.bridgetreasureChest))
+            self.__testGetGithubRelease.clicked.connect(self.autoupdate.checkGithubV2RaycoreLastestReleaseVersion)
+            self.__testDownload.clicked.connect(self.autoupdate.tryupdateV2Raycore)
             
         self.settingupdateSchedule()
         
@@ -806,7 +966,7 @@ class v2rayUpdatePanel(QDialog):
             self.lineEditDownloadPath.clear()
         
     def settingUpdateDownloadFiles(self):
-        if (self.v2rayAPI.getv2raycoreAPI() == False):
+        if (not self.v2rayAPI.getv2raycoreAPI()):
             self.labelCheckResult.setText(self.v2rayAPI.getV2raycoreErrorString())
             self.lineEditDownloadPath.clear()
             self.comboBoxv2raycoreVersion.clear()

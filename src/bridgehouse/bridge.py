@@ -84,30 +84,10 @@ class bridgePanel(QMainWindow, QObject):
 
     def __init__(self, app):
         super().__init__()
-        self.__v2rayshellConfigFile = {
-                                        "preferences": {        
-                                            "v2ray-core": "",
-                                            "v2ray-coreFilePath": "",
-                                            "connection": {
-                                                "connect": "switch",
-                                                "interval": 45,
-                                                "timeout": 3,
-                                                "enable": True,
-                                                "trytimes": 3
-                                                }
-                                            },
-                                        "configFiles": [
-                                            {
-                                                "enable": True,
-                                                "hostName": "",
-                                                "configFileName": ""
-                                            }
-                                         ]
-                                   }
         self.bridgetreasureChest = bridgetreasureChest.bridgetreasureChest()
         self.app = app
         self.translate = QCoreApplication.translate
-        self.__v2rayshellVersion = "20180204"
+        self.__v2rayshellVersion = "20180227"
         self.__windowTitile = "V2Ray-shell" + " " + self.__v2rayshellVersion
         self.runv2raycore = False
         self.iconStart = QIcon()
@@ -294,19 +274,11 @@ class bridgePanel(QMainWindow, QObject):
                 self.app.installTranslator(self.trans)
         
     def autocheckv2raycoreUpdate(self):
-        self.v2rayshellautoUpdate = updatePanel.updateV2ray()
         self.bridgeSingal = (self.start, self.stop)
-        self.trycheckUpdate = QTimer()
-        self.trycheckUpdate.timeout.connect(
-            lambda: self.v2rayshellautoUpdate.enableUpdateSchedule(
-                self.bridgetreasureChest, self.bridgeSingal))
-        
-        self.trycheckUpdate.start(1000 * 60 * 60 * 4) ### Check every four hours
-        self.trycheckUpdate.singleShot(               ### Check when the script is started
-            1000 * 15,  ### fifty seconds
-            lambda: self.v2rayshellautoUpdate.enableUpdateSchedule(
-                self.bridgetreasureChest, self.bridgeSingal))
-        
+        self.v2rayshellautoUpdate = updatePanel.autoCheckUpdate(
+            bridgetreasureChest=self.bridgetreasureChest,
+            bridgeSingal=self.bridgeSingal)
+
     def event(self, event):
         if (event.type() == QEvent.WindowStateChange and self.isMinimized()):
             self.setWindowFlags(self.windowFlags() & ~Qt.Tool)

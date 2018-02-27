@@ -8,13 +8,13 @@ from PyQt5.QtNetwork import QNetworkProxy
 import copy, sys, json, codecs
 
 class bridgetreasureChest(QObject):
-    save  = pyqtSignal()
+    save = pyqtSignal()
 
     def __init__(self):
         super().__init__()
         """{
             "preferences": {
-                    "v2ray-core": "2.51",
+                    "v2ray-core": "3.10",
                     "v2ray-coreFilePath": "D:/Program Files/v2ray/v2ray.exe"
                     "connection":{
                             "enable": True,
@@ -119,6 +119,8 @@ class bridgetreasureChest(QObject):
         self.proxyAddres             = False
         self.proxyPort               = False
         self.allLanguages            = {}
+        self.latestReleaseV2rayCore  = False
+        self.latestReleaseV2rayCoreDownloadPath = False
 
         self.morning   = (5, 6, 7, 8, 9, 10, 11, 12)
         self.afternoon = (13, 14, 15, 16, 17)
@@ -262,7 +264,10 @@ class bridgetreasureChest(QObject):
         return self.updateinstallOption
     
     def setsilentInstall(self, enable):
-        self.updatesilentInstall = enable
+        if not isinstance(enable, bool):
+            self.updatesilentInstall = False
+        else:
+            self.updatesilentInstall = enable
 
     def getsilentInstall(self):
         return self.updatesilentInstall
@@ -343,6 +348,18 @@ class bridgetreasureChest(QObject):
 
     def getupdateScheduletime(self):
         return self.updateScheduletime
+    
+    def setLatestReleaseV2rayCore(self, version):
+        self.latestReleaseV2rayCore = version
+    
+    def getLatestReleaseV2rayCore(self):
+        return self.latestReleaseV2rayCore
+
+    def setLatestReleaseV2rayCoreDownloadPath(self, path):
+        self.latestReleaseV2rayCoreDownloadPath = copy.deepcopy(path)
+        
+    def getLatestReleaseV2rayCoreDownloadPath(self):
+        return self.latestReleaseV2rayCoreDownloadPath
                                     
     def setConnection(self, connection):
         self.preferences["connection"] = {}
