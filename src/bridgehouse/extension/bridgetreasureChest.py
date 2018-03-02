@@ -23,8 +23,8 @@ class bridgetreasureChest(QObject):
                             "timeout" : 0,
                             "trytimes": 3
                         },
-                    "language":"en_US"
-                        
+                    "language":"en_US",
+                    "startup": True
             },
             "update":{
                   "enable": True,
@@ -59,7 +59,8 @@ class bridgetreasureChest(QObject):
                     "timeout" : False,
                     "trytimes": False
                 },
-            "language": False
+            "language": False,
+            "startup": False
             }
         self.update = {
             "enable" : False,
@@ -144,7 +145,8 @@ class bridgetreasureChest(QObject):
                     "timeout" : False,
                     "trytimes": False
                 },
-            "language": False
+            "language": False,
+            "startup": False
             }
 
         self.update = {
@@ -184,7 +186,8 @@ class bridgetreasureChest(QObject):
                     "timeout" : False,
                     "trytimes": False
                 },
-            "language": False
+            "language": False,
+            "startup": False
             }
 
     def setLanguage(self, language):
@@ -192,6 +195,14 @@ class bridgetreasureChest(QObject):
 
     def getLanguage(self):
         return self.preferences["language"]
+    
+    def setStartup(self, startup=False):
+        if not isinstance(startup, int):
+            self.preferences["startup"] = False
+        self.preferences["startup"] = startup
+
+    def getStartup(self):
+        return self.startup
 
     def getAllLanguage(self):
         return self.allLanguages
@@ -201,12 +212,12 @@ class bridgetreasureChest(QObject):
 
     def setProxyProtocol(self, protocol: (QNetworkProxy.HttpProxy, QNetworkProxy.Socks5Proxy)):
         if not isinstance(protocol, int):
-            raise TypeError
+            self.proxyProtocol = QNetworkProxy.Socks5Proxy
         self.proxyProtocol = copy.deepcopy(protocol)
         
     def setProxyPort(self, port:"0~65535"):
         if port < 0 or port > 65535:
-            raise ValueError
+            self.proxyPort = 1080
         self.proxyPort = copy.deepcopy(int(port))
         
     def getProxyPort(self):
@@ -228,9 +239,7 @@ class bridgetreasureChest(QObject):
     
     def getProxy(self):
         proxy = self.getProxyProtocol(), self.getProxyAddress(), self.getProxyPort()
-        if (proxy[0] == False or
-            proxy[1] == False or
-            proxy[2] == False):
+        if (not proxy[0] or not proxy[1] or not proxy[2]):
             return False
         else: return proxy
         
@@ -424,7 +433,7 @@ class bridgetreasureChest(QObject):
         """
         open v2rayshell config JSON File. save it to memory.
         """
-        if (v2rayshellConfigFileName != False):
+        if (v2rayshellConfigFileName):
             self.v2rayshellConfigFileName = v2rayshellConfigFileName
         
         self.clear()
@@ -490,22 +499,30 @@ class bridgetreasureChest(QObject):
                 self.setLanguage(JSONData["preferences"]["language"])
                 
             try:
+                JSONData["preferences"]["startup"]
+            except Exception:
+                JSONData["preferences"]["startup"] = False
+            else:
+                self.setStartup(JSONData["preferences"]["startup"])
+                
+            try:
                 JSONData["preferences"]["connection"]
             except Exception:
                 JSONData["preferences"]["connection"] = {}
                 
-            if JSONData["preferences"]["connection"] == False:
+            if not JSONData["preferences"]["connection"]:
                 JSONData["preferences"]["connection"] = {}
                 
             try:
                 JSONData["preferences"]["connection"]["enable"]
             except Exception:
-                JSONData["preferences"]["connection"]["enable"]   = False
+                JSONData["preferences"]["connection"]["enable"] = False
+                
                 
             try:
                 JSONData["preferences"]["connection"]["connect"]
             except Exception: 
-                JSONData["preferences"]["connection"]["connect"]  = "switch"
+                JSONData["preferences"]["connection"]["connect"] = "switch"
                 
             try:
                 JSONData["preferences"]["connection"]["interval"]

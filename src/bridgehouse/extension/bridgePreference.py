@@ -1,11 +1,24 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtWidgets import (QDialog, QApplication, QPushButton, QGridLayout,
-                             QLabel, QLineEdit, QHBoxLayout, QVBoxLayout, QFileDialog,
-                             QGroupBox, QRadioButton, QSpinBox, QComboBox)
-from PyQt5.QtCore import QSize, QFileInfo, Qt, QCoreApplication
+                             QLabel, QLineEdit, QHBoxLayout, QVBoxLayout, 
+                             QFileDialog, QGroupBox, QRadioButton, QSpinBox,
+                             QComboBox, QCheckBox, QToolTip)
+from PyQt5.QtCore import (QSize, QFileInfo, Qt, QCoreApplication,
+                          QProcess, QIODevice, QProcessEnvironment,
+                          qDebug, QDir, QFile)
+from PyQt5.QtGui import QCursor
 
 import sys
+import codecs
+
+CRONTAB = True
+try:
+    import crontab
+except ImportError:
+    CRONTAB = None
+
+is_win = sys.platform.startswith('win')
 
 if __name__ == "__main__":
     v2rayshellDebug = True
@@ -13,9 +26,74 @@ if __name__ == "__main__":
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
-
-class bridgepreferencesPanel(QDialog):
     
+class startUp():
+    def __init__(self, striptName=False, enableStartup=False):
+        self.enableStartup = enableStartup
+        self.timesForTrySetcrontab = False
+        self.striptName = sys.argv[0]
+        if striptName:
+            self.striptName = striptName
+
+        self.scriptAbsoluteFilePath = QFileInfo(self.striptName).absoluteFilePath()
+
+        self.QProcessCreateStartUp = QProcess()
+        self.QProcessCreateStartUp.setProcessChannelMode(QProcess.MergedChannels)
+        self.QProcessCreateStartUp.setProcessEnvironment(
+            QProcessEnvironment.systemEnvironment())
+
+        self.QProcessCreateStartUp.readyRead.connect(self.parseOut)
+        
+        self.crontab = crontab.CronTab(user=True)
+        self.commentorTaskName = "V2Ray-shell"
+
+    def getWorkPath(self):
+        if (not is_win):
+            if (self.scriptAbsoluteFilePath.endswith(".pyw") or self.scriptAbsoluteFilePath.endswith(".py")):
+                return "python3 {}".format(self.scriptAbsoluteFilePath)
+            else:
+                return self.scriptAbsoluteFilePath
+        else:
+            if (self.scriptAbsoluteFilePath.endswith(".exe")):
+                return self.scriptAbsoluteFilePath
+            else:
+                return """/tr "pythonw '{}'" """.format(self.scriptAbsoluteFilePath)
+
+    def setStartUp(self, enable=False):
+        if (not isinstance(enable, bool)):
+            enable = False
+
+        if (not is_win):
+            if not enable:
+                self.crontab.remove_all(comment=self.commentorTaskName)
+                self.crontab.write_to_user()
+                return True
+
+            hasjob = False
+            for i in self.crontab.find_comment(self.commentorTaskName):
+                if str(i).endswith(self.commentorTaskName):
+                    hasjob = True
+            if not hasjob:
+                job = self.crontab.new(command=self.getWorkPath())
+                job.set_comment(self.commentorTaskName)
+                job.every_reboot()
+                job.enable(enable)
+                self.crontab.write_to_user()
+                return True
+            else:
+                return False
+        else:
+            # windows
+            pass
+    
+    def createVBScript(self):
+        pass
+
+    def parseOut(self):
+
+        pass
+            
+class bridgepreferencesPanel(QDialog):
     def __init__(self, bridgetreasureChest = False):
         super().__init__()
 
@@ -31,11 +109,12 @@ class bridgepreferencesPanel(QDialog):
                                     }
                                 }
         self.bridgetreasureChest = bridgetreasureChest
-        if bridgetreasureChest == False:
+        if not bridgetreasureChest:
             from bridgehouse.extension import bridgetreasureChest
             self.bridgetreasureChest = bridgetreasureChest.bridgetreasureChest()
         self.translate = QCoreApplication.translate
         self.AllLanguage = self.bridgetreasureChest.getAllLanguage()
+        self.starup = startUp()
         
     def createpreferencesPanel(self):
         self.labelV2raycoreVersion   = QLabel(
@@ -100,7 +179,9 @@ class bridgepreferencesPanel(QDialog):
         self.spinboxTrytimes.setRange(0, 12)
         self.spinboxTrytimes.setValue(3)
         labelMaxtrytimes = QLabel(
-            self.translate("bridgepreferencesPanel", "0 means immediately connect, \nthe maximum value of try times is 12"))
+            self.translate(
+                "bridgepreferencesPanel",
+                "0 means immediately connect, \nthe maximum value of try times is 12"))
         
         gridBoxConnection = QGridLayout()
         gridBoxConnection.addWidget(labelInterval, 0, 0, Qt.AlignLeft)
@@ -124,17 +205,29 @@ class bridgepreferencesPanel(QDialog):
         self.grouBoxConnection.setLayout(vboxConnection)
         
         labelLanguageSetting = QLabel(
-            self.translate("bridgepreferencesPanel","Language: "))
+            self.translate("bridgepreferencesPanel", "Language: "))
         self.comboBoxLanguage = QComboBox()
         hboxLanguage = QHBoxLayout()
         hboxLanguage.addWidget(labelLanguageSetting)
         hboxLanguage.addWidget(self.comboBoxLanguage)
         hboxLanguage.addStretch()
+        
+        self.comboxStarup = QCheckBox(
+            self.translate("bridgepreferencesPanel", "Starting Script Automatically on System Boot"))
+        self.comboxStarup.setChecked(False)
+        if not CRONTAB and not is_win:
+            self.comboxStarup.setCheckable(False)
+            self.comboxStarup.clicked.connect(lambda: QToolTip.showText(
+                QCursor.pos(), self.translate(
+                    "bridgepreferencesPanel",
+                    "Please install python package crontab (pip3 install python-crontab)"),
+                self.comboxStarup))
 
         vboxpreferences = QVBoxLayout()
         vboxpreferences.addLayout(gridBox)
         vboxpreferences.addWidget(self.grouBoxConnection)
         vboxpreferences.addLayout(hboxLanguage)
+        vboxpreferences.addWidget(self.comboxStarup)
         vboxpreferences.addStretch()
         vboxpreferences.addLayout(hboxbutton)
         
@@ -147,11 +240,26 @@ class bridgepreferencesPanel(QDialog):
         
         self.settingv2rayshellpreferencesPanel()
         
+        if v2rayshellDebug:
+            self.starupTest = startUp()
+            hbox = QHBoxLayout()
+            self.__testBtn = QPushButton("__testBtn")
+            hbox.addWidget(self.__testBtn)
+            vboxpreferences.addLayout(hbox)
+            self.__testBtn.clicked.connect(lambda: self.starupTest.setStartUp(True))
+        
     def createpreferencePanelSignals(self):
         self.buttonpreferenceCancel.clicked.connect(self.onbuttonpreferenceCancel)
         self.buttonOpenV2raycoreFile.clicked.connect(self.onbuttonOpenV2raycoreFile)
         self.buttonpreferenceApply.clicked.connect(self.onbuttonpreferenceApply)
+        self.comboxStarup.clicked.connect(self.onsetStartUp)
         
+    def onsetStartUp(self):
+        if (self.comboxStarup.isChecked()):
+            self.starup.setStartUp(True)
+        else:
+            self.starup.setStartUp(False)
+
     def onbuttonpreferenceApply(self):
         filePath = self.lineEditFilePath.text()
         if filePath != "":

@@ -87,7 +87,7 @@ class bridgePanel(QMainWindow, QObject):
         self.bridgetreasureChest = bridgetreasureChest.bridgetreasureChest()
         self.app = app
         self.translate = QCoreApplication.translate
-        self.__v2rayshellVersion = "20180227"
+        self.__v2rayshellVersion = "20180302"
         self.__windowTitile = "V2Ray-shell" + " " + self.__v2rayshellVersion
         self.runv2raycore = False
         self.iconStart = QIcon()

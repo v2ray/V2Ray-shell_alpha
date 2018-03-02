@@ -26,7 +26,7 @@ class updateV2rayQTime(QTime):
     def __init__(self):
         super(updateV2rayQTime, self).__init__()
         """
-        Morning   :  05:00 to 12:00 (5, 6, 7, 8, 9, 12)
+        Morning   :  05:00 to 12:00 (5, 6, 7, 8, 9, 10, 11, 12)
         Afternoon :  13:00 to 17:00 (13, 14, 15, 16, 17)
         Evening   :  18:00 to 21:00 (18, 19, 20, 21)
         Night     :  22:00 to 04:00 (22, 23, 0, 1, 2, 3, 4)
@@ -274,59 +274,6 @@ class updateV2ray(QObject):
         self.proxy.setPort(int(proxyPort))
         self.proxy.setApplicationProxy(self.proxy)
     
-    def enableUpdateSchedule(self, bridgetreasureChest, bridgeSingal = False):
-        if (bridgeSingal):
-            self.startV2ray = bridgeSingal[0]
-            self.stopV2ray  = bridgeSingal[1] ### this signals for auto install v2ray-core
-        
-        self.v2rayAPI = v2rayAPI()
-        self.bridgetreasureChest = bridgetreasureChest
-        proxy = None
-        if (self.bridgetreasureChest.getsilentInstall()):
-            self.enableSilentInstall()
-
-        if not v2rayshellDebug:
-            """
-            if in debug mode, use the panel's proxy
-            """
-            proxy   = self.bridgetreasureChest.getProxy()
-            if proxy: self.setautoupdateProxy(proxy)
-            else    : return False
-        
-        correctTime = False
-        correctDate = False
-        
-        self.usingVersion  = self.bridgetreasureChest.getV2raycoreVersion()
-        self.latestVersion = False
-        
-        scheduleDate = self.bridgetreasureChest.getupdateScheduledate()
-        currentDate  = QDate().currentDate().dayOfWeek()
-        
-        scheduleTime = self.bridgetreasureChest.getupdateScheduletime()
-
-        currentTime = self.getcurrentTime()
-
-        self.downloadFile  = self.bridgetreasureChest.getupdatedownloadFile()
-        self.installOption = self.bridgetreasureChest.getupdateinstallOption()
-        
-        if scheduleDate == currentDate:
-            correctDate   = True
-
-        if  scheduleDate  == Qt.Everyday:
-            correctDate   = True
-            
-        if scheduleTime == currentTime:
-            correctTime = True
-        else:
-            correctTime = False
-        
-        if (correctTime and correctDate):
-            self.checkDonwloadinfo()
-            
-        if v2rayshellDebug:
-            self.checkDonwloadinfo()
-            print("checking download info")
-    
     def getcurrentTime(self):
         currentTime = False
         if updateV2rayQTime().isMorning():
@@ -491,15 +438,9 @@ class updateV2ray(QObject):
 
 
 class autoCheckUpdate():
-    def __init__(self, 
-                 v2rayapi=False,
-                 bridgetreasureChest=False,
-                 bridgeSingal=False):
-        if (v2rayapi):
-            self.v2rayAPI = v2rayapi
-        else:
-            self.v2rayAPI = v2rayAPI()
+    def __init__(self, bridgetreasureChest=False, bridgeSingal=False):
         
+        self.v2rayAPI = v2rayAPI()
         self.bridgeSingal = bridgeSingal
         self.bridgetreasureChest = bridgetreasureChest
         if not self.bridgetreasureChest:
@@ -821,7 +762,6 @@ class v2rayUpdatePanel(QDialog):
             hbox.addWidget(self.__testDownload)
             vboxUpdatPanel.addLayout(hbox)
             #self.__testBtn.clicked.connect(lambda: self.updatev2ray.unzipdownloadFile("v2ray-linux-mips64le.zip"))
-            self.__testBtn.clicked.connect(lambda:self.updatev2ray.enableUpdateSchedule(self.bridgetreasureChest))
             self.__testGetGithubRelease.clicked.connect(self.autoupdate.checkGithubV2RaycoreLastestReleaseVersion)
             self.__testDownload.clicked.connect(self.autoupdate.tryupdateV2Raycore)
             
