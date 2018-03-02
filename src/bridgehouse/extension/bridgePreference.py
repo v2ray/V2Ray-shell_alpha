@@ -20,6 +20,8 @@ except ImportError:
 
 is_win = sys.platform.startswith('win')
 
+v2rayshellDebug = False
+
 if __name__ == "__main__":
     v2rayshellDebug = True
     ### this for debug test
