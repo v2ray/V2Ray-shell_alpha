@@ -113,7 +113,7 @@ class bridgePanel(QMainWindow, QObject):
                             self.translate("bridgePanel", "Config Name"), 
                             self.translate("bridgePanel", "Proxy"), 
                             self.translate("bridgePanel", "Time Lag"))
-
+        self.checkTrayicon = QTimer()
         self.createBridgePanel()
 
     def createBridgePanel(self):
@@ -263,6 +263,17 @@ class bridgePanel(QMainWindow, QObject):
         self.proxyTryConnect.reconnectproxy.connect(self.swapNextConfigFile)
         self.start.connect(self.onupdateinstallFinishedstartNewV2raycore)
         self.stop.connect(self.onv2raycoreStop)
+        self.checkTrayicon.timeout.connect(self.checkSystemTrayIconStatus)
+        self.checkTrayicon.start(1000 * 60)
+        
+    def checkSystemTrayIconStatus(self):
+        """
+        maybe auto startup will missing trayicon
+        """
+        if not self.v2rayshellTrayIcon.isVisible():
+            self.v2rayshellTrayIcon.show()
+        else:
+            self.checkTrayicon.disconnect()
         
     def setV2RayshellLanguage(self):
         self.trans = QTranslator()
@@ -314,7 +325,7 @@ class bridgePanel(QMainWindow, QObject):
         if (self.runv2raycore):
             self.runv2raycore.stop.emit()
         try:
-            ### force stop checking proxy time lag
+            # force stop checking proxy time lag
             del self.autoCheckTimer
         except Exception:
             pass
@@ -351,7 +362,7 @@ class bridgePanel(QMainWindow, QObject):
                 del currentActiveRow
                 
     def autocheckProxy(self, row):
-        ### TODO
+        # TODO
         """
         Frequent access to the server may cause suspicion of DDOS attacks, 
         which may put the VPS server at risk.
@@ -402,9 +413,9 @@ class bridgePanel(QMainWindow, QObject):
                                              getproxyStatus = proxyStatus,
                                              timeout        = int(timeout))
             
-    def setlabelTimeLagColor(self, proxyStatus = False):
+    def setlabelTimeLagColor(self, proxyStatus=False):
         labelTimeLag = QLabel()
-        if (proxyStatus and proxyStatus.getProxyError() == False):
+        if (proxyStatus and not proxyStatus.getProxyError()):
             labelFont = QFont()
             labelFont.setPointSize(12)
             labelFont.setBold(True)
@@ -742,7 +753,7 @@ class bridgePanel(QMainWindow, QObject):
                 self.translate("bridgePanel", "V2Ray config file edit"))
             nc.setWindowIcon(self.iconStart)
             nc.setGeometry(0, 0, 1024, 768)
-            ### move widget to center
+            # move widget to center
             nc.move(QApplication.desktop().screen().rect().center()-nc.rect().center())
             nc.show()
             nc.exec_()
@@ -815,7 +826,7 @@ class bridgePanel(QMainWindow, QObject):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
-    if hasattr(Qt, "AA_EnableHighDpiScaling"):  #### hope it's working. i don't have hight dpi monitor
+    if hasattr(Qt, "AA_EnableHighDpiScaling"):  # hope it's working. i don't have hight dpi monitor
         app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     if hasattr(Qt, "AA_UseHighDpiPixmpas"):
         app.setAttribute(Qt.AA_UseHighDpiPixmpas)
@@ -823,5 +834,5 @@ if __name__ == "__main__":
     app.setQuitOnLastWindowClosed(False)
     ex = bridgePanel(app)
     ex.setGeometry(300, 120, 1200, 768)
-    #ex.show()
+    ex.show()
     sys.exit(app.exec_())

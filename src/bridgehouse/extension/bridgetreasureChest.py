@@ -47,8 +47,6 @@ class bridgetreasureChest(QObject):
         self.translate = QCoreApplication.translate
 
         self.v2rayshellConfigFileName = QFileInfo(sys.argv[0]).absolutePath() + "/" + "config.v2rayshell"
-        qDebug(self.v2rayshellConfigFileName)
-        qDebug(QFileInfo(sys.argv[0]).absolutePath())
 
         self.preferences = {
             "v2ray-core": False,
@@ -203,7 +201,7 @@ class bridgetreasureChest(QObject):
         self.preferences["startup"] = startup
 
     def getStartup(self):
-        return self.startup
+        return self.preferences["startup"]
 
     def getAllLanguage(self):
         return self.allLanguages

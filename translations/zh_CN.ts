@@ -888,7 +888,7 @@
         <translation>开始/停止</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="526"/>
+        <location filename="../src/bridgehouse/bridge.py" line="537"/>
         <source>Host Name</source>
         <translation>服务器名</translation>
     </message>
@@ -1003,60 +1003,60 @@
         <translation>显示/隐藏</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="507"/>
+        <location filename="../src/bridgehouse/bridge.py" line="518"/>
         <source>Check V2Ray-core update</source>
         <translation>更新V2Ray-core</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="526"/>
+        <location filename="../src/bridgehouse/bridge.py" line="537"/>
         <source>Enter Host Name:</source>
         <translation>输入服务器名称:</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="583"/>
+        <location filename="../src/bridgehouse/bridge.py" line="594"/>
         <source>Proxy Time Lag Check</source>
         <translation>检查代理服务器</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="595"/>
+        <location filename="../src/bridgehouse/bridge.py" line="606"/>
         <source>Warnnig...</source>
         <translation>警告...</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="597"/>
+        <location filename="../src/bridgehouse/bridge.py" line="608"/>
         <source>There no any server is running, 
 [File]-&gt;[Add V2Ray-core Config File] (Ctrl+n) add a config.json.</source>
         <translation>没有任何代理服务器在运行.\n通过[文件]-&gt;[添加V2Ray-core配置文件](Ctrl+n)添加配置文件。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="645"/>
+        <location filename="../src/bridgehouse/bridge.py" line="656"/>
         <source>Open V2Ray-sehll Config File</source>
         <translation>打开V2Ray-shell配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="662"/>
+        <location filename="../src/bridgehouse/bridge.py" line="673"/>
         <source>Open V2Ray-core Config File</source>
         <translation>打开V2Ray-core配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="744"/>
+        <location filename="../src/bridgehouse/bridge.py" line="755"/>
         <source>V2Ray config file edit</source>
         <translation>编辑V2Ray配置文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="788"/>
+        <location filename="../src/bridgehouse/bridge.py" line="799"/>
         <source>Across the Great Wall, we can reach every corner in the world.</source>
         <translation>越过长城，走向世界。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="790"/>
+        <location filename="../src/bridgehouse/bridge.py" line="801"/>
         <source>You weren&apos;t thinking about that when you were creating it.
 Because if you did? You never would have gone through with it.</source>
         <translation>你在创造它时，你并没有想这些。
 因为如果你想了?就永远不会完成它。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="792"/>
+        <location filename="../src/bridgehouse/bridge.py" line="803"/>
         <source>May you do good and not evil.
 May you find forgiveness for yourself and forgive others.
 May you share freely, never taking more than you give.</source>
@@ -1065,12 +1065,12 @@ May you share freely, never taking more than you give.</source>
 愿你宽心与人分享，所取不多于你所施予。</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="801"/>
+        <location filename="../src/bridgehouse/bridge.py" line="812"/>
         <source>About V2Ray-shell</source>
         <translation>关于 V2Ray-shell</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="812"/>
+        <location filename="../src/bridgehouse/bridge.py" line="823"/>
         <source>Bug Report</source>
         <translation>报告错误</translation>
     </message>
@@ -1078,122 +1078,117 @@ May you share freely, never taking more than you give.</source>
 <context>
     <name>bridgepreferencesPanel</name>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="120"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="211"/>
         <source>v2ray core version is: </source>
         <translation>V2Ray-core版本是: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="123"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="214"/>
         <source>v2ray core File Path: </source>
         <translation>V2Ray-core存放路径: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="126"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="217"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="129"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="220"/>
         <source>Apply and Close</source>
         <translation>应用并退出</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="131"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="222"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="145"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="236"/>
         <source>Configure Connection settings.</source>
         <translation>配置服务器连接.</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="150"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="241"/>
         <source>Switch to the next server</source>
         <translation>切换到下台服务器</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="153"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="244"/>
         <source>Reconnect the server</source>
         <translation>重新连接服务器</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="160"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="251"/>
         <source>Check the Interval: </source>
         <translation>检查间隔时间: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="168"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="259"/>
         <source>Check Proxy Timeout: </source>
         <translation>代理服务器无响应断开检查时间: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="173"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="264"/>
         <source>Set 0 to disable timeout.</source>
         <translation>数值为 0 关闭这功能.</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="176"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="267"/>
         <source>Try Times: </source>
         <translation>尝试检查次数: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="235"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="319"/>
         <source>Preferences</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="290"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="370"/>
         <source>Open V2ray execute File</source>
         <translation>打开V2Ray文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="207"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="298"/>
         <source>Language: </source>
         <translation>语言: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="181"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="272"/>
         <source>0 means immediately connect, 
 the maximum value of try times is 12</source>
         <translation>0表示立即连接，
 最大尝试连接次数为12</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="165"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="256"/>
         <source>Interval time value is 60 to 360</source>
         <translation>检查代理连接间隔时间60到360秒</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="215"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="306"/>
         <source>Starting Script Automatically on System Boot</source>
         <translation>程序随系统启动</translation>
-    </message>
-    <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="220"/>
-        <source>Please install python package crontab (pip3 install python-crontab)</source>
-        <translation>请安装安装python的crontab包(pip3 install python-crontab)</translation>
     </message>
 </context>
 <context>
     <name>bridgetreasureChest</name>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="462"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="461"/>
         <source>Parse JSON Data Error</source>
         <translation>解析JSON文件格式出错</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="615"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="614"/>
         <source>Unable to open the file {}:  {}.</source>
         <translation>无法打开文件{}: {}.</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="462"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="461"/>
         <source>Unable to parse {}:  error:{}.</source>
         <translation>无法解析文件{}: 错误: {}.</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="625"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="624"/>
         <source>Unable to save the file {}:  {}.</source>
         <translation>无法保存文件{}: {}.</translation>
     </message>

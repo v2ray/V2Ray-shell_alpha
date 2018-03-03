@@ -9,92 +9,179 @@ from PyQt5.QtCore import (QSize, QFileInfo, Qt, QCoreApplication,
                           qDebug, QDir, QFile)
 from PyQt5.QtGui import QCursor
 
-import sys
-import codecs
+import sys, os, codecs
 
-CRONTAB = True
-try:
-    import crontab
-except ImportError:
-    CRONTAB = None
 
 is_win = sys.platform.startswith('win')
+is_darwin = sys.platform == 'darwin'  # Mac OS X
+
+# Unix platforms
+is_linux = sys.platform.startswith('linux')
+is_solar = sys.platform.startswith('sun')  # Solaris
+is_aix = sys.platform.startswith('aix')
+is_freebsd = sys.platform.startswith('freebsd')
+is_hpux = sys.platform.startswith('hp-ux')
+
+is_unix = is_linux or is_solar or is_aix or is_freebsd or is_hpux
 
 v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
-    
+
 class startUp():
-    def __init__(self, striptName=False, enableStartup=False):
-        self.enableStartup = enableStartup
-        self.timesForTrySetcrontab = False
+    def __init__(self, striptName=False):
         self.striptName = sys.argv[0]
         if striptName:
             self.striptName = striptName
-
         self.scriptAbsoluteFilePath = QFileInfo(self.striptName).absoluteFilePath()
-
-        self.QProcessCreateStartUp = QProcess()
-        self.QProcessCreateStartUp.setProcessChannelMode(QProcess.MergedChannels)
-        self.QProcessCreateStartUp.setProcessEnvironment(
-            QProcessEnvironment.systemEnvironment())
-
-        self.QProcessCreateStartUp.readyRead.connect(self.parseOut)
-        
-        self.crontab = crontab.CronTab(user=True)
-        self.commentorTaskName = "V2Ray-shell"
-
-    def getWorkPath(self):
-        if (not is_win):
-            if (self.scriptAbsoluteFilePath.endswith(".pyw") or self.scriptAbsoluteFilePath.endswith(".py")):
-                return "python3 {}".format(self.scriptAbsoluteFilePath)
-            else:
-                return self.scriptAbsoluteFilePath
-        else:
-            if (self.scriptAbsoluteFilePath.endswith(".exe")):
-                return self.scriptAbsoluteFilePath
-            else:
-                return """/tr "pythonw '{}'" """.format(self.scriptAbsoluteFilePath)
+        self.autoStartupFilename = "V2Ray-shell"
 
     def setStartUp(self, enable=False):
-        if (not isinstance(enable, bool)):
-            enable = False
-
-        if (not is_win):
-            if not enable:
-                self.crontab.remove_all(comment=self.commentorTaskName)
-                self.crontab.write_to_user()
+        if is_unix:
+            if self.createLinXDesktopFileToAutostart(
+                self.autoStartupFilename,
+                self.scriptAbsoluteFilePath,
+                enable=enable):
                 return True
+            return False
 
-            hasjob = False
-            for i in self.crontab.find_comment(self.commentorTaskName):
-                if str(i).endswith(self.commentorTaskName):
-                    hasjob = True
-            if not hasjob:
-                job = self.crontab.new(command=self.getWorkPath())
-                job.set_comment(self.commentorTaskName)
-                job.every_reboot()
-                job.enable(enable)
-                self.crontab.write_to_user()
+        if is_win:
+            if self.createWinShortcutToStartup(
+                shortcutName=self.autoStartupFilename,
+                execFileTarget=self.scriptAbsoluteFilePath,
+                startin=QFileInfo(self.scriptAbsoluteFilePath).absolutePath(),
+                enable=enable):
                 return True
-            else:
-                return False
-        else:
-            # windows
-            pass
+            return False
+
+        if is_darwin:
+            if self.createMacsplitFileToStartup(
+                self.autoStartupFilename,
+                execFileTarget=self.scriptAbsoluteFilePath,
+                enable=enable):
+                return True
+            return False
+
+    def createWinShortcutToStartup(self,
+                                   shortcutName,
+                                   execFileTarget,
+                                   arguments=None,
+                                   startin=None,
+                                   iconPath=None,
+                                   enable=False):
+        from win32com.client import Dispatch
+
+        shell = Dispatch('WScript.Shell')
+        startupPath = shell.SpecialFolders("Startup")
+        fullPath = os.path.join("{}\{}.lnk".format(startupPath, shortcutName))
+        
+        if QFile.exists(fullPath):
+            QFile.remove(fullPath)
+            if not enable: return
+
+        shortcut = shell.CreateShortCut(fullPath)
+
+        shortcut.Targetpath = execFileTarget
+        if not execFileTarget.endswith(".exe"):
+            arguments = execFileTarget
+            shortcut.Targetpath = os.path.join(
+                QFileInfo(sys.executable).absolutePath(), "pythonw.exe")
+
+        if arguments:
+            shortcut.Arguments = arguments
+        if startin:
+            shortcut.WorkingDirectory = startin
+        if iconPath:
+            shortcut.IconLocation = iconPath
+        try:
+            shortcut.save()
+        except Exception:
+            return False
+        if QFile.exists(fullPath):
+            return True
+
+    def createLinXDesktopFileToAutostart(self,
+                                         shortcutName,
+                                         execFileTarget,
+                                         iconPath=None,
+                                         enable=False):
+        autostartPath = os.path.join(QDir.homePath(), ".config/autostart")
+        if not QDir(autostartPath).exists():
+            return False
+
+        # https://developer.toradex.com/knowledge-base/how-to-autorun-application-at-the-start-up-in-linux#Graphical
+        xdesktopFile = """[Desktop Entry]
+Type=Application
+Version=1.0
+Name={name}
+Comment={name} startup script
+Exec={target}
+Path={workdir}
+Terminal=false
+StartupNotify=false
+"""
+        xdesktopFile = xdesktopFile.format(
+                                        name=shortcutName,
+                                        target=execFileTarget,
+                                        workdir=QFileInfo(sys.argv[0]).absolutePath())
+        shortcutName = "{}.desktop".format(shortcutName)
+        
+        if not self.createStartupFile(autostartPath, shortcutName, xdesktopFile, enable):
+            return False
+        return True
+
+    def createMacsplitFileToStartup(self, splitFileName, execFileTarget):
+        launchAgentsPath = os.path.join(QDir.homePath(), "/Library/LaunchAgents/")
+        if not QDir(launchAgentsPath).exists():
+            if not QDir.mkdir(launchAgentsPath): return False
+
+        # https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html
+        macOSSplitFile = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>{name}</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>{target}</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+    </dict>
+</plist>"""
+        macOSSplitFile = macOSSplitFile.format(name=splitFileName, target=execFileTarget)
+        splitFileName = "{}.split".format(splitFileName)
+        if not self.createStartupFile(launchAgentsPath, splitFileName, macOSSplitFile, enable):
+            return False
+        return True
+        
+    def createStartupFile(self, autostartupPath, scriptName, script, enable=False):
+        fileName = os.path.join(autostartupPath, scriptName)
+        outFile = QFileInfo(fileName)
+        if QFile.exists(fileName):
+            QFile.remove(fileName)
+            if not enable: return
+
+        outFile = QFile(fileName)
+
+        outFile.open(QIODevice.WriteOnly | QIODevice.Text)
+        if outFile.error() != outFile.NoError:
+            outFile = None
+            return False
+        outFile.write(codecs.encode(script, "utf-8"))
+        if outFile.error() != outFile.NoError:
+            outFile = None
+            return False
+        outFile.close()
+
+        return True
     
-    def createVBScript(self):
-        pass
-
-    def parseOut(self):
-
-        pass
-            
 class bridgepreferencesPanel(QDialog):
     def __init__(self, bridgetreasureChest = False):
         super().__init__()
@@ -104,11 +191,13 @@ class bridgepreferencesPanel(QDialog):
     				                "v2ray-coreFilePath": "v2ray",
                                     "connection":{
                                         "enable": True,
-                                        "connect": "switch", ### reconnect/switch
-                                        "interval": 60,      ### seconds
+                                        "connect": "switch", # reconnect/switch
+                                        "interval": 60,      # seconds
                                         "timeout" : 3,
                                         "trytimes": 3
-                                    }
+                                    },
+                                    "language": "en_US",
+                                    "startup": True
                                 }
         self.bridgetreasureChest = bridgetreasureChest
         if not bridgetreasureChest:
@@ -148,7 +237,7 @@ class bridgepreferencesPanel(QDialog):
             self.translate("bridgepreferencesPanel", "Configure Connection settings."), self)
         self.grouBoxConnection.setCheckable(True)
         self.grouBoxConnection.setChecked(False)
-        
+
         self.radioButtonSwitch = QRadioButton(
             self.translate("bridgepreferencesPanel", "Switch to the next server"))
         self.radioButtonSwitch.setChecked(True)
@@ -217,14 +306,6 @@ class bridgepreferencesPanel(QDialog):
         self.comboxStarup = QCheckBox(
             self.translate("bridgepreferencesPanel", "Starting Script Automatically on System Boot"))
         self.comboxStarup.setChecked(False)
-        self.comboxStarup.setVisible(False)
-        if not CRONTAB and not is_win:
-            self.comboxStarup.setCheckable(False)
-            self.comboxStarup.clicked.connect(lambda: QToolTip.showText(
-                QCursor.pos(), self.translate(
-                    "bridgepreferencesPanel",
-                    "Please install python package crontab (pip3 install python-crontab)"),
-                self.comboxStarup))
 
         vboxpreferences = QVBoxLayout()
         vboxpreferences.addLayout(gridBox)
@@ -244,7 +325,6 @@ class bridgepreferencesPanel(QDialog):
         self.settingv2rayshellpreferencesPanel()
         
         if v2rayshellDebug:
-            self.comboxStarup.setVisible(True)
             self.starupTest = startUp()
             hbox = QHBoxLayout()
             self.__testBtn = QPushButton("__testBtn")
@@ -259,36 +339,32 @@ class bridgepreferencesPanel(QDialog):
         self.comboxStarup.clicked.connect(self.onsetStartUp)
         
     def onsetStartUp(self):
-        if (self.comboxStarup.isChecked()):
-            self.starup.setStartUp(True)
-        else:
-            self.starup.setStartUp(False)
+        self.starup.setStartUp(True if self.comboxStarup.isChecked() else False)
 
     def onbuttonpreferenceApply(self):
         filePath = self.lineEditFilePath.text()
-        if filePath != "":
+        if not filePath:
             self.bridgetreasureChest.setV2raycoreFilePath(filePath)
-        
+
         connection = {}
-        if self.grouBoxConnection.isChecked():
-            connection["enable"] = True
-        else:
-            connection["enable"] = False
-        
+        connection["enable"] = True if self.grouBoxConnection.isChecked() else False
+
         if self.radioButtonReconnect.isChecked():
             connection["connect"] = "reconnect"
         elif self.radioButtonSwitch.isChecked():
             connection["connect"] = "switch"
-            
+
+        self.bridgetreasureChest.setStartup(True if self.comboxStarup.isChecked() else False)
+
         connection["interval"] = self.spinBoxInterval.value()
         connection["timeout"]  = self.spinBoxCheckProxyTimeout.value()
         connection["trytimes"] = self.spinboxTrytimes.value()
-        
+
         self.bridgetreasureChest.setLanguage(self.comboBoxLanguage.currentText())
         self.bridgetreasureChest.setConnection(connection)
         self.bridgetreasureChest.save.emit()
         self.close()
-        
+
     def onbuttonOpenV2raycoreFile(self):
         options = QFileDialog.Options()
         filePath, _ = QFileDialog.getOpenFileName(self,
@@ -298,16 +374,17 @@ class bridgepreferencesPanel(QDialog):
                                                       options = options)
         if (filePath):
             self.lineEditFilePath.setText(filePath)
-    
+
     def onbuttonpreferenceCancel(self):
         self.close()
-    
+
     def settingv2rayshellpreferencesPanel(self):
         version      = self.bridgetreasureChest.getV2raycoreVersion()
         filePath     = self.bridgetreasureChest.getV2raycoreFilePath()
         allLanguages = self.bridgetreasureChest.getAllLanguage()
         language     = self.bridgetreasureChest.getLanguage()
-        
+        startup      = self.bridgetreasureChest.getStartup()
+
         if version:
             self.labelv2raycorecurrentVersion.setText(version)
         if filePath:
@@ -324,6 +401,8 @@ class bridgepreferencesPanel(QDialog):
                 self.comboBoxLanguage.setCurrentText("en_US")
         else:
             self.comboBoxLanguage.setCurrentText("en_US")
+            
+        self.comboxStarup.setChecked(True if startup else False)
         
         connection = self.bridgetreasureChest.getConnection()
         if connection:
@@ -345,7 +424,7 @@ class bridgepreferencesPanel(QDialog):
             elif connection["connect"] == "reconnect":
                 self.radioButtonReconnect.setChecked(True)
                 self.radioButtonSwitch.setChecked(False)
-                
+
             try:
                 connection["interval"]
             except Exception:
