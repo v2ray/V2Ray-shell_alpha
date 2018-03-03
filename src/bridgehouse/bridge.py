@@ -834,5 +834,5 @@ if __name__ == "__main__":
     app.setQuitOnLastWindowClosed(False)
     ex = bridgePanel(app)
     ex.setGeometry(300, 120, 1200, 768)
-    ex.show()
+    #ex.show()
     sys.exit(app.exec_())
