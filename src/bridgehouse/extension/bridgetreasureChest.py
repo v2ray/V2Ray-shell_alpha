@@ -46,8 +46,9 @@ class bridgetreasureChest(QObject):
         """
         self.translate = QCoreApplication.translate
 
-        self.v2rayshellConfigFileName = QDir.currentPath() + "/" + "config.v2rayshell"
+        self.v2rayshellConfigFileName = QFileInfo(sys.argv[0]).absolutePath() + "/" + "config.v2rayshell"
         qDebug(self.v2rayshellConfigFileName)
+        qDebug(QFileInfo(sys.argv[0]).absolutePath())
 
         self.preferences = {
             "v2ray-core": False,

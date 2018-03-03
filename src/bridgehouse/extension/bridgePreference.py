@@ -217,6 +217,7 @@ class bridgepreferencesPanel(QDialog):
         self.comboxStarup = QCheckBox(
             self.translate("bridgepreferencesPanel", "Starting Script Automatically on System Boot"))
         self.comboxStarup.setChecked(False)
+        self.comboxStarup.setVisible(False)
         if not CRONTAB and not is_win:
             self.comboxStarup.setCheckable(False)
             self.comboxStarup.clicked.connect(lambda: QToolTip.showText(
@@ -243,6 +244,7 @@ class bridgepreferencesPanel(QDialog):
         self.settingv2rayshellpreferencesPanel()
         
         if v2rayshellDebug:
+            self.comboxStarup.setVisible(True)
             self.starupTest = startUp()
             hbox = QHBoxLayout()
             self.__testBtn = QPushButton("__testBtn")
