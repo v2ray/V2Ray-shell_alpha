@@ -93,7 +93,7 @@ class startUp():
                 QFileInfo(sys.executable).absolutePath(), "pythonw.exe")
 
         if arguments:
-            shortcut.Arguments = arguments
+            shortcut.Arguments = ''' "{}"'''.format(arguments)
         if startin:
             shortcut.WorkingDirectory = startin
         if iconPath:

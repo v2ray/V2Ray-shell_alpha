@@ -309,11 +309,12 @@ class updateV2ray(QObject):
                 self.downloadV2rayCoreNow(self.downloadFile, self.downloadPath, self.latestVersion)
 
     def downloadV2rayCoreNow(self,
-                             downloadFile,
-                             downloadPath,
-                             latestVersion,
+                             downloadFile=False,
+                             downloadPath=False,
+                             latestVersion=False,
                              bridgetreasureChest=False,
                              bridgeSingal=False):
+        if not downloadPath and not latestVersion and not downloadFile: return False
         if (bridgetreasureChest):
             self.bridgetreasureChest = bridgetreasureChest
             
