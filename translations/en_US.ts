@@ -1150,8 +1150,13 @@ the maximum value of try times is 12</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="370"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="374"/>
         <source>Open V2ray execute File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="344"/>
+        <source>Setting startup failed...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

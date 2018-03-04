@@ -82,7 +82,7 @@ class startUp():
         
         if QFile.exists(fullPath):
             QFile.remove(fullPath)
-            if not enable: return
+            if not enable: return True
 
         shortcut = shell.CreateShortCut(fullPath)
 
@@ -166,7 +166,7 @@ StartupNotify=false
         outFile = QFileInfo(fileName)
         if QFile.exists(fileName):
             QFile.remove(fileName)
-            if not enable: return
+            if not enable: return True
 
         outFile = QFile(fileName)
 
@@ -339,7 +339,11 @@ class bridgepreferencesPanel(QDialog):
         self.comboxStarup.clicked.connect(self.onsetStartUp)
         
     def onsetStartUp(self):
-        self.starup.setStartUp(True if self.comboxStarup.isChecked() else False)
+        if not self.starup.setStartUp(True if self.comboxStarup.isChecked() else False):
+            self.comboxStarup.setChecked(False)
+            QToolTip.showText(QCursor.pos(),
+                              self.translate("bridgepreferencesPanel", "Setting startup failed..."), 
+                              self.comboxStarup)
 
     def onbuttonpreferenceApply(self):
         filePath = self.lineEditFilePath.text()

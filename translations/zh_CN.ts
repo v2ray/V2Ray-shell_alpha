@@ -1143,7 +1143,7 @@ May you share freely, never taking more than you give.</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="370"/>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="374"/>
         <source>Open V2ray execute File</source>
         <translation>打开V2Ray文件</translation>
     </message>
@@ -1168,6 +1168,11 @@ the maximum value of try times is 12</source>
         <location filename="../src/bridgehouse/extension/bridgePreference.py" line="306"/>
         <source>Starting Script Automatically on System Boot</source>
         <translation>程序随系统启动</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/extension/bridgePreference.py" line="344"/>
+        <source>Setting startup failed...</source>
+        <translation>设置启动项失败</translation>
     </message>
 </context>
 <context>
