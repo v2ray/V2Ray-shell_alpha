@@ -57,6 +57,7 @@ class openV2rayJSONFile():
         self.__inboundDetour  = {}
         self.__outboundDetour = {}
         self.__transport      = {}
+        self.__stats          = {}
         ##########################
         """
         
@@ -126,11 +127,19 @@ class openV2rayJSONFile():
         except KeyError as e:
             logbook.writeLog("", "Parse json File Error", e)
             JSONData["transport"] = {}
+            
+        try:
+            JSONData["stats"]
+        except KeyError:
+            JSONData["stats"] = {}
 
         self.treasureChest.clear()
         self.treasureChest.setLog(JSONData["log"])
         self.treasureChest.setDns(JSONData["dns"])
-        self.treasureChest.setApi(JSONData["api"])
+        if JSONData["api"]:
+            self.treasureChest.setApi(JSONData["api"])
+        if JSONData["stats"]:
+            self.treasureChest.setStats(JSONData["stats"])
         self.treasureChest.setPolicy(JSONData["policy"]["levels"])
         self.treasureChest.setRouting(JSONData["routing"])
         self.treasureChest.setInbound(JSONData["inbound"], openFromJSONFile=True)

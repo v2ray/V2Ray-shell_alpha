@@ -58,8 +58,12 @@ class apiTAB(QWidget):
         return self.groupBoxAPI
     
     def settingAPITabFromJSONFile(self, apiJSONFile):
-        if not apiJSONFile: apiJSONFile = {}
-        
+        if not apiJSONFile:
+            apiJSONFile = {}
+            self.groupBoxAPI.setChecked(False)
+        else:
+            self.groupBoxAPI.setChecked(True)
+
         try:
             apiJSONFile['tag']
         except Exception:
@@ -70,9 +74,14 @@ class apiTAB(QWidget):
         except Exception:
             apiJSONFile["services"] = "HandlerService, LoggerService"
 
+        self.lineEditServices.clear()
+        self.lineEditTagName.clear()
         self.lineEditTagName.setText(apiJSONFile['tag'])
         try:
-            self.lineEditServices.setText(", ".join(apiJSONFile["services"]))
+            if isinstance(apiJSONFile["services"], list):
+                self.lineEditServices.setText(", ".join(apiJSONFile["services"]))
+            else:
+                self.lineEditServices.setText(apiJSONFile["services"])
         except Exception:
             pass
 

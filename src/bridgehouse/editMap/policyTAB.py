@@ -2,7 +2,8 @@
 
 from PyQt5.QtWidgets import (QWidget, QGroupBox,
                              QVBoxLayout, QApplication, QLabel, QComboBox,
-                             QHBoxLayout, QSpinBox, QGridLayout, QPushButton)
+                             QHBoxLayout, QSpinBox, QGridLayout, QPushButton,
+                             QCheckBox)
 from PyQt5.QtCore import QFileInfo, Qt, QCoreApplication
 import sys, copy
 
@@ -28,7 +29,9 @@ class policyTab(QWidget):
                                         "handshake": 4,
                                         "connIdle": 300,
                                         "uplinkOnly": 5,
-                                        "downlinkOnly": 30
+                                        "downlinkOnly": 30,
+                                        "statsUserUplink": False,
+                                        "statsUserDownlink": False
                                         }
                                     }
                                }
@@ -37,13 +40,15 @@ class policyTab(QWidget):
                    "handshake": 4,
                    "connIdle": 300,
                    "uplinkOnly": 5,
-                   "downlinkOnly": 30
+                   "downlinkOnly": 30,
+                   "statsUserUplink": False,
+                   "statsUserDownlink": False
                 }
         self.translate = QCoreApplication.translate
         if (CaptainstreasureChest):
             self.treasureChest = CaptainstreasureChest
         else:
-            self.treasureChest = treasureChest.treasureChest()  # ## a empty treasure chest
+            self.treasureChest = treasureChest.treasureChest()  # a empty treasure chest
         self.__groupPolicyTitle = self.translate("policyTab", "Policy Setting")
         self.levels = {}
         
@@ -77,6 +82,11 @@ class policyTab(QWidget):
         self.spinboxdownlinkOnly.setRange(0, 150)
         self.spinboxdownlinkOnly.setValue(30)
         
+        self.checkboxStatsUserUplink = QCheckBox(
+            self.translate("policyTab", "Stats User Uplink"))
+        self.checkboxStatsUserDownlink = QCheckBox(
+            self.translate("policyTab", "Stats User Downlink"))
+        
         hboxhandshake = QHBoxLayout()
         hboxhandshake.addWidget(self.spinboxhandshake)
         hboxhandshake.addStretch()
@@ -99,7 +109,9 @@ class policyTab(QWidget):
         gridBoxLevel.addWidget(self.spinboxuplinkOnly, 2, 1, 1, 1, Qt.AlignLeft)
         gridBoxLevel.addWidget(labeldownlinkOnly, 3, 0, 1, 1, Qt.AlignLeft)
         gridBoxLevel.addWidget(self.spinboxdownlinkOnly, 3, 1, 1, 1, Qt.AlignLeft)
-        gridBoxLevel.addLayout(hboxButton, 4, 2, 1, 2, Qt.AlignLeft)
+        gridBoxLevel.addWidget(self.checkboxStatsUserUplink, 4, 0, 1, 1, Qt.AlignLeft)
+        gridBoxLevel.addWidget(self.checkboxStatsUserDownlink, 5, 0, 1, 1, Qt.AlignLeft)
+        gridBoxLevel.addLayout(hboxButton, 6, 2, 1, 2, Qt.AlignLeft)
         
         vboxLevels = QVBoxLayout()
         vboxLevels.addLayout(hboxLevels)
@@ -137,6 +149,8 @@ class policyTab(QWidget):
             self.spinboxconnIdle.setValue(self.levels[level]["connIdle"])
             self.spinboxdownlinkOnly.setValue(self.levels[level]["downlinkOnly"])
             self.spinboxuplinkOnly.setValue(self.levels[level]["uplinkOnly"])
+            self.checkboxStatsUserUplink.setChecked(True if self.levels[level]["statsUserUplink"] else False)
+            self.checkboxStatsUserDownlink.setChecked(True if self.levels[level]["statsUserDownlink"] else False)
             self.groupBoxPolicy.setTitle("{}".format(self.__groupPolicyTitle))
         else:
             self.settingLevelsSpinboxDefault()
@@ -148,6 +162,8 @@ class policyTab(QWidget):
         self.levels[currentLevel]["connIdle"] = self.spinboxconnIdle.value()
         self.levels[currentLevel]["downlinkOnly"] = self.spinboxdownlinkOnly.value()
         self.levels[currentLevel]["uplinkOnly"] = self.spinboxuplinkOnly.value()
+        self.levels[currentLevel]["statsUserUplink"] = True if self.checkboxStatsUserUplink.isChecked() else False
+        self.levels[currentLevel]["statsUserDownlink"] = True if self.checkboxStatsUserDownlink.isChecked() else False
         self.groupBoxPolicy.setTitle("{}".format(self.__groupPolicyTitle))
 
     def settingLevelsSpinboxDefault(self):
@@ -155,6 +171,8 @@ class policyTab(QWidget):
         self.spinboxconnIdle.setValue(self.template["connIdle"])
         self.spinboxdownlinkOnly.setValue(self.template["downlinkOnly"])
         self.spinboxuplinkOnly.setValue(self.template["uplinkOnly"])
+        self.checkboxStatsUserUplink.setChecked(False)
+        self.checkboxStatsUserDownlink.setChecked(False)
         self.onbuttonPolicyApply()
 
     def changegroupBoxPolicyTitle(self):
@@ -208,6 +226,16 @@ class policyTab(QWidget):
                 v["downlinkOnly"]
             except Exception:
                 v["downlinkOnly"] = 30
+                
+            try:
+                v["statsUserUplink"]
+            except Exception:
+                v["statsUserUplink"] = False
+            
+            try:
+                v["statsUserDownlink"]
+            except Exception:
+                v["statsUserDownlink"] = False
                 
             try:
                 self.levels[str(i)] = copy.deepcopy(v)

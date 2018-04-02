@@ -16,7 +16,7 @@ if __name__ == "__main__":
     sys.path.append("/".join(srcPath[:-3]))
     
 from bridgehouse.editMap.port import (inboundPanel, outboundPanel, logbook, openV2rayJSONFile, treasureChest)
-from bridgehouse.editMap import (logTAB, dnsTAB, transportTAB, routingTAB, policyTAB)
+from bridgehouse.editMap import (logTAB, dnsTAB, transportTAB, routingTAB, policyTAB, apiTAB)
 
 
 class nauticalChartPanel(QDialog):
@@ -26,6 +26,8 @@ class nauticalChartPanel(QDialog):
         self.configJSONFile = {
                             "log": {},
                             "dns": {},
+                            "api": {},
+                            "stats": {},
                             "routing": {},
                             "policy":  {},
                             "inbound": {},
@@ -85,6 +87,9 @@ class nauticalChartPanel(QDialog):
         tabWidgetConfigurePanel.addTab(
             self.logTAB.createLogTab(),
             self.translate("nauticalChartPanel", "Log Files"))
+        
+        self.apiTAB = apiTAB.apiTAB()
+        tabWidgetConfigurePanel.addTab(self.apiTAB.createapiTAB(), "Api")
         
         vboxConfigure = QVBoxLayout()
         vboxConfigure.addWidget(tabWidgetConfigurePanel)
@@ -168,6 +173,7 @@ class nauticalChartPanel(QDialog):
                 dnsJSONFile=self.treasureChest.getDns(), openFromJSONFile=True)
             self.policyTAB.settingPolicyTabFromJSONFile(
                 policyJSONFile=self.treasureChest.getPolicy())
+            self.apiTAB.settingAPITabFromJSONFile(self.treasureChest.getApi())
 
     def createv2rayJSONFile(self):
         self.treasureChest.setDns(self.dnsTAB.createDnsJSONFile())
@@ -178,6 +184,9 @@ class nauticalChartPanel(QDialog):
             self.treasureChest.setTransport(self.transportTAB.createtransportSettingJSONFile())
         else:
             self.treasureChest.setTransport(JSONDataTransport=False)
+        
+        if (self.apiTAB.groupBoxAPI.isChecked()):
+            self.treasureChest.setApi(self.apiTAB.createApiJSONFile())
         
         v2rayJSONFile = self.treasureChest.exportV2rayJSONFile()
     
@@ -204,7 +213,9 @@ class nauticalChartPanel(QDialog):
             dnsJSONFile=self.treasureChest.getDns(), openFromJSONFile=True)
         self.policyTAB.settingPolicyTabFromJSONFile(
             policyJSONFile=self.treasureChest.getPolicy())
+        self.apiTAB.settingAPITabFromJSONFile(self.treasureChest.getApi())
         
+ 
     def ScrollLayout(self, layout):
         box = QVBoxLayout(self)
         scroll = QScrollArea(self)

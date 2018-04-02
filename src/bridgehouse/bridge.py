@@ -619,12 +619,15 @@ class bridgePanel(QMainWindow, QObject):
         openV2rayJSONFile.openV2rayJSONFile(filePath, tempTreasureChest, disableLog = True).initboundJSONData()
         inbound   = tempTreasureChest.getInbound()
         if (inbound):
-            protocol  = inbound["protocol"]
-            ipAddress = inbound["listen"]
-            port      = inbound["port"]
-            if (protocol == "socks" or protocol == "http"):
-                return "{}:{}:{}".format(protocol, ipAddress, port)
-            else:
+            try:
+                protocol  = inbound["protocol"]
+                ipAddress = inbound["listen"]
+                port      = inbound["port"]
+                if (protocol == "socks" or protocol == "http"):
+                    return "{}:{}:{}".format(protocol, ipAddress, port)
+                else:
+                    return False
+            except Exception:
                 return False
         else:
             return False

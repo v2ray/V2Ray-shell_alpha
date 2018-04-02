@@ -22,6 +22,7 @@ class treasureChest():
         self.__inboundDetour = {}
         self.__outboundDetour = {}
         self.__transport = {}
+        self.__stats = {}
         self.__emails = set()
         self.__levels = set()
         self.updateList = updateListSignal.updateListSignal()
@@ -37,6 +38,7 @@ class treasureChest():
         self.__inboundDetour = {}
         self.__outboundDetour = {}
         self.__transport = {}
+        self.__stats = {}
         self.__levels.clear()
     
     def __validBoundTags(self, tag):
@@ -249,25 +251,10 @@ class treasureChest():
     def setTransport(self, JSONDataTransport=False):
         if (JSONDataTransport):
             self.__transport = copy.deepcopy(JSONDataTransport)
-    
+
     def setRouting(self, JSONDataRouting):
         self.__routing = copy.deepcopy(JSONDataRouting)
-        
-    def setPolicy(self, JSONDataPolicy):
-        """
-        when the script start, if the JSON has policy. add to policyTAB
-        but would not parse in/outbound's policy
-        """
-        self.__policy = copy.deepcopy(JSONDataPolicy)
-        if len(self.__policy):
-            for i in self.__policy.keys():
-                try:
-                    int(i)
-                except Exception:
-                    continue
-                self.addLevel(str(i))
-        self.updateList.updateLevelandEmail.emit()
-        
+
     def setApi(self, JSONDataApi):
         try:
             self.__api["tag"] = copy.deepcopy(JSONDataApi["tag"])
@@ -277,11 +264,32 @@ class treasureChest():
     def getApi(self):
         api = copy.deepcopy(self.__api)
         return api
-        
+    
+    def setStats(self, JSONDataStats):
+        self.__stats = copy.deepcopy(JSONDataStats)
+    
+    def getStats(self):
+        return self.__stats
+
+    def setPolicy(self, JSONDataPolicy):
+        """
+        when the script start, if the JSON has policy. add to policyTAB
+        but would not parse in/outbound's policy
+        """
+        self.__policy = copy.deepcopy(JSONDataPolicy)
+        if self.__policy:
+            for i in self.__policy.keys():
+                try:
+                    int(i)
+                except Exception:
+                    continue
+                self.addLevel(str(i))
+        self.updateList.updateLevelandEmail.emit()
+
     def getPolicy(self):
-        poliy = copy.deepcopy(self.__policy)
+        polciy = copy.deepcopy(self.__policy)
         
-        return poliy
+        return polciy
     
     def getLog(self):
         log = copy.deepcopy(self.__log)
@@ -461,6 +469,7 @@ class treasureChest():
                             "dns": {},
                             "routing": {},
                             "api": {},
+                            "stats": {},
                             "policy": {
                                 "levels":{}
                                 }
@@ -497,6 +506,10 @@ class treasureChest():
         if not v2rayJSONFile["transport"]:
             del v2rayJSONFile["transport"]
         
+        v2rayJSONFile["stats"] = self.getStats()
+        if not v2rayJSONFile["stats"]:
+            del v2rayJSONFile["stats"]
+
         __v2rayJSONFile = copy.deepcopy(v2rayJSONFile)
         del v2rayJSONFile
         
