@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QLabel, QWidget, QGroupBox, 
-                             QLineEdit, QHBoxLayout, QVBoxLayout, 
+from PyQt5.QtWidgets import (QLabel, QWidget, QGroupBox,
+                             QLineEdit, QHBoxLayout, QVBoxLayout,
                              QPushButton)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 import sys
@@ -10,14 +10,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.transport import logbook
 
+
 class wsPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.wsJSONFile = {
@@ -61,10 +63,10 @@ class wsPanel(QWidget):
             
         return groupBoxwsSetting
     
-    def settingwsPanelFromJSONFile(self, wsJSONFile, openFromJSONFile = False):
+    def settingwsPanelFromJSONFile(self, wsJSONFile, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
 
-        if (wsJSONFile == None): 
+        if (not wsJSONFile): 
             wsJSONFile = {}
             self.groupBoxwsSetting.setChecked(False)
             self.lineEditwebsocksHost.clear()
@@ -106,7 +108,8 @@ class wsPanel(QWidget):
     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createwsSettingJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createwsSettingJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

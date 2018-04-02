@@ -2,7 +2,7 @@
 
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QSpinBox,
                              QHBoxLayout, QVBoxLayout, QCheckBox,
-                             QTableWidget, QAbstractItemView, QPushButton, 
+                             QTableWidget, QAbstractItemView, QPushButton,
                              QGroupBox, QTableWidgetItem)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 import sys, copy
@@ -11,14 +11,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class InboundSocksPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.inboundSocksJSONFile = {
@@ -35,25 +37,25 @@ class InboundSocksPanel(QWidget):
                                         "userLevel": 0
                                     }
         self.translate = QCoreApplication.translate
-        self.labelUserSocksPanel = (self.translate("InboundSocksPanel", "User"), 
+        self.labelUserSocksPanel = (self.translate("InboundSocksPanel", "User"),
                           self.translate("InboundSocksPanel", "Password"))
         
     def createSocksSettingPanel(self):
-        labelIP      = QLabel(
+        labelIP = QLabel(
             self.translate("InboundSocksPanel", "Local IP Address: "), self)
         self.lineEditInboundSocksIP = QLineEdit()
         labelTimeout = QLabel(
             self.translate("InboundSocksPanel", "Timeout: "), self)
         self.spinBoxInboundSocksTimeout = QSpinBox()
-        self.checkBoxInboundSocksUDP    = QCheckBox(
+        self.checkBoxInboundSocksUDP = QCheckBox(
             self.translate("InboundSocksPanel", "Enable the UDP protocol"), self)
-        self.btnInboundSocksUserAdd     = QPushButton(
+        self.btnInboundSocksUserAdd = QPushButton(
             self.translate("InboundSocksPanel", "Add"), self)
-        self.btnInboundSocksChange      = QPushButton(
+        self.btnInboundSocksChange = QPushButton(
             self.translate("InboundSocksPanel", "Modify"), self)
-        self.btnInboundSocksPanelClear  = QPushButton(
+        self.btnInboundSocksPanelClear = QPushButton(
             self.translate("InboundSocksPanel", "Clear"), self)
-        self.btnInboundSocksUserDelete  = QPushButton(
+        self.btnInboundSocksUserDelete = QPushButton(
             self.translate("InboundSocksPanel", "Delete"), self)
         labelUserName = QLabel(
             self.translate("InboundSocksPanel", "User: "), self)
@@ -61,7 +63,7 @@ class InboundSocksPanel(QWidget):
         labelPassowrd = QLabel(
             self.translate("InboundSocksPanel", "Password: "), self)
         self.lineEditInboundSocksPassword = QLineEdit()
-        self.tableWidgetInboundSocksUser  = QTableWidget(self)
+        self.tableWidgetInboundSocksUser = QTableWidget(self)
         
         self.spinBoxInboundSocksTimeout.setRange(0, 999)
         self.spinBoxInboundSocksTimeout.setValue(300)
@@ -79,8 +81,8 @@ class InboundSocksPanel(QWidget):
         hboxuserLevel.addWidget(self.spinBoxInboundSocksuserLevel)
         hboxuserLevel.addStretch()
         
-        hboxIP           = QHBoxLayout()
-        hboxTimeout      = QHBoxLayout()
+        hboxIP = QHBoxLayout()
+        hboxTimeout = QHBoxLayout()
         vboxSocksSetting = QVBoxLayout()
         vboxBtnSocksUser = QVBoxLayout()
         
@@ -118,7 +120,7 @@ class InboundSocksPanel(QWidget):
         self.tableWidgetInboundSocksUser.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidgetInboundSocksUser.horizontalHeader().setStretchLastSection(True)
         
-        self.groupBoxAuth = groupBoxAuth =  QGroupBox(
+        self.groupBoxAuth = groupBoxAuth = QGroupBox(
             self.translate("InboundSocksPanel", "Requires Authentication: "), self)
         groupBoxAuth.setCheckable(True)
         groupBoxAuth.setChecked(False)
@@ -174,9 +176,9 @@ class InboundSocksPanel(QWidget):
         self.tableWidgetInboundSocksUser.removeRow(row)
         
     def onbtnInboundSocksUserAdd(self):
-        if (self.lineEditInboundSocksPassword.text() == "" or self.lineEditInboundSocksUserName.text() == ""): return
+        if (not self.lineEditInboundSocksPassword.text() or not self.lineEditInboundSocksUserName.text()): return
         row = self.tableWidgetInboundSocksUser.rowCount()
-        self.tableWidgetInboundSocksUser.setRowCount(row+1)
+        self.tableWidgetInboundSocksUser.setRowCount(row + 1)
         self.tableWidgetInboundSocksUser.setItem(
             row, 0, QTableWidgetItem(self.lineEditInboundSocksUserName.text()))
         self.tableWidgetInboundSocksUser.setItem(
@@ -203,12 +205,12 @@ class InboundSocksPanel(QWidget):
         else:
             self.lineEditInboundSocksPassword.clear()
 
-    def settingInboundSocksPanelFromJSONFile(self, inboundSocksJSONFile = {}, openFromJSONFile = False):
+    def settingInboundSocksPanelFromJSONFile(self, inboundSocksJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         self.tableWidgetInboundSocksUser.setRowCount(0)
         accountsNumber = 0; accounts = True
         
-        if (inboundSocksJSONFile == None): inboundSocksJSONFile = {}
+        if (not inboundSocksJSONFile): inboundSocksJSONFile = {}
 
         try:
             inboundSocksJSONFile["auth"]
@@ -245,7 +247,6 @@ class InboundSocksPanel(QWidget):
         except KeyError as e:
             logbook.writeLog("InboundSocks", "KeyError", e)
             inboundSocksJSONFile["userLevel"] = 0
-            
         
         self.lineEditInboundSocksIP.setText(str(inboundSocksJSONFile["ip"]))
         self.checkBoxInboundSocksUDP.setChecked(bool(inboundSocksJSONFile["udp"]))
@@ -272,7 +273,7 @@ class InboundSocksPanel(QWidget):
                 self.groupBoxAuth.setChecked(True)
             accountsNumber = len(inboundSocksJSONFile["accounts"])
             accounts = inboundSocksJSONFile["accounts"]
-            if (accountsNumber > 0):
+            if (accountsNumber):
                 self.tableWidgetInboundSocksUser.setRowCount(accountsNumber)
                 try:
                     for i in range(0, accountsNumber):
@@ -288,11 +289,11 @@ class InboundSocksPanel(QWidget):
         if (self.groupBoxAuth.isChecked()):
             inboundSocksJSONFile["auth"] = "password"
             accountsNumber = self.tableWidgetInboundSocksUser.rowCount()
-            if (accountsNumber > 0):
+            if (accountsNumber):
                 accounts = []
                 for i in range(0, accountsNumber):
-                    account  = {}
-                    user     = self.tableWidgetInboundSocksUser.item(i, 0)
+                    account = {}
+                    user = self.tableWidgetInboundSocksUser.item(i, 0)
                     password = self.tableWidgetInboundSocksUser.item(i, 1)
                     if (user and password):
                         account["user"] = user.text()
@@ -302,9 +303,9 @@ class InboundSocksPanel(QWidget):
         else:
             inboundSocksJSONFile["auth"] = "noauth"
         
-        inboundSocksJSONFile["udp"]       = self.checkBoxInboundSocksUDP.isChecked()
-        inboundSocksJSONFile["ip"]        = self.lineEditInboundSocksIP.text()
-        inboundSocksJSONFile["timeout"]   = self.spinBoxInboundSocksTimeout.value()
+        inboundSocksJSONFile["udp"] = self.checkBoxInboundSocksUDP.isChecked()
+        inboundSocksJSONFile["ip"] = self.lineEditInboundSocksIP.text()
+        inboundSocksJSONFile["timeout"] = self.spinBoxInboundSocksTimeout.value()
         inboundSocksJSONFile["userLevel"] = self.spinBoxInboundSocksuserLevel.value()
         
         try:
@@ -326,7 +327,8 @@ class InboundSocksPanel(QWidget):
                     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createInboundSocksJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createInboundSocksJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

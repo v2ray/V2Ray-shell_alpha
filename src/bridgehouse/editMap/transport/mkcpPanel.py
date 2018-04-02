@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QLabel, QSpinBox, QComboBox, QCheckBox, QWidget, 
-                             QGridLayout,QGroupBox, QPushButton)
+from PyQt5.QtWidgets import (QLabel, QSpinBox, QComboBox, QCheckBox, QWidget,
+                             QGridLayout, QGroupBox, QPushButton)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 
 v2rayshellDebug = False
@@ -9,14 +9,16 @@ import sys
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.transport import logbook
 
+
 class mKcpPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.mKcpJSONFile = {
@@ -107,10 +109,10 @@ class mKcpPanel(QWidget):
 
         return groupBoxmKCPSetting
     
-    def settingmKcpPanelFromJSONFile(self, mKcpJSONFile, openFromJSONFile = False):
+    def settingmKcpPanelFromJSONFile(self, mKcpJSONFile, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         
-        if (mKcpJSONFile == None): 
+        if (not mKcpJSONFile): 
             mKcpJSONFile = {}
             self.groupBoxmKCPSetting.setChecked(False)
             return False
@@ -223,15 +225,15 @@ class mKcpPanel(QWidget):
     def createmKcpSettingJSONFile(self):
         mKcpJSONFile = {}
         
-        mKcpJSONFile["mtu"]              = self.spinBoxmKcpMTU.value()
-        mKcpJSONFile["tti"]              = self.spinBoxmKcpTTI.value()
-        mKcpJSONFile["uplinkCapacity"]   = self.spinBoxUpCapacity.value()
+        mKcpJSONFile["mtu"] = self.spinBoxmKcpMTU.value()
+        mKcpJSONFile["tti"] = self.spinBoxmKcpTTI.value()
+        mKcpJSONFile["uplinkCapacity"] = self.spinBoxUpCapacity.value()
         mKcpJSONFile["downlinkCapacity"] = self.spinBoxDownCapacity.value()
-        mKcpJSONFile["congestion"]       = self.checkBoxCongestion.isChecked()
-        mKcpJSONFile["readBufferSize"]   = self.spinBoxRdBufferSize.value()
-        mKcpJSONFile["writeBufferSize"]  = self.spinBoxWrBufferSize.value()
+        mKcpJSONFile["congestion"] = self.checkBoxCongestion.isChecked()
+        mKcpJSONFile["readBufferSize"] = self.spinBoxRdBufferSize.value()
+        mKcpJSONFile["writeBufferSize"] = self.spinBoxWrBufferSize.value()
         mKcpJSONFile["header"] = {}
-        mKcpJSONFile["header"]["type"]   = self.comboBoxHeader.currentText()
+        mKcpJSONFile["header"]["type"] = self.comboBoxHeader.currentText()
             
         return mKcpJSONFile
     
@@ -248,7 +250,8 @@ class mKcpPanel(QWidget):
     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createmKcpSettingJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createmKcpSettingJSONFile(), indent=4, sort_keys=False))
+
         
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

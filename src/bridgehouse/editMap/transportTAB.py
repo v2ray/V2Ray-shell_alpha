@@ -8,14 +8,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
         
 from bridgehouse.editMap.transport import transportPanel
 
+
 class transportTab(transportPanel.TransportPanel):
+
     def __init__(self):
         super().__init__()
         self.translate = QCoreApplication.translate
@@ -46,7 +48,8 @@ class transportTab(transportPanel.TransportPanel):
         self.groupBtnCertificates.buttonClicked.connect(self.ongroupBtnCertificatesClicked)
         
     def __debugTest(self):
-        print(json.dumps(self.createtransportSettingJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createtransportSettingJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

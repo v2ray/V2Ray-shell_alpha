@@ -165,6 +165,7 @@ class runV2raycore(QObject):
 
 
 class executeProgramPanel(QWidget):
+
     def __init__(self):
         super().__init__()
 

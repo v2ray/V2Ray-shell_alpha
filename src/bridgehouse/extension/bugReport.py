@@ -9,8 +9,10 @@ from PyQt5.QtCore import (QFile, QFileInfo, QUrl, QIODevice, QTimer,
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.Qt import QTextCursor, PYQT_VERSION_STR, QT_VERSION_STR
 import sys, copy, codecs
+
                              
 class bugReport(QDialog):
+
     def __init__(self):
         super(bugReport, self).__init__()
         self.translate = QCoreApplication.translate
@@ -20,24 +22,24 @@ class bugReport(QDialog):
         self.timerAutoSave.start(1000 * 60 * 3)
         
     def createPanel(self):
-        labelReportTitle = QLabel(self.translate("bugReport","Bug Report Title: "))
+        labelReportTitle = QLabel(self.translate("bugReport", "Bug Report Title: "))
         self.lineEditReportTitle = QLineEdit()
         
         labelTestedEnvironment = QLabel(self.translate("bugReport", "Tested Environment: "))
         self.lineEditTestedEnvironment = QLineEdit(
-            self.translate("bugReport", 
+            self.translate("bugReport",
                            """System Platform:{}_{}   Python Version:{}.{}.{}-{}   PyQt Version:{}    QT Version:{}""").format(
-                               QSysInfo.prettyProductName() if QSysInfo.prettyProductName()=="unknown" else "{}-{}".format(QSysInfo.kernelType(), QSysInfo.kernelVersion()),
+                               QSysInfo.prettyProductName() if QSysInfo.prettyProductName() == "unknown" else "{}-{}".format(QSysInfo.kernelType(), QSysInfo.kernelVersion()),
                                QSysInfo.currentCpuArchitecture(),
-                               sys.version_info.major, 
-                               sys.version_info.minor, 
-                               sys.version_info.micro, 
+                               sys.version_info.major,
+                               sys.version_info.minor,
+                               sys.version_info.micro,
                                sys.version_info.releaselevel,
                                PYQT_VERSION_STR,
                                QT_VERSION_STR))
         
         radioBtnQuickReport = QRadioButton(self.translate("bugReport", "Quick Report"))
-        radioBtnKnowHowFix  = QRadioButton(self.translate("bugReport", "Know How Fix"))
+        radioBtnKnowHowFix = QRadioButton(self.translate("bugReport", "Know How Fix"))
         radioBtnKnowHowFix.setChecked(True)
         radioBtnFeatureRequest = QRadioButton(self.translate("bugReport", "Feature Request"))
         buttonOpenHowReportBugURL = QPushButton(
@@ -133,7 +135,7 @@ class bugReport(QDialog):
         vboxBugReport.addLayout(hboxButton)
         vboxBugReport.addStretch()
         
-        self.settextEidtReadonly(result = True)
+        self.settextEidtReadonly(result=True)
         self.createSignals()
         
     def createSignals(self):
@@ -151,7 +153,7 @@ class bugReport(QDialog):
             self.textEditActualresults.moveCursor(QTextCursor.End)
             self.lineEditInserPiture.clear()
         
-    def settextEidtReadonly(self, result = True):
+    def settextEidtReadonly(self, result=True):
         self.lineEditInserPiture.setReadOnly(result)
         self.textEditActualresults.setReadOnly(result)
         self.textEditExpectedresults.setReadOnly(result)
@@ -166,13 +168,13 @@ class bugReport(QDialog):
             if i.isChecked():
                 button = i.text()
                 if button == self.translate("bugReport", "Quick Report"):
-                    self.savebugReportText(save = copy.deepcopy(self.saveQuickReport()))
+                    self.savebugReportText(save=copy.deepcopy(self.saveQuickReport()))
                 if button == self.translate("bugReport", "Know How Fix"):
-                    self.savebugReportText(save = copy.deepcopy(self.saveKnowHowFix()))
+                    self.savebugReportText(save=copy.deepcopy(self.saveKnowHowFix()))
                 if button == self.translate("bugReport", "Feature Request"):
-                    self.savebugReportText(save = copy.deepcopy(self.saveFeatureRequest()))
+                    self.savebugReportText(save=copy.deepcopy(self.saveFeatureRequest()))
     
-    def savebugReportText(self, save = False):
+    def savebugReportText(self, save=False):
         if save:
             outFile = QFileInfo(self.translate("bugReport", "bugReport.txt"))
             fileName = outFile.fileName()
@@ -218,6 +220,7 @@ Feature Request Details:\n{}\n""").format(
         return bugReportText
         
     def onbuttonGroupBugReport(self, button):
+
         def hideAllWidget():
             self.groupBoxFeatureRequest.hide()
             self.groupBoxKnowHowFix.hide()
@@ -236,6 +239,7 @@ Feature Request Details:\n{}\n""").format(
         elif buttonText == self.translate("bugReport", """Click Me! Read "HOW REPORT A BUG" before report a bug."""):
             QDesktopServices.openUrl(QUrl("https://www.chiark.greenend.org.uk/~sgtatham/bugs.html"))
             self.settextEidtReadonly(result=False)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

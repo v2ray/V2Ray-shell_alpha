@@ -2,11 +2,11 @@
 
 import sys, copy
 from PyQt5.QtWidgets import (QDialog, QLabel, QVBoxLayout, QLineEdit,
-                             QRadioButton, QSpinBox, QHBoxLayout, QButtonGroup, 
-                             QPushButton, QGridLayout,QTextEdit)
-from PyQt5.QtCore    import (QElapsedTimer, pyqtSignal, QObject, QUrl, 
+                             QRadioButton, QSpinBox, QHBoxLayout, QButtonGroup,
+                             QPushButton, QGridLayout, QTextEdit)
+from PyQt5.QtCore    import (QElapsedTimer, pyqtSignal, QObject, QUrl,
                              Qt, QFileInfo, QTimer, QCoreApplication)
-from PyQt5.QtNetwork import (QNetworkProxy, QNetworkRequest, QNetworkAccessManager, 
+from PyQt5.QtNetwork import (QNetworkProxy, QNetworkRequest, QNetworkAccessManager,
                              QNetworkReply)
 from PyQt5.QtGui     import QPalette
 from PyQt5.Qt        import QColor, QFont
@@ -15,10 +15,11 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
+
 
 class proxyStatus(QObject):
     signal = pyqtSignal()
@@ -68,7 +69,7 @@ class proxyStatus(QObject):
     def setElapsedTime(self, elapsedTime):
         self.elapsedTime = copy.deepcopy(elapsedTime)
         
-    def setTargetHostReply(self, reply = False):
+    def setTargetHostReply(self, reply=False):
         self.targetHostReply = reply
     
     def getTargetHostReply(self):
@@ -80,29 +81,31 @@ class proxyStatus(QObject):
     def getProxyErrorString(self):
         return self.errorString
     
-    def setProxyError(self, error = False):
+    def setProxyError(self, error=False):
         self.error = error
         
     def getProxyError(self):
         return self.error
+
         
 class proxyTest():
-    def __init__(self, 
-                 proxyprotocol  = QNetworkProxy.Socks5Proxy, 
-                 proxyhostname  = "127.0.0.1", 
-                 proxyhostport  = 1080, 
-                 targethosturl  = "http://www.google.com", 
-                 getproxyStatus = False,
-                 timeout        = False):
-        self.protocol           = proxyprotocol
-        self.proxyhostName      = proxyhostname
-        self.port               = int(proxyhostport)
-        self.url                = targethosturl
-        self.proxyStatus        = getproxyStatus
-        self.reply              = None
-        self.stopCheckProxy     = None
-        self.req                = None
-        self.qnam               = QNetworkAccessManager()
+
+    def __init__(self,
+                 proxyprotocol=QNetworkProxy.Socks5Proxy,
+                 proxyhostname="127.0.0.1",
+                 proxyhostport=1080,
+                 targethosturl="http://www.google.com",
+                 getproxyStatus=False,
+                 timeout=False):
+        self.protocol = proxyprotocol
+        self.proxyhostName = proxyhostname
+        self.port = int(proxyhostport)
+        self.url = targethosturl
+        self.proxyStatus = getproxyStatus
+        self.reply = None
+        self.stopCheckProxy = None
+        self.req = None
+        self.qnam = QNetworkAccessManager()
         if (self.proxyStatus):
             self.req = QNetworkRequest(QUrl(self.url))
             self.proxy = QNetworkProxy()
@@ -119,8 +122,8 @@ class proxyTest():
                 self.stopCheckProxy.setSingleShot(True)
                 if timeout > 15 or timeout < 0:
                     timeout = 5
-                ### after five seconds stop checking the proxy and destroy this class
-                self.stopCheckProxy.start(1000*timeout)  
+                # ## after five seconds stop checking the proxy and destroy this class
+                self.stopCheckProxy.start(1000 * timeout)  
                 self.startRequest()
 
     def startRequest(self):
@@ -136,7 +139,7 @@ class proxyTest():
         """
         self.reply.abort()
         self.reply.close()
-        #print(sys.getrefcount(self))
+        # print(sys.getrefcount(self))
         
         del self.protocol; self.proxyhostName; self.port; self.url; self.reply; self.stopCheckProxy
         del self.req; self.qnam; self.proxy
@@ -146,36 +149,38 @@ class proxyTest():
         errorCode = self.reply.error()
         if errorCode == QNetworkReply.NoError:
             self.proxyStatus.setTargetHostReplyMessage(
-                replyMessage = str(self.reply.readAll(), "utf-8"))
-            self.proxyStatus.setTargetHostReply(reply = True)
+                replyMessage=str(self.reply.readAll(), "utf-8"))
+            self.proxyStatus.setTargetHostReply(reply=True)
             self.proxyStatus.setProxyisWorking(True)
         else:
-            self.proxyStatus.setProxyErrorString(errorString = self.reply.errorString())
-            self.proxyStatus.setProxyError(error = True)     ### proxy connection error
-            self.proxyStatus.setProxyErrorCode(errorCode = self.reply.error())
+            self.proxyStatus.setProxyErrorString(errorString=self.reply.errorString())
+            self.proxyStatus.setProxyError(error=True)  # proxy connection error
+            self.proxyStatus.setProxyErrorCode(errorCode=self.reply.error())
             self.proxyStatus.setProxyisWorking(False)
 
         self.proxyStatus.setElapsedTime(self.proxyStatus.elapsedTimer.elapsed())
         self.proxyStatus.signal.emit()
+
 
 class proxyTestPanel(QDialog):
     """
     This is the normal time spent browsing the web milliseconds, 
     not the server response time
     """
-    def __init__(self, 
-                 proxyprotocol  = QNetworkProxy.Socks5Proxy, 
-                 proxyhostname  = "127.0.0.1", 
-                 proxyhostport  = 1080, 
-                 targethosturl  = "http://www.google.com", 
-                 getproxyStatus = False):
+
+    def __init__(self,
+                 proxyprotocol=QNetworkProxy.Socks5Proxy,
+                 proxyhostname="127.0.0.1",
+                 proxyhostport=1080,
+                 targethosturl="http://www.google.com",
+                 getproxyStatus=False):
         super().__init__()
-        self.protocol           = proxyprotocol
-        self.proxyhostName      = proxyhostname
-        self.port               = int(proxyhostport)
-        self.url                = targethosturl
+        self.protocol = proxyprotocol
+        self.proxyhostName = proxyhostname
+        self.port = int(proxyhostport)
+        self.url = targethosturl
         
-        if (getproxyStatus == False):
+        if (not getproxyStatus):
             self.proxyStatus = proxyStatus()
         else:
             self.proxyStatus = getproxyStatus
@@ -183,7 +188,7 @@ class proxyTestPanel(QDialog):
         
     def createproxyTestPanel(self):
         self.buttonCheckProxy = QPushButton(self.translate("proxyTestPanel", "Check..."), self)
-        labelproxyhostName    = QLabel(self.translate("proxyTestPanel", "Proxy Host Name: "), self)
+        labelproxyhostName = QLabel(self.translate("proxyTestPanel", "Proxy Host Name: "), self)
         self.lineEditproxyHostName = QLineEdit(self.proxyhostName)
         labelPort = QLabel(self.translate("proxyTestPanel", "Port: "), self)
         self.spinBoxPort = QSpinBox(self)
@@ -203,7 +208,7 @@ class proxyTestPanel(QDialog):
             self.translate("proxyTestPanel", "Proxy Protocol: "), self)
         radioButtonSocks5 = QRadioButton("Socks5", self)
         radioButtonSocks5.setChecked(True)
-        radioButtonHttp   = QRadioButton("Http", self)
+        radioButtonHttp = QRadioButton("Http", self)
         
         self.groupRadioButton = QButtonGroup()
         self.groupRadioButton.addButton(radioButtonSocks5)
@@ -225,8 +230,8 @@ class proxyTestPanel(QDialog):
         self.labelproxyStatus.setFont(labelFont)
         self.labelproxyTimeLag.setFont(labelFont)
         
-        self.palettelabelProxyStatusOK    = QPalette()
-        self.palettelabelProxyStatusOK.setColor(QPalette.WindowText, QColor(34, 139, 34)) ###ForestGreen
+        self.palettelabelProxyStatusOK = QPalette()
+        self.palettelabelProxyStatusOK.setColor(QPalette.WindowText, QColor(34, 139, 34))  # ##ForestGreen
         self.palettelabelProxyStatusFalse = QPalette()
         self.palettelabelProxyStatusFalse.setColor(QPalette.WindowText, Qt.red)
         
@@ -260,7 +265,7 @@ class proxyTestPanel(QDialog):
         vboxProxy = QVBoxLayout()
         vboxProxy.addLayout(gridBoxProxy)
         vboxProxy.addWidget(self.textEditProxy)
-        #vboxProxy.addStretch()
+        # vboxProxy.addStretch()
         vboxProxy.addLayout(hboxButtonCheckProxy)
         
         self.buttonCheckProxy.clicked.connect(self.onButtonCheckProxy)
@@ -282,25 +287,25 @@ class proxyTestPanel(QDialog):
                 i.setChecked(True)
   
     def onButtonCheckProxy(self):
-        self.proxyProtocol = QNetworkProxy.Socks5Proxy ### default
+        self.proxyProtocol = QNetworkProxy.Socks5Proxy  # ## default
         if (self.groupRadioButton.checkedButton().text() == "Socks5"):
             self.proxyProtocol = QNetworkProxy.Socks5Proxy
         elif (self.groupRadioButton.checkedButton().text() == "Http"):
             self.proxyProtocol = QNetworkProxy.HttpProxy
             
-        self.url  = self.lineEdittargethostUrl.text()
+        self.url = self.lineEdittargethostUrl.text()
         self.port = self.spinBoxPort.value()
         self.proxyhostName = self.lineEditproxyHostName.text()
         
         self.setProxyStatuslabelChecking()
         self.proxyStatus.clear()
         self.proxyStatus.signal.connect(self.setProxyStatuslabelColor)
-        self.proxy = proxyTest(getproxyStatus = self.proxyStatus, 
-                               proxyprotocol  = self.proxyProtocol,
-                               targethosturl  = self.url,
-                               proxyhostport  = int(self.port),
-                               proxyhostname  = self.proxyhostName,
-                               timeout        = False)
+        self.proxy = proxyTest(getproxyStatus=self.proxyStatus,
+                               proxyprotocol=self.proxyProtocol,
+                               targethosturl=self.url,
+                               proxyhostport=int(self.port),
+                               proxyhostname=self.proxyhostName,
+                               timeout=False)
 
     def setProxyStatuslabelChecking(self):
         self.labelproxyStatus.setText(self.translate("proxyTestPanel", "Proxy Checking..."))
@@ -311,12 +316,12 @@ class proxyTestPanel(QDialog):
     
     def setProxyStatuslabelColor(self):
         self.textEditProxy.clear()
-        if (self.proxyStatus.getProxyError() == False):
+        if (not self.proxyStatus.getProxyError()):
             """
             Proxy running OK
             """
             self.labelproxyStatus.setText(
-                str(self.translate("proxyTestPanel","Proxy running OK.")))
+                str(self.translate("proxyTestPanel", "Proxy running OK.")))
             self.labelproxyStatus.setPalette(self.palettelabelProxyStatusOK)
             self.labelproxyTimeLag.setText(str(self.proxyStatus.getElapsedTime()) + " ms")
             if (self.proxyStatus.getElapsedTime() < 260):
@@ -332,11 +337,12 @@ class proxyTestPanel(QDialog):
             """
             self.labelproxyStatus.setText(
                 self.translate("proxyTestPanel", "Error Code: {}. Error Message: {}").format(
-                    str(self.proxyStatus.getProxyError()), 
+                    str(self.proxyStatus.getProxyError()),
                     str(self.proxyStatus.getProxyErrorString())))
             self.labelproxyStatus.setPalette(self.palettelabelProxyStatusFalse)
             self.labelproxyTimeLag.setText(str(self.proxyStatus.getElapsedTime()) + " ms")
             self.labelproxyTimeLag.setPalette(self.palettelabelProxyTimeLagRed)
+
 
 if __name__ == '__main__':
     from PyQt5.QtWidgets import QApplication

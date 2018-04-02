@@ -10,29 +10,31 @@ import sys, copy
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
         
 from bridgehouse.editMap.transport import (mkcpPanel, wsPanel, tcpPanel, logbook)
 
+
 class TransportSettingPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.translate = QCoreApplication.translate
 
-        self.labelHeaderTLSSetting = (self.translate("TransportSettingPanel", "Certificate File"), 
+        self.labelHeaderTLSSetting = (self.translate("TransportSettingPanel", "Certificate File"),
                                       self.translate("TransportSettingPanel", "Key File"))
 
     def createTransportSettingPanel(self):
         labelNetwork = QLabel(
             self.translate("TransportSettingPanel", "Network: "), self)
-        self.radioButtonTransportTCP  = radioButtonTCP  = QRadioButton(
+        self.radioButtonTransportTCP = radioButtonTCP = QRadioButton(
             self.translate("TransportSettingPanel", "TCP"), self)
         self.radioButtonmTransportKCP = radioButtonmKCP = QRadioButton(
             self.translate("TransportSettingPanel", "mKcp"), self)
-        self.radioButtonTransportWS   = radioButtonWS   = QRadioButton(
+        self.radioButtonTransportWS = radioButtonWS = QRadioButton(
             self.translate("TransportSettingPanel", "ws"), self)
 
         radioButtonTCP.setChecked(True)
@@ -66,25 +68,25 @@ class TransportSettingPanel(QWidget):
         tableWidgetUser.setSelectionMode(QAbstractItemView.SingleSelection)
         tableWidgetUser.setSelectionBehavior(QAbstractItemView.SelectRows)
         tableWidgetUser.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        #tableWidgetUser.horizontalHeader().setStretchLastSection(True)
+        # tableWidgetUser.horizontalHeader().setStretchLastSection(True)
         
         labelCertificateFile = QLabel(
             self.translate("TransportSettingPanel", "Certificate File: "), self)
-        labelServerName      = QLabel(
+        labelServerName = QLabel(
             self.translate("TransportSettingPanel", "Server Name: "), self)
-        labelKeyFile         = QLabel(
+        labelKeyFile = QLabel(
             self.translate("TransportSettingPanel", "Key File: "), self)
         btnOpenCertificatesFile = QPushButton(
             self.translate("TransportSettingPanel", "&Open"), self)
         btnOpenKeyFile = QPushButton(
             self.translate("TransportSettingPanel", "O&pen"), self)
-        btnClear       = QPushButton(
+        btnClear = QPushButton(
             self.translate("TransportSettingPanel", "Clear"), self)
-        btnChange      = QPushButton(
+        btnChange = QPushButton(
             self.translate("TransportSettingPanel", "Modify"), self)
-        btnAdd         = QPushButton(
+        btnAdd = QPushButton(
             self.translate("TransportSettingPanel", "Add"), self)
-        btnDelete      = QPushButton(
+        btnDelete = QPushButton(
             self.translate("TransportSettingPanel", "Delete"), self)
 
         self.checkBoxCertificateAllowInsecure = QCheckBox(
@@ -162,9 +164,9 @@ class TransportSettingPanel(QWidget):
                                                   self.translate("TransportSettingPanel", "Open Certificates File"),
                                                   "",
                                                   "All Files (*)",
-                                                  options= options)
+                                                  options=options)
         if (fileName):
-            if (e.text() == self.translate("TransportSettingPanel","&Open")):
+            if (e.text() == self.translate("TransportSettingPanel", "&Open")):
                 self.lineEditCertificateFile.setText(fileName)
             if (e.text() == self.translate("TransportSettingPanel", "O&pen")):
                 self.lineEditCertificateKeyFile.setText(fileName)
@@ -172,7 +174,7 @@ class TransportSettingPanel(QWidget):
     def ontableWidgetUserCeritficatesItemSelectionChanged(self):
         currentRow = self.tableWidgetUserCertificates.currentRow()
         certificateFile = self.tableWidgetUserCertificates.item(currentRow, 0) 
-        keyFile         = self.tableWidgetUserCertificates.item(currentRow, 1) 
+        keyFile = self.tableWidgetUserCertificates.item(currentRow, 1) 
         
         if (certificateFile):
             self.lineEditCertificateFile.setText(certificateFile.text())
@@ -185,7 +187,7 @@ class TransportSettingPanel(QWidget):
             self.lineEditCertificateKeyFile.clear()
             
     def ongroupBtnCertificatesClicked(self, e):
-        rowCount   = self.tableWidgetUserCertificates.rowCount()
+        rowCount = self.tableWidgetUserCertificates.rowCount()
         currentRow = self.tableWidgetUserCertificates.currentRow()
         
         def settableWidgetUserCertificates(row):
@@ -194,12 +196,12 @@ class TransportSettingPanel(QWidget):
             self.tableWidgetUserCertificates.resizeColumnsToContents()
 
         if (e.text() == self.translate("TransportSettingPanel", "Add")):
-            if (self.lineEditCertificateFile.text() == "" or self.lineEditCertificateKeyFile.text() == ""): return
+            if (not self.lineEditCertificateFile.text() or not self.lineEditCertificateKeyFile.text()): return
             self.tableWidgetUserCertificates.setRowCount(rowCount + 1)
             settableWidgetUserCertificates(rowCount)
             self.onbtnInboudPanelClear()
         if (e.text() == self.translate("TransportSettingPanel", "Modify")):
-            if (self.lineEditCertificateFile.text() == "" or self.lineEditCertificateKeyFile.text() == ""): return
+            if (not self.lineEditCertificateFile.text() or not self.lineEditCertificateKeyFile.text()): return
             settableWidgetUserCertificates(currentRow)
         if (e.text() == self.translate("TransportSettingPanel", "Delete")):
             self.tableWidgetUserCertificates.removeRow(currentRow)
@@ -211,10 +213,12 @@ class TransportSettingPanel(QWidget):
         self.lineEditCertificateFile.clear()
         self.lineEditCertificateKeyFile.clear()
 
+
 class TransportPanel(TransportSettingPanel,
                      mkcpPanel.mKcpPanel,
                      wsPanel.wsPanel,
                      tcpPanel.TcpPanel):
+
     def __init__(self):
         super().__init__()
         self.transportJSONFile = {
@@ -239,11 +243,11 @@ class TransportPanel(TransportSettingPanel,
     def createTransportPanel(self):
         TransportSettingPanel = self.createTransportSettingPanel()
         self.mkcp = mkcpPanel.mKcpPanel()
-        self.tcp  = tcpPanel.TcpPanel()
-        self.ws   = wsPanel.wsPanel()
+        self.tcp = tcpPanel.TcpPanel()
+        self.ws = wsPanel.wsPanel()
         self.mkcpPanel = self.mkcp.createmKcpSettingPanel()
-        self.tcpPanel  = self.tcp.createTCPSettingPanel()
-        self.wsPanel   = self.ws.createwsSettingPanel()
+        self.tcpPanel = self.tcp.createTCPSettingPanel()
+        self.wsPanel = self.ws.createwsSettingPanel()
         self.mkcpPanel.hide()
         self.wsPanel.hide()
         
@@ -287,7 +291,8 @@ class TransportPanel(TransportSettingPanel,
         self.groupBtnCertificates.buttonClicked.connect(self.ongroupBtnCertificatesClicked)
         
     def ongroupBtnNetwork(self, e):
-        def showNetwork(btn = e):
+
+        def showNetwork(btn=e):
             self.tcpPanel.hide()
             self.wsPanel.hide()
             self.mkcpPanel.hide()
@@ -297,6 +302,7 @@ class TransportPanel(TransportSettingPanel,
                 self.wsPanel.show()
             elif (btn == self.translate("TransportSettingPanel", "TCP")):
                 self.tcpPanel.show()
+
         showNetwork(e.text())
 
     def onHideAndShowStreamStettingPanle(self, e):
@@ -305,7 +311,7 @@ class TransportPanel(TransportSettingPanel,
         else :
             self.groupTransportPanel.hide()
 
-    def settingtransportPanelFromJSONFile(self, transportJSONFile = {}, openFromJSONFile = False):
+    def settingtransportPanelFromJSONFile(self, transportJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         certificatesFilesNumber = 0
 
@@ -358,14 +364,12 @@ class TransportPanel(TransportSettingPanel,
             self.mkcp.groupBoxmKCPSetting.setChecked(False)
             self.tcp.groupBoxTCPSetting.setChecked(False)
 
-        def setTransport(protocol = transportJSONFile["network"]):
+        def setTransport(protocol=transportJSONFile["network"]):
             if (protocol == "tcp"):
                 hideSettingsandDisableRadioButton()
                 self.radioButtonTransportTCP.setChecked(True)
                 self.tcpPanel.show()
-                if (transportJSONFile["tcpSettings"] == {} or transportJSONFile["tcpSettings"] == None):
-                    pass
-                else:
+                if (not transportJSONFile["tcpSettings"]):
                     self.tcp.settingtcpPanelFromJSONFile(
                         copy.deepcopy(transportJSONFile["tcpSettings"]), openFromJSONFile)
                     self.tcp.groupBoxTCPSetting.setChecked(True)
@@ -374,9 +378,7 @@ class TransportPanel(TransportSettingPanel,
                 hideSettingsandDisableRadioButton()
                 self.radioButtonmTransportKCP.setChecked(True)
                 self.mkcpPanel.show()
-                if (transportJSONFile["kcpSettings"] == {} or transportJSONFile["kcpSettings"] == None):
-                    pass
-                else:
+                if (not transportJSONFile["kcpSettings"]):
                     self.mkcp.settingmKcpPanelFromJSONFile(
                         copy.deepcopy(transportJSONFile["kcpSettings"]), openFromJSONFile)
                     self.mkcp.groupBoxmKCPSetting.setChecked(True)
@@ -385,9 +387,7 @@ class TransportPanel(TransportSettingPanel,
                 hideSettingsandDisableRadioButton()
                 self.radioButtonTransportWS.setChecked(True)
                 self.wsPanel.show()
-                if (transportJSONFile["wsSettings"] == {} or transportJSONFile["wsSettings"] == None):
-                    pass
-                else:
+                if (transportJSONFile["wsSettings"]):
                     self.ws.settingwsPanelFromJSONFile(
                         copy.deepcopy(transportJSONFile["wsSettings"]), openFromJSONFile)
                     self.ws.groupBoxwsSetting.setChecked(True)
@@ -402,7 +402,7 @@ class TransportPanel(TransportSettingPanel,
             
         if (transportJSONFile["security"] == "tls"):
             self.groupBoxTLSSetting.setChecked(True)
-            if (transportJSONFile["tlsSettings"] == {} or transportJSONFile["tlsSettings"] == None):
+            if (not transportJSONFile["tlsSettings"]):
                 cleartlsSettings()
                 certificatesFilesNumber = 0
             else:
@@ -464,10 +464,10 @@ class TransportPanel(TransportSettingPanel,
                 for i in range(0, certificatesFilesNumber):
                     fileName = {}
                     certificateFile = self.tableWidgetUserCertificates.item(i, 0)
-                    keyFile         = self.tableWidgetUserCertificates.item(i, 1)
-                    if ((certificateFile and certificateFile != "") and (keyFile and (keyFile != ""))):
+                    keyFile = self.tableWidgetUserCertificates.item(i, 1)
+                    if (certificateFile and keyFile):
                         fileName["certificateFile"] = certificateFile.text()
-                        fileName["keyFile"]         = keyFile.text()
+                        fileName["keyFile"] = keyFile.text()
                         files.append(copy.deepcopy(fileName))
                 transportJSONFile["tlsSettings"]["certificates"] = copy.deepcopy(files)
             else:
@@ -487,9 +487,9 @@ class TransportPanel(TransportSettingPanel,
         else:
             del transportJSONFile["tcpSettings"]
 
-        transportJSONFile["wsSettings"] ={}
+        transportJSONFile["wsSettings"] = {}
         if (self.radioButtonTransportWS.isChecked() and self.ws.groupBoxwsSetting.isChecked()):
-            transportJSONFile["wsSettings"]  = copy.deepcopy(self.ws.createwsSettingJSONFile())
+            transportJSONFile["wsSettings"] = copy.deepcopy(self.ws.createwsSettingJSONFile())
         else:
             del transportJSONFile["wsSettings"]
         
@@ -514,7 +514,8 @@ class TransportPanel(TransportSettingPanel,
 
     def __debugTest(self):
         import json
-        print(json.dumps(self.createtransportSettingJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createtransportSettingJSONFile(), indent=4, sort_keys=False))
+
             
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

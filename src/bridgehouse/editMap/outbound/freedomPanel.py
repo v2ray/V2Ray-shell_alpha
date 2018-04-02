@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtWidgets import (QGroupBox, QLabel, QRadioButton,
-                             QLineEdit, QWidget, QSpinBox, QGridLayout, 
+                             QLineEdit, QWidget, QSpinBox, QGridLayout,
                              QHBoxLayout, QPushButton)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 import sys
@@ -10,14 +10,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class FreedomPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.freedomJSONFile = {
@@ -85,10 +87,10 @@ class FreedomPanel(QWidget):
         
         return groupBoxFreedom
     
-    def settingfreedomPanelFromJSONFile(self, freedomJSONFile = {}, openFromJSONFile = False):
+    def settingfreedomPanelFromJSONFile(self, freedomJSONFile=None, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         
-        if (freedomJSONFile == None): freedomJSONFile = {}
+        if (not freedomJSONFile): freedomJSONFile = {}
 
         try:
             freedomJSONFile["domainStrategy"]
@@ -146,8 +148,8 @@ class FreedomPanel(QWidget):
             freedomJSONFile["domainStrategy"] = "AsIs"
         if (self.radioBtnFreedomUseIP.isChecked()):
             freedomJSONFile["domainStrategy"] = "UseIP"
-        freedomJSONFile["timeout"]   = int(self.spinBoxFreedomTime.value())
-        freedomJSONFile["redirect"]  = self.lineEditFreedomRedirect.text()
+        freedomJSONFile["timeout"] = int(self.spinBoxFreedomTime.value())
+        freedomJSONFile["redirect"] = self.lineEditFreedomRedirect.text()
         freedomJSONFile["userLevel"] = int(self.spinBoxFreedomsuserLevel.value())
 
         return freedomJSONFile
@@ -161,7 +163,8 @@ class FreedomPanel(QWidget):
 
     def __debugTest(self):
         import json
-        print(json.dumps(self.createFreedomJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createFreedomJSONFile(), indent=4, sort_keys=False))
+
     
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

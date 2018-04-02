@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QLabel,  QWidget, QHBoxLayout, 
-                             QPushButton, QButtonGroup, QLineEdit, 
-                             QApplication, QGroupBox, QVBoxLayout, 
+from PyQt5.QtWidgets import (QLabel, QWidget, QHBoxLayout,
+                             QPushButton, QButtonGroup, QLineEdit,
+                             QApplication, QGroupBox, QVBoxLayout,
                              QAbstractItemView, QTreeView)
 
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
@@ -13,14 +13,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
 
 from bridgehouse import logbook
 
+
 class dnsTab(QWidget):
+
     def __init__(self):
         super().__init__()
         self.dnsJSONFile = {
@@ -34,12 +36,12 @@ class dnsTab(QWidget):
                                 ]
                             }
         self.translate = QCoreApplication.translate
-        self.headerLabelDNS  = (self.translate("dnsTab", "DNS Server"),)
+        self.headerLabelDNS = (self.translate("dnsTab", "DNS Server"),)
         self.headerLabelHost = (self.translate("dnsTab", "Host Name"), self.translate("dnsTab", "Host IP"))
         
     def createDnsTab(self):
-        ### DNS servers
-        btnDnsAdd    = QPushButton(self.translate("dnsTab", "Add"), self)
+        # DNS servers
+        btnDnsAdd = QPushButton(self.translate("dnsTab", "Add"), self)
         btnDnsDelete = QPushButton(self.translate("dnsTab", "Delete"), self)
 
         labelDNS = QLabel(self.translate("dnsTab", "DNS Server"), self)
@@ -75,15 +77,15 @@ class dnsTab(QWidget):
         vboxTreViewDNS = QVBoxLayout()
         vboxTreViewDNS.addLayout(hboxDNSServer)
         vboxTreViewDNS.addLayout(hboxTreeViewDNS)
-        ### DNS Server End
+        # DNS Server End
         
-        ### Host
+        # Host
         labelHostName = QLabel(self.translate("dnsTab", "Host Name: "), self)
         self.lineEditHostName = QLineEdit(self)
         labelHostIP = QLabel(self.translate("dnsTab", "Host IP Address: "), self)
         self.lineEditHostIP = QLineEdit(self)
         
-        self.treeViewHOST = treeViewtHOST= QTreeView()
+        self.treeViewHOST = treeViewtHOST = QTreeView()
         treeViewtHOST.setSelectionMode(QAbstractItemView.SingleSelection)
         treeViewtHOST.setSelectionBehavior(QAbstractItemView.SelectRows)
         treeViewtHOST.setUniformRowHeights(True)
@@ -93,7 +95,7 @@ class dnsTab(QWidget):
         self.treeViewHOSTMode.setHorizontalHeaderLabels(self.headerLabelHost)
         treeViewtHOST.setModel(self.treeViewHOSTMode)
         
-        btnHostAdd    = QPushButton(
+        btnHostAdd = QPushButton(
             self.translate("dnsTab", "Add"), self)
         btnHostDelete = QPushButton(
             self.translate("dnsTab", "Delete"), self)
@@ -129,7 +131,7 @@ class dnsTab(QWidget):
         vboxTreeViewHOST.addLayout(hboxHostName)
         vboxTreeViewHOST.addLayout(hboxHostIP)
         vboxTreeViewHOST.addLayout(hboxTreeViewHOST)
-        ### Host End
+        # Host End
         
         vboxDnsTab = QVBoxLayout()
         vboxDnsTab.addLayout(vboxTreViewDNS)
@@ -156,7 +158,7 @@ class dnsTab(QWidget):
 
     def ontreeViewDNS(self):
         itemSelection = self.treeViewDNS.selectionModel()
-        rowCurrent    = itemSelection.selectedIndexes()[0]
+        rowCurrent = itemSelection.selectedIndexes()[0]
         row = rowCurrent.row()
         
         dnsServer = self.treeViewDNSMode.item(row).text()
@@ -164,46 +166,45 @@ class dnsTab(QWidget):
     
     def ontreeViewHost(self):
         itemSelection = self.treeViewHOST.selectionModel()
-        rowCurrent    = itemSelection.selectedIndexes()[0]
+        rowCurrent = itemSelection.selectedIndexes()[0]
         row = rowCurrent.row()
         
         hostName = self.treeViewHOSTMode.item(row, 0).text()
-        hostIP   = self.treeViewHOSTMode.item(row, 1).text()
+        hostIP = self.treeViewHOSTMode.item(row, 1).text()
         self.lineEditHostName.setText(hostName)
         self.lineEditHostIP.setText(hostIP)
         
     def ongroupButtonHost(self, e):
-        hostName  = self.lineEditHostName.text()
-        hostIP    = self.lineEditHostIP.text()
+        hostName = self.lineEditHostName.text()
+        hostIP = self.lineEditHostIP.text()
         hostCount = self.treeViewHOSTMode.rowCount()
-        if (hostCount == 0     and
-            e.text()  == self.translate("dnsTab", "Add") and
-            hostName  != ""    and
-            hostIP    != ""):
+        if (not hostCount and
+            e.text() == self.translate("dnsTab", "Add") and
+            hostName and hostIP):
             self.treeViewHOSTMode.appendRow((QStandardItem(hostName), QStandardItem(hostIP)))
             self.treeViewHOST.setCurrentIndex(self.treeViewHOSTMode.index(0, 0))
             self.lineEditHostIP.clear()
             self.lineEditHostName.clear()
             return
-        elif (hostCount == 0 and 
+        elif (not hostCount and 
               (e.text() == self.translate("dnsTab", "Delete") or 
                e.text() == self.translate("dnsTab", "Modify"))): return
-        elif (hostCount == 0 and 
+        elif (not hostCount and 
               e.text() == self.translate("dnsTab", "Add") and 
-              (hostName == "" or hostIP == "")): return
+              (not hostName or not hostIP)): return
         
         itemSelection = self.treeViewHOST.selectionModel()
-        rowCurrent    = itemSelection.selectedIndexes()[0]
+        rowCurrent = itemSelection.selectedIndexes()[0]
         row = rowCurrent.row()
         
         if (e.text() == self.translate("dnsTab", "Add") and 
-            hostName != "" and hostIP != ""):
+            hostName and hostIP):
             self.treeViewHOSTMode.appendRow((QStandardItem(hostName), QStandardItem(hostIP)))
             self.treeViewHOST.setCurrentIndex(self.treeViewHOSTMode.index(hostCount, 0))
             self.lineEditHostIP.clear()
             self.lineEditHostName.clear()
         if (e.text() == self.translate("dnsTab", "Modify") and 
-            hostName != "" and hostIP != ""):
+            hostName and hostIP):
             self.treeViewHOSTMode.setItem(row, 0, QStandardItem(hostName))
             self.treeViewHOSTMode.setItem(row, 1, QStandardItem(hostIP))
             self.treeViewHOST.setCurrentIndex(self.treeViewHOSTMode.index(row, 0))
@@ -214,23 +215,22 @@ class dnsTab(QWidget):
             self.lineEditHostName.clear()
 
     def ongroupButtonDns(self, e):
-        dnsServer      = self.lineEditDNS.text()
+        dnsServer = self.lineEditDNS.text()
         dnsServerCount = self.treeViewDNSMode.rowCount()
-        if (dnsServerCount == 0 and 
-            e.text() == self.translate("dnsTab", "Add") and 
-            dnsServer != ""):
+        if (not dnsServerCount and 
+            e.text() == self.translate("dnsTab", "Add") and dnsServer):
             self.treeViewDNSMode.appendRow(QStandardItem(dnsServer))
-            self.treeViewDNS.setCurrentIndex(self.treeViewDNSMode.index(0,0))
+            self.treeViewDNS.setCurrentIndex(self.treeViewDNSMode.index(0, 0))
             self.lineEditDNS.clear()
             return
-        elif (dnsServerCount == 0 and 
+        elif (not dnsServerCount and 
               e.text() == self.translate("dnsTab", "Delete")): return
-        elif (dnsServerCount == 0 and 
+        elif (not dnsServerCount and 
               e.text() == self.translate("dnsTab", "Add") and
-               dnsServer == ""): return
+               not dnsServer): return
         
         itemSelection = self.treeViewDNS.selectionModel()
-        rowCurrent    = itemSelection.selectedIndexes()[0]
+        rowCurrent = itemSelection.selectedIndexes()[0]
         row = rowCurrent.row()
         
         dnsServers = []
@@ -239,7 +239,7 @@ class dnsTab(QWidget):
 
         if (e.text() == self.translate("dnsTab", "Add")):
             dnsServer = self.lineEditDNS.text()
-            if ((dnsServer in dnsServers) or (dnsServer == "")): return
+            if ((dnsServer in dnsServers) or (not dnsServer)): return
             self.treeViewDNSMode.appendRow(QStandardItem(dnsServer))
             self.treeViewDNS.setCurrentIndex(self.treeViewDNSMode.index(dnsServerCount, 0))
             self.lineEditDNS.clear()
@@ -247,10 +247,10 @@ class dnsTab(QWidget):
             self.treeViewDNSMode.removeRow(row)
             self.lineEditDNS.clear()
     
-    def settingDnsTabFromJSONFile(self, dnsJSONFile = {}, openFromJSONFile = False):
+    def settingDnsTabFromJSONFile(self, dnsJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         
-        if (dnsJSONFile == None): dnsJSONFile = {}
+        if (not dnsJSONFile): dnsJSONFile = {}
 
         try:
             dnsJSONFile["hosts"]
@@ -268,7 +268,7 @@ class dnsTab(QWidget):
                                 "localhost"
                                 ]
         
-        dnsCount  = len(dnsJSONFile["servers"])
+        dnsCount = len(dnsJSONFile["servers"])
         hostCount = len(dnsJSONFile["hosts"]) 
         
         if (dnsCount > 0):
@@ -276,7 +276,7 @@ class dnsTab(QWidget):
             for i in range(dnsCount):
                 dnsServer = QStandardItem(str(dnsJSONFile["servers"][i]))
                 self.treeViewDNSMode.appendRow(dnsServer)
-            self.treeViewDNS.setCurrentIndex(self.treeViewDNSMode.index(0,0))
+            self.treeViewDNS.setCurrentIndex(self.treeViewDNSMode.index(0, 0))
         
         if (hostCount > 0):
             self.treeViewHOSTMode.setRowCount(0)
@@ -286,7 +286,7 @@ class dnsTab(QWidget):
             self.treeViewHOST.setCurrentIndex(self.treeViewHOSTMode.index(0, 0))
 
     def createDnsJSONFile(self):
-        dnsCount  = self.treeViewDNSMode.rowCount()
+        dnsCount = self.treeViewDNSMode.rowCount()
         hostCount = self.treeViewHOSTMode.rowCount()
         dnsJSONFile = {}
         if (dnsCount > 0):
@@ -296,14 +296,15 @@ class dnsTab(QWidget):
         if (hostCount > 0):
             dnsJSONFile["hosts"] = {}
             for i in range(hostCount):
-                ### there have a problem if domain have multiple ip addresses. json can not use Duplicate key
+                # there have a problem if domain have multiple ip addresses. json can not use Duplicate key
                 dnsJSONFile["hosts"][self.treeViewHOSTMode.item(i, 0).text()] = self.treeViewHOSTMode.item(i, 1).text()
 
         return dnsJSONFile
     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createDnsJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createDnsJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

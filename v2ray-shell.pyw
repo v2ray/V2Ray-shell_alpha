@@ -15,7 +15,7 @@ class runV2Rayshell(Frame):
 index-url = https://pypi.douban.com/simple/
 trusted-host = pypi.douban.com
 """
-        if (self.pyqt5 == False):
+        if (not self.pyqt5):
             self.ui()
         else:
             self.ui()
@@ -52,7 +52,7 @@ trusted-host = pypi.douban.com
         name = "pip.ini"
         home_path = "{}/pip".format(str(Path.home()))
         file_path = "{}/{}".format(home_path, name)
-        if Path(home_path).is_dir() == False:
+        if not Path(home_path).is_dir():
             Path(home_path).mkdir()
 
         if Path(home_path).is_dir():

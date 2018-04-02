@@ -10,7 +10,7 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
@@ -18,8 +18,10 @@ if __name__ == "__main__":
 from bridgehouse.editMap.port import (inboundPanel, outboundPanel, logbook, openV2rayJSONFile, treasureChest)
 from bridgehouse.editMap import (logTAB, dnsTAB, transportTAB, routingTAB, policyTAB)
 
+
 class nauticalChartPanel(QDialog):
-    def __init__(self, filePath = False):
+
+    def __init__(self, filePath=False):
         super().__init__()
         self.configJSONFile = {
                             "log": {},
@@ -48,40 +50,40 @@ class nauticalChartPanel(QDialog):
         hboxButton.addWidget(btnSave)
         hboxButton.addWidget(btnExit)
 
-        self.inbound  = inboundPanel.InboundPanel(self.treasureChest)
+        self.inbound = inboundPanel.InboundPanel(self.treasureChest)
         self.outbound = outboundPanel.OutboundPanel(self.treasureChest)
 
         tabWidgetConfigurePanel = QTabWidget()
         tabWidgetConfigurePanel.addTab(
-            self.inbound.createInboundPanel(), 
+            self.inbound.createInboundPanel(),
             self.translate("nauticalChartPanel", "Inbound"))
         tabWidgetConfigurePanel.addTab(
-            self.outbound.createOutboundPanel(), 
+            self.outbound.createOutboundPanel(),
             self.translate("nauticalChartPanel", "Outbound"))
         
         self.transportTAB = transportTAB.transportTab()
         tabWidgetConfigurePanel.addTab(
-            self.transportTAB.createTransportPanel(), 
+            self.transportTAB.createTransportPanel(),
             self.translate("nauticalChartPanel", "Transport Setting"))
         
         self.dnsTAB = dnsTAB.dnsTab()
         tabWidgetConfigurePanel.addTab(
-            self.dnsTAB.createDnsTab(), 
+            self.dnsTAB.createDnsTab(),
             self.translate("nauticalChartPanel", "DNS Server"))
         
         self.routingTAB = routingTAB.routingTab()
         tabWidgetConfigurePanel.addTab(
-            self.routingTAB.createRoutingTab(), 
+            self.routingTAB.createRoutingTab(),
             self.translate("nauticalChartPanel", "Router Setting"))
         
         self.policyTAB = policyTAB.policyTab(self.treasureChest)
         tabWidgetConfigurePanel.addTab(
-            self.policyTAB.createPolicyTab(), 
+            self.policyTAB.createPolicyTab(),
             self.translate("nauticalChartPanel", "Policy"))
         
         self.logTAB = logTAB.logTab()
         tabWidgetConfigurePanel.addTab(
-            self.logTAB.createLogTab(), 
+            self.logTAB.createLogTab(),
             self.translate("nauticalChartPanel", "Log Files"))
         
         vboxConfigure = QVBoxLayout()
@@ -90,9 +92,9 @@ class nauticalChartPanel(QDialog):
         self.ScrollLayout(vboxConfigure)
         
         if (v2rayshellDebug):
-            self.__debugBtn     = QPushButton("__debugTest", self)
+            self.__debugBtn = QPushButton("__debugTest", self)
             self.__debugRefresh = QPushButton("__RefreshTest", self)
-            self.__printTags    = QPushButton("__PrintTags", self)
+            self.__printTags = QPushButton("__PrintTags", self)
             self.__printAllLevels = QPushButton("__PrintAllLevels", self)
             self.__printAllEmails = QPushButton("__PrintAllEmails", self)
             
@@ -116,7 +118,7 @@ class nauticalChartPanel(QDialog):
 
         if (self.filePath):
             openV2rayJSONFile.openV2rayJSONFile(self.filePath, self.treasureChest).initboundJSONData()
-            self.settingv2rayshellPanelFromJSONFile(openFromJSONFile = True)
+            self.settingv2rayshellPanelFromJSONFile(openFromJSONFile=True)
         
         self.createPanelSignals()
 
@@ -131,7 +133,7 @@ class nauticalChartPanel(QDialog):
             self.savenauticalChart(self.createv2rayJSONFile())
     
     def savenauticalChart(self, JSONData):
-        JSONData = json.dumps(JSONData, indent = 4, sort_keys = False)
+        JSONData = json.dumps(JSONData, indent=4, sort_keys=False)
         options = QFileDialog.Options()
         filePath, _ = QFileDialog.getSaveFileName(self,
                                                   self.translate("nauticalChartPanel", "Save V2Ray config.json File"),
@@ -141,67 +143,67 @@ class nauticalChartPanel(QDialog):
                                                   json file (*.json);;
                                                   All Files (*)
                                                   """,
-                                                  options = options)
+                                                  options=options)
         if (filePath):
-            openV2rayJSONFile.openV2rayJSONFile().saveTextdata(filePath = filePath, 
-                                                               data     = JSONData)
+            openV2rayJSONFile.openV2rayJSONFile().saveTextdata(filePath=filePath,
+                                                               data=JSONData)
     
-    def settingv2rayshellPanelFromJSONFile(self, openFromJSONFile = False):
+    def settingv2rayshellPanelFromJSONFile(self, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         if (openFromJSONFile):
             self.inbound.refreshInboundPaneltableWidget()
             self.outbound.refreshOutboundPaneltableWidget()
             self.routingTAB.settingRoutingTABFromJSONFile(
-                routingJSONFile = self.treasureChest.getRouting(), openFromJSONFile = True)
+                routingJSONFile=self.treasureChest.getRouting(), openFromJSONFile=True)
             self.logTAB.settingLogTabFromJSONFile(
-                logJSONFile = self.treasureChest.getLog(), openFromJSONFile = True)
+                logJSONFile=self.treasureChest.getLog(), openFromJSONFile=True)
             tansportJSONData = self.treasureChest.getTransport()
             if (tansportJSONData):
                 self.transportTAB.settingtransportPanelFromJSONFile(
-                    transportJSONFile = tansportJSONData, openFromJSONFile = True)
+                    transportJSONFile=tansportJSONData, openFromJSONFile=True)
                 self.transportTAB.groupTransportPanel.setChecked(True)
             else:
                 pass
             self.dnsTAB.settingDnsTabFromJSONFile(
-                dnsJSONFile = self.treasureChest.getDns(), openFromJSONFile = True)
+                dnsJSONFile=self.treasureChest.getDns(), openFromJSONFile=True)
             self.policyTAB.settingPolicyTabFromJSONFile(
-                policyJSONFile = self.treasureChest.getPolicy())
+                policyJSONFile=self.treasureChest.getPolicy())
 
     def createv2rayJSONFile(self):
         self.treasureChest.setDns(self.dnsTAB.createDnsJSONFile())
         self.treasureChest.setLog(self.logTAB.createLogJSONFile())
         self.treasureChest.setRouting(self.routingTAB.createRoutingJSONFile())
-        self.treasureChest.setPolicy(JSONDataPolicy = self.policyTAB.createPolicyJSONFile())
+        self.treasureChest.setPolicy(JSONDataPolicy=self.policyTAB.createPolicyJSONFile())
         if (self.transportTAB.groupTransportPanel.isChecked()):
             self.treasureChest.setTransport(self.transportTAB.createtransportSettingJSONFile())
         else:
-            self.treasureChest.setTransport(JSONDataTransport = False)
+            self.treasureChest.setTransport(JSONDataTransport=False)
         
         v2rayJSONFile = self.treasureChest.exportV2rayJSONFile()
     
         return v2rayJSONFile
         
     def __debugTest(self):
-        print(json.dumps(self.createv2rayJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createv2rayJSONFile(), indent=4, sort_keys=False))
         
     def __debugRefreshTest(self):
         self.inbound.refreshInboundPaneltableWidget()
         self.outbound.refreshOutboundPaneltableWidget()
         self.routingTAB.settingRoutingTABFromJSONFile(
-            routingJSONFile = self.treasureChest.getRouting(), openFromJSONFile = True)
+            routingJSONFile=self.treasureChest.getRouting(), openFromJSONFile=True)
         self.logTAB.settingLogTabFromJSONFile(
-            logJSONFile = self.treasureChest.getLog(), openFromJSONFile = True)
+            logJSONFile=self.treasureChest.getLog(), openFromJSONFile=True)
         tansportJSONData = self.treasureChest.getTransport()
         if (tansportJSONData):
             self.transportTAB.settingtransportPanelFromJSONFile(
-                transportJSONFile = tansportJSONData, openFromJSONFile = True)
+                transportJSONFile=tansportJSONData, openFromJSONFile=True)
             self.transportTAB.groupBoxStreamSetting.setChecked(True)
         else:
             pass
         self.dnsTAB.settingDnsTabFromJSONFile(
-            dnsJSONFile = self.treasureChest.getDns(), openFromJSONFile = True)
+            dnsJSONFile=self.treasureChest.getDns(), openFromJSONFile=True)
         self.policyTAB.settingPolicyTabFromJSONFile(
-            policyJSONFile = self.treasureChest.getPolicy())
+            policyJSONFile=self.treasureChest.getPolicy())
         
     def ScrollLayout(self, layout):
         box = QVBoxLayout(self)
@@ -215,6 +217,7 @@ class nauticalChartPanel(QDialog):
         
         scrollLayout.addLayout(layout)
         scroll.setWidget(scrollContent)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

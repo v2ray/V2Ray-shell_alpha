@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-from PyQt5.QtCore import (QObject, pyqtSignal, QFile, QFileInfo, 
+from PyQt5.QtCore import (QObject, pyqtSignal, QFile, QFileInfo,
                           QIODevice, Qt, QCoreApplication, QDir,
                           qDebug)
 from PyQt5.QtWidgets import QDialog, QMessageBox, QApplication
 from PyQt5.QtNetwork import QNetworkProxy
 
 import copy, sys, json, codecs
+
 
 class bridgetreasureChest(QObject):
     save = pyqtSignal()
@@ -72,13 +73,13 @@ class bridgetreasureChest(QObject):
             "silentInstall": True
             }
 
-        Qt.Everyday    = 8
-        self.daysoftheweek = (None, 
-                              self.translate("v2rayUpdatePanel", "Every Monday"), 
-                              self.translate("v2rayUpdatePanel", "Every Tuesday"), 
-                              self.translate("v2rayUpdatePanel", "Every Wednesday"), 
-                              self.translate("v2rayUpdatePanel", "Every Thursday"), 
-                              self.translate("v2rayUpdatePanel", "Every Friday"), 
+        Qt.Everyday = 8
+        self.daysoftheweek = (None,
+                              self.translate("v2rayUpdatePanel", "Every Monday"),
+                              self.translate("v2rayUpdatePanel", "Every Tuesday"),
+                              self.translate("v2rayUpdatePanel", "Every Wednesday"),
+                              self.translate("v2rayUpdatePanel", "Every Thursday"),
+                              self.translate("v2rayUpdatePanel", "Every Friday"),
                               self.translate("v2rayUpdatePanel", "Every Saturday"),
                               self.translate("v2rayUpdatePanel", "Every Sunday"),
                               self.translate("v2rayUpdatePanel", "Every Day"))
@@ -103,32 +104,32 @@ class bridgetreasureChest(QObject):
         self.configFiles = []
         self.openFile = None
         self.fileName = None
-        self.init     = False
-        self.connectionCheckenable   = False
+        self.init = False
+        self.connectionCheckenable = False
         self.connectionCheckinterval = False
-        self.connectionChecktimeout  = False
-        self.connectionTrytimes      = False
-        self.connectionConnect       = False
-        self.updateEnable            = False
-        self.updateScheduledate      = False
-        self.updateScheduletime      = False
-        self.updateinstallOption     = False
-        self.updatedownloadFile      = False
-        self.updatesilentInstall     = False
-        self.proxyProtocol           = False
-        self.proxyAddres             = False
-        self.proxyPort               = False
-        self.allLanguages            = {}
-        self.latestReleaseV2rayCore  = False
+        self.connectionChecktimeout = False
+        self.connectionTrytimes = False
+        self.connectionConnect = False
+        self.updateEnable = False
+        self.updateScheduledate = False
+        self.updateScheduletime = False
+        self.updateinstallOption = False
+        self.updatedownloadFile = False
+        self.updatesilentInstall = False
+        self.proxyProtocol = False
+        self.proxyAddres = False
+        self.proxyPort = False
+        self.allLanguages = {}
+        self.latestReleaseV2rayCore = False
         self.latestReleaseV2rayCoreDownloadPath = False
 
-        self.morning   = (5, 6, 7, 8, 9, 10, 11, 12)
+        self.morning = (5, 6, 7, 8, 9, 10, 11, 12)
         self.afternoon = (13, 14, 15, 16, 17)
-        self.evening   = (18, 19, 20, 21)
-        self.night     = (22, 23, 24, 0, 1, 2, 3, 4)
+        self.evening = (18, 19, 20, 21)
+        self.night = (22, 23, 24, 0, 1, 2, 3, 4)
 
         self.msgBox = QMessageBox()
-        self.fly = QApplication.desktop().screen().rect().center()-self.msgBox.rect().center()
+        self.fly = QApplication.desktop().screen().rect().center() - self.msgBox.rect().center()
 
         self.initbridgeJSONData(False)
         self.save.connect(self.saveV2raycoreJSONFile)
@@ -245,11 +246,11 @@ class bridgetreasureChest(QObject):
     def setUpdateSchedule(self, update):
         self.update = {}
         self.update = copy.deepcopy(update)
-        self.updateEnable        = self.update["enable"]
-        self.updateScheduledate  = self.update["schedule"]["date"]
-        self.updateScheduletime  = self.update["schedule"]["time"]
+        self.updateEnable = self.update["enable"]
+        self.updateScheduledate = self.update["schedule"]["date"]
+        self.updateScheduletime = self.update["schedule"]["time"]
         self.updateinstallOption = self.update["install"]
-        self.updatedownloadFile  = self.update["downloadFile"]
+        self.updatedownloadFile = self.update["downloadFile"]
         self.updatesilentInstall = self.update["silentInstall"]
 
     def updateisEnable(self):
@@ -372,11 +373,11 @@ class bridgetreasureChest(QObject):
     def setConnection(self, connection):
         self.preferences["connection"] = {}
         self.preferences["connection"] = copy.deepcopy(connection)
-        self.connectionCheckenable   = self.preferences["connection"]["enable"]
+        self.connectionCheckenable = self.preferences["connection"]["enable"]
         self.connectionCheckinterval = self.preferences["connection"]["interval"]
-        self.connectionChecktimeout  = self.preferences["connection"]["timeout"]
-        self.connectionTrytimes      = self.preferences["connection"]["trytimes"]
-        self.connectionConnect       = self.preferences["connection"]["connect"]
+        self.connectionChecktimeout = self.preferences["connection"]["timeout"]
+        self.connectionTrytimes = self.preferences["connection"]["trytimes"]
+        self.connectionConnect = self.preferences["connection"]["connect"]
     
     def connectionisSwitch(self):
         if self.connectionConnect == "switch":
@@ -424,11 +425,11 @@ class bridgetreasureChest(QObject):
         Night     :  22:00 to 04:00 (22, 23, 0, 1, 2, 3, 4)
         """
         return (self.translate("updateV2ray", "Morning"),
-                self.translate("updateV2ray", "Afternoon"), 
-                self.translate("updateV2ray", "Evening"), 
+                self.translate("updateV2ray", "Afternoon"),
+                self.translate("updateV2ray", "Evening"),
                 self.translate("updateV2ray", "Night"))
     
-    def initbridgeJSONData(self, v2rayshellConfigFileName = False):
+    def initbridgeJSONData(self, v2rayshellConfigFileName=False):
         """
         open v2rayshell config JSON File. save it to memory.
         """
@@ -443,24 +444,24 @@ class bridgetreasureChest(QObject):
         
         self.openFile.open(QIODevice.ReadOnly | QIODevice.Text)
         if self.openFile.error() != self.openFile.NoError:
-            self.msgBox.information(QDialog().move(self.fly), 
+            self.msgBox.information(QDialog().move(self.fly),
                                "{}".format(self.fileName),
                                self.translate("bridgetreasureChest", "Unable to open the file {}:  {}.").format(
                                    self.v2rayshellConfigFileName,
                                    self.openFile.errorString()))
             self.msgBox.move(
-                QApplication.desktop().screen().rect().center()-self.msgBox.rect().center())
+                QApplication.desktop().screen().rect().center() - self.msgBox.rect().center())
             self.openFile = None
             return
         JSONData = str(self.openFile.readAll(), "utf-8")
         try:
             JSONData = json.loads(JSONData)
         except ValueError as e:
-            self.msgBox.information(QDialog().move(self.fly), 
+            self.msgBox.information(QDialog().move(self.fly),
                                self.translate("bridgetreasureChest", "Parse JSON Data Error"),
                                self.translate("bridgetreasureChest", "Unable to parse {}:  error:{}.").format(self.fileName, e))
             self.msgBox.move(
-                QApplication.desktop().screen().rect().center()-self.msgBox.rect().center())
+                QApplication.desktop().screen().rect().center() - self.msgBox.rect().center())
             self.openFile = None
             JSONData = None
             return
@@ -516,7 +517,6 @@ class bridgetreasureChest(QObject):
                 JSONData["preferences"]["connection"]["enable"]
             except Exception:
                 JSONData["preferences"]["connection"]["enable"] = False
-                
                 
             try:
                 JSONData["preferences"]["connection"]["connect"]
@@ -596,7 +596,7 @@ class bridgetreasureChest(QObject):
     def saveV2raycoreJSONFile(self):
         JSONData = {}
         JSONData["preferences"] = copy.deepcopy(self.preferences)
-        JSONData["update"]      = copy.deepcopy(self.update)
+        JSONData["update"] = copy.deepcopy(self.update)
         JSONData["configFiles"] = copy.deepcopy(self.configFiles)
         
         outFile = QFileInfo(self.v2rayshellConfigFileName)
@@ -609,19 +609,19 @@ class bridgetreasureChest(QObject):
         
         outFile.open(QIODevice.WriteOnly | QIODevice.Text)
         if outFile.error() != outFile.NoError:
-            self.msgBox.information(QDialog().move(self.fly), 
-                               "{}".format(fileName), 
-                               self.translate("bridgetreasureChest", "Unable to open the file {}:  {}.").format(fileName, 
+            self.msgBox.information(QDialog().move(self.fly),
+                               "{}".format(fileName),
+                               self.translate("bridgetreasureChest", "Unable to open the file {}:  {}.").format(fileName,
                                                                          outFile.errorString()))
             outFile = None
             return False
         
-        outFile.write(codecs.encode(json.dumps(JSONData, indent = 4, sort_keys = False), "utf-8"))
+        outFile.write(codecs.encode(json.dumps(JSONData, indent=4, sort_keys=False), "utf-8"))
         
         if outFile.error() != outFile.NoError:
-            self.msgBox.information(QDialog().move(self.fly), 
-                               "{}".format(fileName), 
-                               self.translate("bridgetreasureChest", "Unable to save the file {}:  {}.").format(fileName, 
+            self.msgBox.information(QDialog().move(self.fly),
+                               "{}".format(fileName),
+                               self.translate("bridgetreasureChest", "Unable to save the file {}:  {}.").format(fileName,
                                                                          outFile.errorString()))
             outFile = None
             return False
@@ -651,8 +651,8 @@ class bridgetreasureChest(QObject):
     
     def setV2raycoreconfigFiles(self, enable, hostName, configFileName):
         config = {}
-        config["enable"]         = enable
-        config["hostName"]       = hostName
+        config["enable"] = enable
+        config["hostName"] = hostName
         config["configFileName"] = configFileName
         self.configFiles.append(copy.deepcopy(config))
     
@@ -661,6 +661,7 @@ class bridgetreasureChest(QObject):
             return self.configFiles
         else: 
             return False
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

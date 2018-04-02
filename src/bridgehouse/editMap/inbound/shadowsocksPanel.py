@@ -11,14 +11,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class InboundShadowsocksPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.inboundShadowsocksJSONFile = {
@@ -89,10 +91,10 @@ class InboundShadowsocksPanel(QWidget):
     def createShadowsocksPanelSignals(self):
         pass
     
-    def settingInboundShadowsocksPanelFromJSONFile(self, inboundShadowsocksJSONFile = {}, openFromJSONFile = False):
+    def settingInboundShadowsocksPanelFromJSONFile(self, inboundShadowsocksJSONFile=None, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         
-        if (inboundShadowsocksJSONFile == None): inboundShadowsocksJSONFile = {}
+        if (not inboundShadowsocksJSONFile): inboundShadowsocksJSONFile = {}
 
         try:
             inboundShadowsocksJSONFile["email"]
@@ -148,13 +150,13 @@ class InboundShadowsocksPanel(QWidget):
             pass
         
     def createInboundShadowsocksJSONFile(self):
-        inboundShadowsocksJSONFile= {}
-        inboundShadowsocksJSONFile["email"]    = self.lineEditInboundShadowsocksEmail.text()
-        inboundShadowsocksJSONFile["method"]   = self.comboBoxInboundShadowsocksMethod.currentText()
+        inboundShadowsocksJSONFile = {}
+        inboundShadowsocksJSONFile["email"] = self.lineEditInboundShadowsocksEmail.text()
+        inboundShadowsocksJSONFile["method"] = self.comboBoxInboundShadowsocksMethod.currentText()
         inboundShadowsocksJSONFile["password"] = self.lineEditInboundShadowsocksPassowrd.text()
-        inboundShadowsocksJSONFile["udp"]      = self.checkBoxInboundShadowsocksUDP.isChecked()
-        inboundShadowsocksJSONFile["level"]    = self.spinBoxInboundShadowsocksLevel.value()
-        inboundShadowsocksJSONFile["ota"]      = self.checkBoxInboundShadowsocksOTA.isChecked()
+        inboundShadowsocksJSONFile["udp"] = self.checkBoxInboundShadowsocksUDP.isChecked()
+        inboundShadowsocksJSONFile["level"] = self.spinBoxInboundShadowsocksLevel.value()
+        inboundShadowsocksJSONFile["ota"] = self.checkBoxInboundShadowsocksOTA.isChecked()
         
         try:
             self.treasureChest.addLevel(self.spinBoxInboundShadowsocksLevel.value())
@@ -174,7 +176,8 @@ class InboundShadowsocksPanel(QWidget):
         
     def __debugTest(self):
         import json
-        print(json.dumps(self.createInboundShadowsocksJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createInboundShadowsocksJSONFile(), indent=4, sort_keys=False))
+
         
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

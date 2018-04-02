@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtWidgets import (QDialog, QApplication, QPushButton, QGridLayout,
-                             QLabel, QLineEdit, QHBoxLayout, QVBoxLayout, 
+                             QLabel, QLineEdit, QHBoxLayout, QVBoxLayout,
                              QFileDialog, QGroupBox, QRadioButton, QSpinBox,
                              QComboBox, QCheckBox, QToolTip)
 from PyQt5.QtCore import (QSize, QFileInfo, Qt, QCoreApplication,
-                          QProcess, QIODevice, QProcessEnvironment,
-                          qDebug, QDir, QFile)
+                          QIODevice, QDir, QFile)
 from PyQt5.QtGui import QCursor
 
 import sys, os, codecs
-
 
 is_win = sys.platform.startswith('win')
 is_darwin = sys.platform == 'darwin'  # Mac OS X
@@ -33,7 +31,9 @@ if __name__ == "__main__":
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
 
+
 class startUp():
+
     def __init__(self, striptName=False):
         self.striptName = sys.argv[0]
         if striptName:
@@ -181,9 +181,11 @@ StartupNotify=false
         outFile.close()
 
         return True
+
     
 class bridgepreferencesPanel(QDialog):
-    def __init__(self, bridgetreasureChest = False):
+
+    def __init__(self, bridgetreasureChest=False):
         super().__init__()
 
         self.__preferencesJSONFile = {
@@ -191,8 +193,8 @@ class bridgepreferencesPanel(QDialog):
     				                "v2ray-coreFilePath": "v2ray",
                                     "connection":{
                                         "enable": True,
-                                        "connect": "switch", # reconnect/switch
-                                        "interval": 60,      # seconds
+                                        "connect": "switch",  # reconnect/switch
+                                        "interval": 60,  # seconds
                                         "timeout" : 3,
                                         "trytimes": 3
                                     },
@@ -208,18 +210,18 @@ class bridgepreferencesPanel(QDialog):
         self.starup = startUp()
         
     def createpreferencesPanel(self):
-        self.labelV2raycoreVersion   = QLabel(
+        self.labelV2raycoreVersion = QLabel(
             self.translate("bridgepreferencesPanel", "v2ray core version is: "))
         self.labelv2raycorecurrentVersion = QLabel() 
-        self.labelV2raycoreFilePath  = QLabel(
-            self.translate("bridgepreferencesPanel","v2ray core File Path: "))
-        self.lineEditFilePath        = QLineEdit()
+        self.labelV2raycoreFilePath = QLabel(
+            self.translate("bridgepreferencesPanel", "v2ray core File Path: "))
+        self.lineEditFilePath = QLineEdit()
         self.buttonOpenV2raycoreFile = QPushButton(
             self.translate("bridgepreferencesPanel", "Open"))
         
-        self.buttonpreferenceApply   = QPushButton(
+        self.buttonpreferenceApply = QPushButton(
             self.translate("bridgepreferencesPanel", "Apply and Close"))
-        self.buttonpreferenceCancel  = QPushButton(
+        self.buttonpreferenceCancel = QPushButton(
             self.translate("bridgepreferencesPanel", "Cancel"))
         hboxbutton = QHBoxLayout()
         hboxbutton.addStretch()
@@ -342,7 +344,7 @@ class bridgepreferencesPanel(QDialog):
         if not self.starup.setStartUp(True if self.comboxStarup.isChecked() else False):
             self.comboxStarup.setChecked(False)
             QToolTip.showText(QCursor.pos(),
-                              self.translate("bridgepreferencesPanel", "Setting startup failed..."), 
+                              self.translate("bridgepreferencesPanel", "Setting startup failed..."),
                               self.comboxStarup)
 
     def onbuttonpreferenceApply(self):
@@ -361,7 +363,7 @@ class bridgepreferencesPanel(QDialog):
         self.bridgetreasureChest.setStartup(True if self.comboxStarup.isChecked() else False)
 
         connection["interval"] = self.spinBoxInterval.value()
-        connection["timeout"]  = self.spinBoxCheckProxyTimeout.value()
+        connection["timeout"] = self.spinBoxCheckProxyTimeout.value()
         connection["trytimes"] = self.spinboxTrytimes.value()
 
         self.bridgetreasureChest.setLanguage(self.comboBoxLanguage.currentText())
@@ -375,7 +377,7 @@ class bridgepreferencesPanel(QDialog):
                                                       self.translate("bridgepreferencesPanel", "Open V2ray execute File"),
                                                       "",
                                                       "All File (*)",
-                                                      options = options)
+                                                      options=options)
         if (filePath):
             self.lineEditFilePath.setText(filePath)
 
@@ -383,11 +385,11 @@ class bridgepreferencesPanel(QDialog):
         self.close()
 
     def settingv2rayshellpreferencesPanel(self):
-        version      = self.bridgetreasureChest.getV2raycoreVersion()
-        filePath     = self.bridgetreasureChest.getV2raycoreFilePath()
+        version = self.bridgetreasureChest.getV2raycoreVersion()
+        filePath = self.bridgetreasureChest.getV2raycoreFilePath()
         allLanguages = self.bridgetreasureChest.getAllLanguage()
-        language     = self.bridgetreasureChest.getLanguage()
-        startup      = self.bridgetreasureChest.getStartup()
+        language = self.bridgetreasureChest.getLanguage()
+        startup = self.bridgetreasureChest.getStartup()
 
         if version:
             self.labelv2raycorecurrentVersion.setText(version)
@@ -448,6 +450,7 @@ class bridgepreferencesPanel(QDialog):
                 self.spinboxTrytimes.setValue(connection["trytimes"])
             except Exception:
                 self.spinboxTrytimes.setValue(3)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

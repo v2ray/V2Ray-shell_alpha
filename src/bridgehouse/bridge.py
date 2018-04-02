@@ -17,7 +17,7 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = False
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-2]))
@@ -87,7 +87,7 @@ class bridgePanel(QMainWindow, QObject):
         self.bridgetreasureChest = bridgetreasureChest.bridgetreasureChest()
         self.app = app
         self.translate = QCoreApplication.translate
-        self.__v2rayshellVersion = "20180302"
+        self.__v2rayshellVersion = "20180402"
         self.__windowTitile = "V2Ray-shell" + " " + self.__v2rayshellVersion
         self.runv2raycore = False
         self.iconStart = QIcon()
@@ -347,7 +347,7 @@ class bridgePanel(QMainWindow, QObject):
                 else:
                     option = ""
                 filePath = self.bridgetreasureChest.getV2raycoreFilePath()
-                if (filePath == False or filePath == ""):
+                if (not filePath):
                     filePath = "v2ray"
                 self.runv2raycore = runV2raycore.runV2raycore(
                     outputTextEdit      = self.texteditBridge, 
@@ -453,7 +453,7 @@ class bridgePanel(QMainWindow, QObject):
             self.proxyTryConnect.setresetTime(60, 3)
         
         if (self.bridgetreasureChest.connectionisSwitch()):
-            ### swap next row's configFile
+            # swap next row's configFile
             buttons = self.radioButtonGroup.buttons()
             buttonsNumber = len(buttons)
             activeRow = False
@@ -469,7 +469,7 @@ class bridgePanel(QMainWindow, QObject):
                         activeRow = i + 1
                     break
     
-            ### change the row icons
+            # change the row icons
             for i in range(buttonsNumber):
                 widget = self.tableWidgetBridge.cellWidget(i, 0)
                 if (widget):
@@ -631,14 +631,14 @@ class bridgePanel(QMainWindow, QObject):
 
     def onradioButtonClicked(self, e):
         rowCount = self.tableWidgetBridge.rowCount()
-        #radioButtonClickedRow = 0
+        # radioButtonClickedRow = 0
         for i in range(rowCount):
             widget = self.tableWidgetBridge.cellWidget(i, 0)
             if (widget):
                 widget.setIcon(self.iconStop)
                 widget.setIconSize(self.__iconSize)
                 if (widget.isChecked()):
-                    #radioButtonClickedRow = i
+                    # radioButtonClickedRow = i
                     pass
         e.setIcon(self.iconStart)
         e.setIconSize(self.__iconSize)
@@ -697,7 +697,7 @@ class bridgePanel(QMainWindow, QObject):
         v2rayConfigFiles = self.bridgetreasureChest.getV2raycoreconfigFiles()
         if not v2rayConfigFiles:return
         v2rayConfigFilesNumber = len(v2rayConfigFiles)
-        if (v2rayConfigFilesNumber > 0):
+        if (v2rayConfigFilesNumber):
             self.tableWidgetBridge.setRowCount(0)
             for i in range(v2rayConfigFilesNumber):
                 try:

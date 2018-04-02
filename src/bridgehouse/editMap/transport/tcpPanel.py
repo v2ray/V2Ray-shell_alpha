@@ -10,14 +10,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
         
 from bridgehouse.editMap.transport import logbook
 
+
 class TcpPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.tcpJSONFile = {
@@ -35,7 +37,6 @@ class TcpPanel(QWidget):
         self.btnHttpHeaderTypeClear = QPushButton(
             self.translate("TcpPanel", "Clear"), self)
         self.textHttpHeaderType = QTextEdit()
-    
         
         self.comboxHttpHeaderType.addItems(self.httpHeader)
         self.btnHttpHeaderTypeClear.hide()       
@@ -97,10 +98,10 @@ class TcpPanel(QWidget):
             return -1, e
         return 0, data
     
-    def settingtcpPanelFromJSONFile(self, tcpJSONFile, openFromJSONFile = False):
+    def settingtcpPanelFromJSONFile(self, tcpJSONFile, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)  
         
-        if (tcpJSONFile == None): 
+        if (not tcpJSONFile): 
             tcpJSONFile = {}
             self.groupBoxTCPSetting.setChecked(False)
             self.textHttpHeaderType.clear()
@@ -121,12 +122,12 @@ class TcpPanel(QWidget):
 
         if (tcpJSONFile["header"]["type"] == "http"):
             self.textHttpHeaderType.setText(
-                json.dumps(tcpJSONFile["header"], indent = 4, sort_keys = False))
+                json.dumps(tcpJSONFile["header"], indent=4, sort_keys=False))
             self.comboxHttpHeaderType.setCurrentText("http")
         elif (tcpJSONFile["header"]["type"] == "none"):
             self.textHttpHeaderType.clear()
         else:
-            ### TODO pop a error message
+            # TODO pop a error message
             pass
         
     def createtcpSettingJSONFile(self):
@@ -140,17 +141,17 @@ class TcpPanel(QWidget):
                 tcpJSONFile["header"]["type"] = "none"
                 return tcpJSONFile
             
-            if (checkjsonfile[0] == 0):
+            if (not checkjsonfile[0]):
                 header = checkjsonfile[1]
                 http = False
                 try:
-                    ### use input text maybe no value type
+                    # use input text maybe no value type
                     http = (header["type"] == "http")
                 except KeyError:
-                    ### TODO pop a error message
+                    # TODO pop a error message
                     pass
                 except:
-                    ### TODO pop a error message
+                    # TODO pop a error message
                     pass
                 
                 if(http):
@@ -168,7 +169,8 @@ class TcpPanel(QWidget):
         self.textHttpHeaderType.clear()
     
     def __debugTest(self):
-        print(json.dumps(self.createtcpSettingJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createtcpSettingJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

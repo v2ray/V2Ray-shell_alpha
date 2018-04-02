@@ -8,14 +8,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class BlackholePanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.blackholeJSONFile = {
@@ -47,10 +49,10 @@ class BlackholePanel(QWidget):
             
         return self.groupBoxBlackhole
     
-    def settingblackholePanelFromJSONFile(self, blackholeJSONFile = {}, openFromJSONFile = False):
+    def settingblackholePanelFromJSONFile(self, blackholeJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         
-        if (blackholeJSONFile == None): blackholeJSONFile = {}
+        if (not blackholeJSONFile): blackholeJSONFile = {}
 
         try:
             blackholeJSONFile["response"]
@@ -85,7 +87,8 @@ class BlackholePanel(QWidget):
             
     def __debugTest(self):
         import json
-        print(json.dumps(self.createblackholeJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createblackholeJSONFile(), indent=4, sort_keys=False))
+
           
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

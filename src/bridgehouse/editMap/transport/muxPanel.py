@@ -8,14 +8,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.transport import logbook
 
+
 class muxPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.muxJSONFile = {
@@ -56,10 +58,10 @@ class muxPanel(QWidget):
         
         return self.groupBoxmuxSetting
     
-    def settingmuxPanelFromJSONFile(self, muxJSONFile, openFromJSONFile = False):
+    def settingmuxPanelFromJSONFile(self, muxJSONFile, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         
-        if (muxJSONFile == None): 
+        if (not muxJSONFile): 
             muxJSONFile = {}
             self.groupBoxmuxSetting.setChecked(False)
             return
@@ -86,7 +88,7 @@ class muxPanel(QWidget):
 
     def createmuxSettingJSONFile(self):
         muxJSONFile = {}
-        muxJSONFile["enabled"]     = self.groupBoxmuxSetting.isChecked()
+        muxJSONFile["enabled"] = self.groupBoxmuxSetting.isChecked()
         muxJSONFile["concurrency"] = self.spinBoxConcurrency.value()
         
         return muxJSONFile
@@ -97,7 +99,8 @@ class muxPanel(QWidget):
     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createmuxSettingJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createmuxSettingJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

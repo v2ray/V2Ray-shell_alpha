@@ -14,14 +14,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class InboundVmessPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.inboundVmessJSONFile = {
@@ -45,8 +47,8 @@ class InboundVmessPanel(QWidget):
         self.translate = QCoreApplication.translate
         
         self.labelUserVmessPanel = (
-            self.translate("InboundVmessPanel", "Email"), 
-            self.translate("InboundVmessPanel", "Level"), 
+            self.translate("InboundVmessPanel", "Email"),
+            self.translate("InboundVmessPanel", "Level"),
             self.translate("InboundVmessPanel", "AlterID"),
             self.translate("InboundVmessPanel", "UUID"))
         
@@ -58,27 +60,27 @@ class InboundVmessPanel(QWidget):
             self.translate("InboundVmessPanel", "Disable Insecure Encryption"), self)
         self.checkBoxdisableInsecureEncryption.setChecked(False)
         
-        labelEmail    = QLabel(
+        labelEmail = QLabel(
             self.translate("InboundVmessPanel", "Email: "), self)
-        self.lineEditInVmessMail   = QLineEdit()
-        labelUIID     = QLabel(
+        self.lineEditInVmessMail = QLineEdit()
+        labelUIID = QLabel(
             self.translate("InboundVmessPanel", "UUID: "), self)
-        self.lineEditInVmessUUID   = QLineEdit()
-        labelAlterID  = QLabel(
+        self.lineEditInVmessUUID = QLineEdit()
+        labelAlterID = QLabel(
             self.translate("InboundVmessPanel", "AlterID: "), self)
-        labelLevel    = QLabel(
+        labelLevel = QLabel(
             self.translate("InboundVmessPanel", "Level: "), self)
-        self.btnInVmessGenerate    = QPushButton(
+        self.btnInVmessGenerate = QPushButton(
             self.translate("InboundVmessPanel", "Generate UUID"), self)
-        self.btnInVmessChange      = QPushButton(
+        self.btnInVmessChange = QPushButton(
             self.translate("InboundVmessPanel", "Modify"), self)
-        self.btnInVmessClear       = QPushButton(
+        self.btnInVmessClear = QPushButton(
             self.translate("InboundVmessPanel", "Clear"), self)
-        self.btnInVmessAdd         = QPushButton(
+        self.btnInVmessAdd = QPushButton(
             self.translate("InboundVmessPanel", "Add"), self)
-        self.btnInVmessDelete      = QPushButton(
+        self.btnInVmessDelete = QPushButton(
             self.translate("InboundVmessPanel", "Delete"), self)
-        self.spinBoxInVmessLevel   = QSpinBox()
+        self.spinBoxInVmessLevel = QSpinBox()
         self.spinBoxInVmessAlterID = QSpinBox()
         
         self.spinBoxInVmessAlterID.setRange(0, 65535)
@@ -87,12 +89,12 @@ class InboundVmessPanel(QWidget):
         self.spinBoxInVmessAlterID.setValue(30)
         self.lineEditInVmessUUID.setInputMask("HHHHHHHH-HHHH-HHHH-HHHH-HHHHHHHHHHHH; ")
         self.comboBoxInVmessInboundTags.setView(QListView())
-        #self.comboBoxInVmessInboundTags.setStyleSheet("QComboBox {min-width: 128px; }" "QComboBox QAbstractItemView::item {min-width: 128px; }")
+        # self.comboBoxInVmessInboundTags.setStyleSheet("QComboBox {min-width: 128px; }" "QComboBox QAbstractItemView::item {min-width: 128px; }")
         
         hboxDetourTo = QHBoxLayout()
         hboxDetourTo.addWidget(labelDetourTo)
         hboxDetourTo.addWidget(self.comboBoxInVmessInboundTags)
-        #hboxDetourTo.addStretch()
+        # hboxDetourTo.addStretch()
         
         hboxID = QHBoxLayout()
         hboxID.addWidget(labelUIID)
@@ -164,10 +166,10 @@ class InboundVmessPanel(QWidget):
         return groupBoxVmessPanel
     
     def createVmessDefaultSettingPanel(self):
-        labelDefaultLevel          = QLabel(
+        labelDefaultLevel = QLabel(
             self.translate("InboundVmessPanel", "Level: "), self)
-        self.spinBoxDefaultLevel   = QSpinBox()
-        labelAlterID               = QLabel(
+        self.spinBoxDefaultLevel = QSpinBox()
+        labelAlterID = QLabel(
             self.translate("InboundVmessPanel", "AlterID: "), self)
         self.spinBoxDefaultAlterID = QSpinBox()
             
@@ -216,11 +218,11 @@ class InboundVmessPanel(QWidget):
         self.tableWidgetInVmessUser.removeRow(self.tableWidgetInVmessUser.currentRow())
 
     def ontableWidgetInVmessUserSelectionChanged(self):
-        row     = self.tableWidgetInVmessUser.currentRow()
-        mail    = self.tableWidgetInVmessUser.item(row, 0)
-        level   = self.tableWidgetInVmessUser.item(row, 1)
+        row = self.tableWidgetInVmessUser.currentRow()
+        mail = self.tableWidgetInVmessUser.item(row, 0)
+        level = self.tableWidgetInVmessUser.item(row, 1)
         alterID = self.tableWidgetInVmessUser.item(row, 2)
-        uuid    = self.tableWidgetInVmessUser.item(row, 3)
+        uuid = self.tableWidgetInVmessUser.item(row, 3)
         
         if (uuid):
             self.lineEditInVmessUUID.setText(uuid.text())
@@ -245,11 +247,11 @@ class InboundVmessPanel(QWidget):
             self.spinBoxInVmessAlterID.setValue(30)
         
     def onbtnInVmessAdd(self):
-        boolUUID = self.validateUUID4("".join(self.lineEditInVmessUUID.text().split("-")))
-        if (self.lineEditInVmessMail.text() == "" or (boolUUID == False)): return
+        if (not self.lineEditInVmessMail.text() or
+            not self.validateUUID4("".join(self.lineEditInVmessUUID.text().split("-")))): return
         
         row = self.tableWidgetInVmessUser.rowCount()
-        self.tableWidgetInVmessUser.setRowCount(row+1)  ### DO NOT use ++row, row maybe is ZERO
+        self.tableWidgetInVmessUser.setRowCount(row + 1)  # DO NOT use ++row, row maybe is ZERO
         self.tableWidgetInVmessUser.setItem(
             row, 3, QTableWidgetItem(self.lineEditInVmessUUID.text()))
         self.tableWidgetInVmessUser.setItem(
@@ -270,12 +272,12 @@ class InboundVmessPanel(QWidget):
         self.spinBoxInVmessLevel.setValue(10)
         self.lineEditInVmessMail.clear()
 
-    def settingInboundVmessPanelFromJSONFile(self, inboundVmessJSONFile = {}, openFromJSONFile = False):
+    def settingInboundVmessPanelFromJSONFile(self, inboundVmessJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         self.tableWidgetInVmessUser.setRowCount(0)
         detour = True; defaultLevelAlterID = True; client = True
         
-        if (not inboundVmessJSONFile): inboundVmessJSONFile ={}
+        if (not inboundVmessJSONFile): inboundVmessJSONFile = {}
 
         try:
             inboundVmessJSONFile["detour"]
@@ -301,7 +303,7 @@ class InboundVmessPanel(QWidget):
             inboundVmessJSONFile["default"]["alterId"] = 30
             defaultLevelAlterID = False
 
-        def settingdefaultLevelAlterID(level = 10, alterid = 30, default = True):
+        def settingdefaultLevelAlterID(level=10, alterid=30, default=True):
             self.spinBoxDefaultLevel.setValue(level)
             self.spinBoxDefaultAlterID.setValue(alterid)
             self.groupBoxDefault.setChecked(default)
@@ -319,7 +321,7 @@ class InboundVmessPanel(QWidget):
             self.checkBoxdisableInsecureEncryption.setChecked(True)    
 
         if (detour):
-            self.comboBoxInVmessInboundTags.insertItem(self.comboBoxInVmessInboundTags.currentIndex(), 
+            self.comboBoxInVmessInboundTags.insertItem(self.comboBoxInVmessInboundTags.currentIndex(),
                                                         str(inboundVmessJSONFile["detour"]["to"]))
             self.comboBoxInVmessInboundTags.setCurrentText(str(inboundVmessJSONFile["detour"]["to"]))
                 
@@ -335,13 +337,13 @@ class InboundVmessPanel(QWidget):
                 logbook.writeLog("InboundVmess Default Level and AlterID", "ValueError or TypeError", e)
                 settingdefaultLevelAlterID()
         elif (not defaultLevelAlterID):
-            settingdefaultLevelAlterID(default = False)
+            settingdefaultLevelAlterID(default=False)
             
         if (client):
             self.groupBoxClientsSetting.setChecked(True)
             clientsNumber = len(inboundVmessJSONFile["clients"])
-            clients       = inboundVmessJSONFile["clients"]
-            if (clientsNumber > 0):
+            clients = inboundVmessJSONFile["clients"]
+            if (clientsNumber):
                 self.tableWidgetInVmessUser.setRowCount(clientsNumber)
                 for i in range(clientsNumber):
                     try:
@@ -376,22 +378,22 @@ class InboundVmessPanel(QWidget):
         inboundVmessJSONFile = {}
         inboundVmessJSONFile["clients"] = []
         inboundVmessJSONFile["default"] = {}
-        inboundVmessJSONFile["detour"]  = {}
+        inboundVmessJSONFile["detour"] = {}
             
         clientsNumber = self.tableWidgetInVmessUser.rowCount()
-        if (clientsNumber > 0 and self.groupBoxClientsSetting.isChecked()):
+        if (clientsNumber and self.groupBoxClientsSetting.isChecked()):
             clients = []
             for i in range(0, clientsNumber):
-                client     = {}
-                email   = self.tableWidgetInVmessUser.item(i, 0)
-                level   = self.tableWidgetInVmessUser.item(i, 1)
+                client = {}
+                email = self.tableWidgetInVmessUser.item(i, 0)
+                level = self.tableWidgetInVmessUser.item(i, 1)
                 alterId = self.tableWidgetInVmessUser.item(i, 2)
-                uuid      = self.tableWidgetInVmessUser.item(i, 3)
+                uuid = self.tableWidgetInVmessUser.item(i, 3)
                 if (email and level and alterId and uuid):
-                    client["id"]      = uuid.text()
-                    client["level"]   = int(level.text())
+                    client["id"] = uuid.text()
+                    client["level"] = int(level.text())
                     client["alterId"] = int(alterId.text())
-                    client["email"]   = email.text()
+                    client["email"] = email.text()
                     try:
                         self.treasureChest.addLevel(client["level"])
                         self.treasureChest.addEmail(client["email"])
@@ -403,7 +405,7 @@ class InboundVmessPanel(QWidget):
             inboundVmessJSONFile["clients"] = []
             
         if (self.groupBoxDefault.isChecked()):
-            inboundVmessJSONFile["default"]["level"]   = self.spinBoxDefaultLevel.value()
+            inboundVmessJSONFile["default"]["level"] = self.spinBoxDefaultLevel.value()
             inboundVmessJSONFile["default"]["alterId"] = self.spinBoxDefaultAlterID.value()
             try:
                 self.treasureChest.addLevel(self.spinBoxDefaultLevel.value())
@@ -413,7 +415,7 @@ class InboundVmessPanel(QWidget):
             del inboundVmessJSONFile["default"]
             
         InboundTags = self.comboBoxInVmessInboundTags.currentText()
-        if (InboundTags != ""):
+        if (InboundTags):
             inboundVmessJSONFile["detour"]["to"] = InboundTags
         else:
             del inboundVmessJSONFile["detour"]
@@ -439,19 +441,20 @@ class InboundVmessPanel(QWidget):
         self.checkBoxdisableInsecureEncryption.setChecked(False)
         
     def createUUID(self):
-        #TODO use QT UUID generate
+        # TODO use QT UUID generate
         return str(uuid.uuid4())
     
     def validateUUID4(self, uuidString):
         try:
-            uuid.UUID(uuidString, version = 4)
+            uuid.UUID(uuidString, version=4)
         except ValueError:
             return False
         return True
 
     def __debugTest(self):
         import json
-        print(json.dumps(self.createInboundVmessJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createInboundVmessJSONFile(), indent=4, sort_keys=False))
+
         
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

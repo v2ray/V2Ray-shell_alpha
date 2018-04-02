@@ -10,15 +10,17 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
 
 from bridgehouse.editMap.port import treasureChest
 
+
 class policyTab(QWidget):
-    def __init__(self, CaptainstreasureChest = False):
+
+    def __init__(self, CaptainstreasureChest=False):
         super().__init__()
         self.policyJSONFile = {
                                 "levels": {
@@ -41,7 +43,7 @@ class policyTab(QWidget):
         if (CaptainstreasureChest):
             self.treasureChest = CaptainstreasureChest
         else:
-            self.treasureChest = treasureChest.treasureChest()  ### a empty treasure chest
+            self.treasureChest = treasureChest.treasureChest()  # ## a empty treasure chest
         self.__groupPolicyTitle = self.translate("policyTab", "Policy Setting")
         self.levels = {}
         
@@ -54,17 +56,17 @@ class policyTab(QWidget):
         hboxLevels.addWidget(self.comboBoxLevels)
         hboxLevels.addStretch()
         
-        labelhandshake      = QLabel(
+        labelhandshake = QLabel(
             self.translate("policyTab", "Handshake: "))
-        labelconnIdle       = QLabel(
+        labelconnIdle = QLabel(
             self.translate("policyTab", "ConnIdle: "))
-        labeluplinkOnly     = QLabel(
+        labeluplinkOnly = QLabel(
             self.translate("policyTab", "UplinkOnly: "))
-        labeldownlinkOnly   = QLabel(
+        labeldownlinkOnly = QLabel(
             self.translate("policyTab", "DownlinkOnly: "))
-        self.spinboxhandshake    = QSpinBox()
-        self.spinboxuplinkOnly   = QSpinBox()
-        self.spinboxconnIdle     = QSpinBox()
+        self.spinboxhandshake = QSpinBox()
+        self.spinboxuplinkOnly = QSpinBox()
+        self.spinboxconnIdle = QSpinBox()
         self.spinboxdownlinkOnly = QSpinBox()
         self.spinboxhandshake.setRange(0, 20)
         self.spinboxhandshake.setValue(4)
@@ -79,7 +81,7 @@ class policyTab(QWidget):
         hboxhandshake.addWidget(self.spinboxhandshake)
         hboxhandshake.addStretch()
         
-        self.buttonPolicyApply   = QPushButton(
+        self.buttonPolicyApply = QPushButton(
             self.translate("policyTab", "Apply"), self)
         self.buttonPolicyDefault = QPushButton(
             self.translate("policyTab", "Default"), self)
@@ -110,7 +112,7 @@ class policyTab(QWidget):
         self.createPolcyTabSignals()
 
         if v2rayshellDebug:
-            levels = ("0","1","2","3","4","5","6")
+            levels = ("0", "1", "2", "3", "4", "5", "6")
             self.comboBoxLevels.addItems(levels)
             self.__debugBtn = QPushButton("__debugTest", self)
             self.__debugBtn.clicked.connect(self.__debugTest)
@@ -142,10 +144,10 @@ class policyTab(QWidget):
     def onbuttonPolicyApply(self):
         currentLevel = self.comboBoxLevels.currentText()
         if currentLevel not in self.levels: self.levels[currentLevel] = {}
-        self.levels[currentLevel]["handshake"]    = self.spinboxhandshake.value()
-        self.levels[currentLevel]["connIdle"]     = self.spinboxconnIdle.value()
+        self.levels[currentLevel]["handshake"] = self.spinboxhandshake.value()
+        self.levels[currentLevel]["connIdle"] = self.spinboxconnIdle.value()
         self.levels[currentLevel]["downlinkOnly"] = self.spinboxdownlinkOnly.value()
-        self.levels[currentLevel]["uplinkOnly"]   = self.spinboxuplinkOnly.value()
+        self.levels[currentLevel]["uplinkOnly"] = self.spinboxuplinkOnly.value()
         self.groupBoxPolicy.setTitle("{}".format(self.__groupPolicyTitle))
 
     def settingLevelsSpinboxDefault(self):
@@ -163,12 +165,12 @@ class policyTab(QWidget):
         allLevels = copy.deepcopy(self.treasureChest.getLevels())
 
         if allLevels:
-            ### add new Levels
+            # add new Levels
             for i in allLevels:  
                 if i not in self.levels.keys():
                     self.levels[i] = copy.deepcopy(self.template)
             
-            ### delete obsolete Levels
+            # delete obsolete Levels
             for i in self.levels.keys():
                 if i not in allLevels:
                     del self.levels[i]
@@ -179,9 +181,9 @@ class policyTab(QWidget):
         self.levels.clear()
         self.comboBoxLevels.clear()
 
-        if (policyJSONFile == None): policyJSONFile = {}
+        if (not policyJSONFile): policyJSONFile = {}
         
-        for i,v in policyJSONFile.items():
+        for i, v in policyJSONFile.items():
             try:
                 int(i)
             except Exception:
@@ -213,7 +215,7 @@ class policyTab(QWidget):
                 pass
             self.comboBoxLevels.addItem(str(i))
             
-        if len(self.levels) > 0:
+        if self.levels:
             for i in self.levels.items():
                 try:
                     self.settingLevelsSpinbox(i[0])
@@ -226,7 +228,8 @@ class policyTab(QWidget):
     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createPolicyJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createPolicyJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

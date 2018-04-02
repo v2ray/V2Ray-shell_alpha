@@ -11,14 +11,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class OutboundShadowsocksPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.outboundShadowsocksJSONFile = {
@@ -36,12 +38,12 @@ class OutboundShadowsocksPanel(QWidget):
                                         }
         self.translate = QCoreApplication.translate
         self.listMethodShadowsocksPanel = "aes-256-cfb", "aes-128-cfb", "chacha20", "chacha20-ietf", "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305"
-        self.labelHeaderShadowsocksPanel = (self.translate("OutboundShadowsocksPanel","Adress"), 
-                            self.translate("OutboundShadowsocksPanel", "Port"), 
-                            self.translate("OutboundShadowsocksPanel", "Method"), 
-                            self.translate("OutboundShadowsocksPanel", "Password"), 
-                            self.translate("OutboundShadowsocksPanel", "Email"), 
-                            self.translate("OutboundShadowsocksPanel", "User Level"), 
+        self.labelHeaderShadowsocksPanel = (self.translate("OutboundShadowsocksPanel", "Adress"),
+                            self.translate("OutboundShadowsocksPanel", "Port"),
+                            self.translate("OutboundShadowsocksPanel", "Method"),
+                            self.translate("OutboundShadowsocksPanel", "Password"),
+                            self.translate("OutboundShadowsocksPanel", "Email"),
+                            self.translate("OutboundShadowsocksPanel", "User Level"),
                             self.translate("OutboundShadowsocksPanel", "OTA"))
 
     def createShadowsocksTableWidget(self):
@@ -54,13 +56,13 @@ class OutboundShadowsocksPanel(QWidget):
         tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         tableWidget.horizontalHeader().setStretchLastSection(True)
         
-        self.btnOutShadowsocksClear   = QPushButton(
+        self.btnOutShadowsocksClear = QPushButton(
             self.translate("OutboundShadowsocksPanel", "Clear"), self)
-        self.btnOutShadowsocksChange  = QPushButton(
+        self.btnOutShadowsocksChange = QPushButton(
             self.translate("OutboundShadowsocksPanel", "Modify"), self)
         self.btnOutShadowsocksAddUser = QPushButton(
             self.translate("OutboundShadowsocksPanel", "Add"), self)
-        self.btnOutShadowsocksDelete  = QPushButton(
+        self.btnOutShadowsocksDelete = QPushButton(
             self.translate("OutboundShadowsocksPanel", "Delete"), self)
 
         vboxBtn = QVBoxLayout()
@@ -158,12 +160,12 @@ class OutboundShadowsocksPanel(QWidget):
         self.checkBoxOutShadowsocksOTA.setChecked(False)
         
     def onbtnOutShadowsocksAddUser(self):
-        if (self.lineEditOutShadowsocksAddress.text() == "" or 
-            self.lineEditOutShadowsocksEmail.text() == ""   or
-            self.lineEditOutShadowsocksPassword.text() == ""): return
+        if (not self.lineEditOutShadowsocksAddress.text() or 
+            not self.lineEditOutShadowsocksEmail.text() or
+            not self.lineEditOutShadowsocksPassword.text()): return
             
-        row   = self.tableWidgetOutShadowsocks.rowCount()
-        self.tableWidgetOutShadowsocks.setRowCount(row+1)
+        row = self.tableWidgetOutShadowsocks.rowCount()
+        self.tableWidgetOutShadowsocks.setRowCount(row + 1)
         check = QCheckBox(self)
         check.setChecked(self.checkBoxOutShadowsocksOTA.isChecked())
         
@@ -186,7 +188,7 @@ class OutboundShadowsocksPanel(QWidget):
     
     def onbtnOutShadowsocksChange(self):
         row = self.tableWidgetOutShadowsocks.currentRow()
-        if (row < 0 or self.tableWidgetOutShadowsocks.selectedItems() == []): return
+        if (not row or not self.tableWidgetOutShadowsocks.selectedItems()): return
         
         check = QCheckBox(self)
         check.setChecked(self.checkBoxOutShadowsocksOTA.isChecked())
@@ -211,15 +213,15 @@ class OutboundShadowsocksPanel(QWidget):
         self.tableWidgetOutShadowsocks.removeRow(self.tableWidgetOutShadowsocks.currentRow())
         
     def ontablewWidgetOutShadowsocksItemChanged(self):
-        if (self.tableWidgetOutShadowsocks.selectedItems() == []): return
-        row      = self.tableWidgetOutShadowsocks.currentRow()
-        address  = self.tableWidgetOutShadowsocks.item(row, 0)
-        port     = self.tableWidgetOutShadowsocks.item(row, 1)
-        method   = self.tableWidgetOutShadowsocks.item(row, 2)
+        if (not self.tableWidgetOutShadowsocks.selectedItems()): return
+        row = self.tableWidgetOutShadowsocks.currentRow()
+        address = self.tableWidgetOutShadowsocks.item(row, 0)
+        port = self.tableWidgetOutShadowsocks.item(row, 1)
+        method = self.tableWidgetOutShadowsocks.item(row, 2)
         password = self.tableWidgetOutShadowsocks.item(row, 3)
-        email    = self.tableWidgetOutShadowsocks.item(row, 4)
-        level    = self.tableWidgetOutShadowsocks.item(row, 5)
-        ota      = self.tableWidgetOutShadowsocks.cellWidget(row, 6)
+        email = self.tableWidgetOutShadowsocks.item(row, 4)
+        level = self.tableWidgetOutShadowsocks.item(row, 5)
+        ota = self.tableWidgetOutShadowsocks.cellWidget(row, 6)
         
         if (address):
             self.lineEditOutShadowsocksAddress.setText(address.text())
@@ -256,11 +258,11 @@ class OutboundShadowsocksPanel(QWidget):
         else:
             self.checkBoxOutShadowsocksOTA.setChecked(False)
     
-    def settingOutboundShadowsocksPanelFromJSONFile(self, outboundShadowsocksJSONFile = {}, openFromJSONFile = False):
+    def settingOutboundShadowsocksPanelFromJSONFile(self, outboundShadowsocksJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         self.tableWidgetOutShadowsocks.setRowCount(0)
         
-        if (outboundShadowsocksJSONFile == None): outboundShadowsocksJSONFile = {}
+        if (not outboundShadowsocksJSONFile): outboundShadowsocksJSONFile = {}
 
         try:
             outboundShadowsocksJSONFile["servers"]
@@ -271,7 +273,7 @@ class OutboundShadowsocksPanel(QWidget):
         serverNumber = len(outboundShadowsocksJSONFile["servers"])
         servers = outboundShadowsocksJSONFile["servers"]
         
-        if (serverNumber > 0):
+        if (serverNumber):
             self.tableWidgetOutShadowsocks.setRowCount(serverNumber)
             try:
                 for i in range(serverNumber):
@@ -308,24 +310,24 @@ class OutboundShadowsocksPanel(QWidget):
     def createOutboundShadowsocksJSONFile(self):
         serversNumber = self.tableWidgetOutShadowsocks.rowCount()
         outboundShadowsocksJSONFile = {}
-        outboundShadowsocksJSONFile["servers"] = [] ### clean default setting
+        outboundShadowsocksJSONFile["servers"] = []  # clean default setting
         for i in range(serversNumber):
-            servers  = {}
-            server   = self.tableWidgetOutShadowsocks.item(i, 0)
-            port     = self.tableWidgetOutShadowsocks.item(i, 1)
-            method   = self.tableWidgetOutShadowsocks.item(i, 2)
+            servers = {}
+            server = self.tableWidgetOutShadowsocks.item(i, 0)
+            port = self.tableWidgetOutShadowsocks.item(i, 1)
+            method = self.tableWidgetOutShadowsocks.item(i, 2)
             password = self.tableWidgetOutShadowsocks.item(i, 3)
-            email    = self.tableWidgetOutShadowsocks.item(i, 4)       
-            level    = self.tableWidgetOutShadowsocks.item(i, 5)
-            ota      = self.tableWidgetOutShadowsocks.cellWidget(i, 6)
+            email = self.tableWidgetOutShadowsocks.item(i, 4)       
+            level = self.tableWidgetOutShadowsocks.item(i, 5)
+            ota = self.tableWidgetOutShadowsocks.cellWidget(i, 6)
             
             if (server and port and method and password and email and ota and level):
-                servers["email"]    = email.text()
-                servers["address"]  = server.text()
-                servers["port"]     = int(port.text())
-                servers["method"]   = method.text()
+                servers["email"] = email.text()
+                servers["address"] = server.text()
+                servers["port"] = int(port.text())
+                servers["method"] = method.text()
                 servers["password"] = password.text()
-                try:servers["level"]    = int(level.text())
+                try:servers["level"] = int(level.text())
                 except Exception: servers["level"] = 0
 
                 if (ota.isChecked()): servers["ota"] = True
@@ -352,7 +354,8 @@ class OutboundShadowsocksPanel(QWidget):
        
     def __DebugTest(self):
         import json
-        print(json.dumps(self.createOutboundShadowsocksJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createOutboundShadowsocksJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QVBoxLayout, QScrollArea, QWidget, 
-                             QLabel, QComboBox, QHBoxLayout, 
+from PyQt5.QtWidgets import (QVBoxLayout, QScrollArea, QWidget,
+                             QLabel, QComboBox, QHBoxLayout,
                              QLineEdit, QPushButton, QSplitter, QTableWidget,
                              QAbstractItemView, QGroupBox, QTableWidgetItem,
                              QListView, QButtonGroup)
@@ -12,7 +12,7 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
@@ -20,8 +20,10 @@ if __name__ == "__main__":
 from bridgehouse.editMap.outbound import (blackholePanel, freedomPanel, shadowsocksPanel, socksPanel, vmessPanel)
 from bridgehouse.editMap.transport import muxPanel, transportPanel
 from bridgehouse.editMap.port import treasureChest, logbook
+
         
 class OutboundSettingPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.translate = QCoreApplication.translate
@@ -35,7 +37,7 @@ class OutboundSettingPanel(QWidget):
         self.lineEditOutboundSettingSendThrough = QLineEdit()
         labelProxySettings = QLabel(
             self.translate("OutboundSettingPanel", "Proxy Settings: "))
-        self.comboBoxOutboundDetour = QComboBox()   ### ProxySettings: tag to another Out bound tag
+        self.comboBoxOutboundDetour = QComboBox()  # ## ProxySettings: tag to another Out bound tag
         self.lineEditOutboundSettingSendThrough.setText("0.0.0.0")
         self.comboBoxOutboundDetour.setView(QListView())
         self.comboBoxOutboundDetour.setStyleSheet("QComboBox {min-width: 256px; }"
@@ -68,11 +70,13 @@ class OutboundSettingPanel(QWidget):
         self.lineEditOutboundSettingTAG.clear()
         self.comboBoxOutboundDetour.setCurrentIndex(0)
 
+
 class OutboundPortocolPanel(blackholePanel.BlackholePanel,
                             freedomPanel.FreedomPanel,
                             shadowsocksPanel.OutboundShadowsocksPanel,
                             socksPanel.OutboundSocksPanel,
                             vmessPanel.OutboundVmessSettingPanel):
+
     def __init__(self):
         super().__init__()
         self.translate = QCoreApplication.translate
@@ -85,10 +89,10 @@ class OutboundPortocolPanel(blackholePanel.BlackholePanel,
         self.comboBoxoutboundProtocol = QComboBox()
         self.comboBoxoutboundProtocol.addItems(self.listComboxProtocol)
        
-        self.outvmess  = self.createOutboundVmessPanel()
-        self.freedom   = self.createFreedomSettingPanel()
+        self.outvmess = self.createOutboundVmessPanel()
+        self.freedom = self.createFreedomSettingPanel()
         self.blackhole = self.createBlackholeSettingPanel()
-        self.outsocks  = self.createOutboundSocksSettingPanel()
+        self.outsocks = self.createOutboundSocksSettingPanel()
         self.outshadowsocks = self.createShadowsocksSettingPanel()
         
         self.outvmess.show()
@@ -118,7 +122,8 @@ class OutboundPortocolPanel(blackholePanel.BlackholePanel,
         self.comboBoxoutboundProtocol.currentTextChanged.connect(self.oncomboBoxoutboundProtocol)
         
     def oncomboBoxoutboundProtocol(self, e):
-        def showProtocol(protocol = e):
+
+        def showProtocol(protocol=e):
             self.outvmess.hide()
             self.freedom.hide()
             self.outshadowsocks.hide()
@@ -170,12 +175,14 @@ class OutboundPortocolPanel(blackholePanel.BlackholePanel,
         self.clearoutboundShadowsocksPanel()
         self.clearoutboundSocksPanel()
         self.clearoutboundVmessPanel()
+
  
-class OutboundPanel(OutboundPortocolPanel, 
-                    OutboundSettingPanel, 
+class OutboundPanel(OutboundPortocolPanel,
+                    OutboundSettingPanel,
                     muxPanel.muxPanel,
                     transportPanel.TransportPanel):
-    def __init__(self, CaptainstreasureChest = False):
+
+    def __init__(self, CaptainstreasureChest=False):
         super().__init__()
         self.outboundJSONFile = {
                                     "sendThrough": "0.0.0.0",
@@ -193,12 +200,12 @@ class OutboundPanel(OutboundPortocolPanel,
         if (CaptainstreasureChest):
             self.treasureChest = CaptainstreasureChest
         else:
-            self.treasureChest = treasureChest.treasureChest()  ### a empty treasure chest
+            self.treasureChest = treasureChest.treasureChest()  # ## a empty treasure chest
 
         self.updateList = self.treasureChest.updateList
         self.translate = QCoreApplication.translate
         
-        self.labelHeaderOutbound = (self.translate("OutboundPanel", "Tag name"), 
+        self.labelHeaderOutbound = (self.translate("OutboundPanel", "Tag name"),
                                     self.translate("OutboundPanel", "Protocol"))
         
     def createOutboundPanel(self):
@@ -229,7 +236,7 @@ class OutboundPanel(OutboundPortocolPanel,
         splitterOutbound.addWidget(tableWidgetOutbound)
         splitterOutbound.addWidget(groupBoxOutbound)
         
-        btnOutboundApply  = QPushButton(
+        btnOutboundApply = QPushButton(
             self.translate("OutboundPanel", "Add"), self)
         btnOutboundDelete = QPushButton(
             self.translate("OutboundPanel", "Delete"), self)
@@ -291,7 +298,7 @@ class OutboundPanel(OutboundPortocolPanel,
             try:
                 currentDetourtoTag = currentBound["proxySettings"]["tag"]
             except:
-                currentDetourtoTag =  ""
+                currentDetourtoTag = ""
             self.comboBoxOutboundDetour.clear()
             if (tag in allOutboundTags):
                 allOutboundTags.remove(tag)
@@ -303,8 +310,8 @@ class OutboundPanel(OutboundPortocolPanel,
         rowCount = self.tableWidgetOutbound.rowCount()
         outboundJSONData = copy.deepcopy(self.createOutboundJSONFile())
         if (outboundJSONData):
-            tag       = str(outboundJSONData["tag"])
-            protocol  = str(outboundJSONData["protocol"])
+            tag = str(outboundJSONData["tag"])
+            protocol = str(outboundJSONData["protocol"])
         else:
             return False
 
@@ -320,7 +327,7 @@ class OutboundPanel(OutboundPortocolPanel,
                 settableWidgetOutbound(tag, protocol)
                 self.setcomboBoxOutboundDetour(tag, rowCount)
             else:
-                ### TODO
+                # TODO
                 pass
         else:
             tag = self.treasureChest.addOutboundDetour(outboundJSONData)
@@ -328,7 +335,7 @@ class OutboundPanel(OutboundPortocolPanel,
                 settableWidgetOutbound(tag, protocol)
                 self.setcomboBoxOutboundDetour(tag, rowCount)
             else:
-                ### TODO
+                # TODO
                 pass
         self.clearOutboundPanel()
         
@@ -336,15 +343,15 @@ class OutboundPanel(OutboundPortocolPanel,
         currentRow = self.tableWidgetOutbound.currentRow()
         tag = self.tableWidgetOutbound.item(currentRow, 0)
         
-        if (tag and currentRow > 0):  ### delete outboundDetour
-            if (self.treasureChest.removeOutboundDetour(tag.text()) == False):
-                ### TODO
+        if (tag and currentRow > 0):  # delete outboundDetour
+            if (not self.treasureChest.removeOutboundDetour(tag.text())):
+                # TODO
                 pass
             self.tableWidgetOutbound.removeRow(currentRow)
             self.clearOutboundPanel()
 
-        elif (tag and currentRow == 0):  ### delete outbound
-            ### outbound should not be deleted
+        elif (tag and currentRow == 0):  # delete outbound
+            # outbound should not be deleted
             pass
 
     def tableWidgetOutboundChange(self):
@@ -353,8 +360,9 @@ class OutboundPanel(OutboundPortocolPanel,
         newOutboundJSONData = copy.deepcopy(self.createOutboundJSONFile())
         
         if (tag and newOutboundJSONData):
-            newtag    = str(newOutboundJSONData["tag"])
-            protocol  = str(newOutboundJSONData["protocol"])
+            newtag = str(newOutboundJSONData["tag"])
+            protocol = str(newOutboundJSONData["protocol"])
+
             def settableWidgetOutbound():
                 self.tableWidgetOutbound.setItem(currentRow, 0, QTableWidgetItem(newtag))
                 self.tableWidgetOutbound.setItem(currentRow, 1, QTableWidgetItem(protocol))
@@ -365,21 +373,21 @@ class OutboundPanel(OutboundPortocolPanel,
                     settableWidgetOutbound()
                     self.setcomboBoxOutboundDetour(newtag, currentRow)
                 else:
-                    ### TODO
+                    # TODO
                     pass
             if (currentRow > 0):
                 if (self.treasureChest.setOutboundDetour(tag.text(), newOutboundJSONData)):
                     settableWidgetOutbound()
                     self.setcomboBoxOutboundDetour(newtag, currentRow)
                 else:
-                    ### TODO
+                    # TODO
                     pass
         else:
             return False
                 
     def ontableWidgetOutboundItemSelection(self):
         currentRow = self.tableWidgetOutbound.currentRow()
-        tag        = self.tableWidgetOutbound.item(currentRow, 0)
+        tag = self.tableWidgetOutbound.item(currentRow, 0)
         if (tag):
             if (currentRow == 0):
                 outboundJSONFile = self.treasureChest.getOutbound()
@@ -388,7 +396,7 @@ class OutboundPanel(OutboundPortocolPanel,
                     self.setcomboBoxOutboundDetour(outboundJSONFile["tag"], currentRow)
                     del outboundJSONFile
                 else:
-                    ### TODO
+                    # TODO
                     pass
             if (currentRow > 0):
                 outboundJSONFile = self.treasureChest.getOutboundDetour(tag.text())
@@ -397,14 +405,14 @@ class OutboundPanel(OutboundPortocolPanel,
                     self.setcomboBoxOutboundDetour(outboundJSONFile["tag"], currentRow)
                     del outboundJSONFile
                 else:
-                    ### TODO
+                    # TODO
                     pass
 
-    def settingOutboundPanelFromJSONFile(self, outboundJSONFile, openFromJSONFile = False):
+    def settingOutboundPanelFromJSONFile(self, outboundJSONFile, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         transport = True; mux = True; detourPorxy = True; tag = True
         
-        if (outboundJSONFile == None): outboundJSONFile = {}
+        if (not outboundJSONFile): outboundJSONFile = {}
         
         try:
             outboundJSONFile["sendThrough"]
@@ -462,8 +470,8 @@ class OutboundPanel(OutboundPortocolPanel,
 
         self.lineEditOutboundSettingSendThrough.setText(str(outboundJSONFile["sendThrough"]))
                 
-        if (detourPorxy and outboundJSONFile["proxySettings"]["tag"] != ""):
-            ### TODO if JSONFile open from user conf, need get all outbound tags
+        if (detourPorxy and outboundJSONFile["proxySettings"]["tag"]):
+            # TODO if JSONFile open from user conf, need get all outbound tags
             self.comboBoxOutboundDetour.addItem(outboundJSONFile["proxySettings"]["tag"])
             self.comboBoxOutboundDetour.setCurrentText(outboundJSONFile["proxySettings"]["tag"])
         else:
@@ -471,7 +479,7 @@ class OutboundPanel(OutboundPortocolPanel,
             self.comboBoxOutboundDetour.setCurrentText("")
         
         outboundProtocol = outboundJSONFile["protocol"]
-        if (outboundJSONFile["settings"] != {} or outboundJSONFile["settings"] != None):
+        if (outboundJSONFile["settings"]):
             settings = copy.deepcopy(outboundJSONFile["settings"])
             if (outboundProtocol == "vmess"):
                 self.settingOutboundVmessPanelFromJSONFile(settings, openFromJSONFile)
@@ -487,9 +495,7 @@ class OutboundPanel(OutboundPortocolPanel,
         if (outboundProtocol in self.listComboxProtocol):
             self.comboBoxoutboundProtocol.setCurrentText(outboundProtocol)
 
-        if (transport == False or 
-            (outboundJSONFile["streamSettings"] == {}) or
-            (outboundJSONFile["streamSettings"] == None)):
+        if (not transport or not outboundJSONFile["streamSettings"]):
             self.checkBoxTransportSetting.setChecked(False)
             self.groupTransportPanel.hide()
         else:
@@ -498,9 +504,7 @@ class OutboundPanel(OutboundPortocolPanel,
             self.checkBoxTransportSetting.setChecked(True)
             self.groupTransportPanel.show()
                 
-        if (mux == False and 
-            (outboundJSONFile["mux"] == {}) or 
-            outboundJSONFile["mux"] == None):
+        if (not mux and not outboundJSONFile["mux"]):
             self.groupBoxmuxSetting.setChecked(False) 
         else:
             self.settingmuxPanelFromJSONFile(
@@ -509,12 +513,12 @@ class OutboundPanel(OutboundPortocolPanel,
 
     def createOutboundJSONFile(self):
         outboundJSONFile = {}
-        outboundJSONFile["tag"]         = self.lineEditOutboundSettingTAG.text()
+        outboundJSONFile["tag"] = self.lineEditOutboundSettingTAG.text()
         outboundJSONFile["sendThrough"] = self.lineEditOutboundSettingSendThrough.text()
-        if (outboundJSONFile["tag"] == ""):
+        if (not outboundJSONFile["tag"]):
             return False
         
-        if outboundJSONFile["sendThrough"] == "":
+        if not outboundJSONFile["sendThrough"]:
             del outboundJSONFile["sendThrough"]
 
         outboundProtocol = self.comboBoxoutboundProtocol.currentText()
@@ -540,7 +544,7 @@ class OutboundPanel(OutboundPortocolPanel,
 
         outboundJSONFile["proxySettings"] = {}
         outboundJSONFile["proxySettings"]["tag"] = self.comboBoxOutboundDetour.currentText()
-        if (outboundJSONFile["proxySettings"]["tag"] == ""):
+        if (not outboundJSONFile["proxySettings"]["tag"]):
             del outboundJSONFile["proxySettings"]
 
         outboundJSONFile["mux"] = {}
@@ -559,8 +563,9 @@ class OutboundPanel(OutboundPortocolPanel,
     
     def refreshOutboundPaneltableWidget(self):
         self.tableWidgetOutbound.setRowCount(0)
+
         def settableWidgetOutbound(tag, protocol, row):
-            self.tableWidgetOutbound.setRowCount(row+1)
+            self.tableWidgetOutbound.setRowCount(row + 1)
             self.tableWidgetOutbound.setItem(row, 0, QTableWidgetItem(tag))
             self.tableWidgetOutbound.setItem(row, 1, QTableWidgetItem(protocol))
             self.tableWidgetOutbound.resizeColumnsToContents()
@@ -568,8 +573,8 @@ class OutboundPanel(OutboundPortocolPanel,
         outbound = {}
         outboundJSONData = self.treasureChest.getOutbound()
         try:
-            outbound["tag"]       = str(outboundJSONData["tag"])
-            outbound["protocol"]  = str(outboundJSONData["protocol"])
+            outbound["tag"] = str(outboundJSONData["tag"])
+            outbound["protocol"] = str(outboundJSONData["protocol"])
         except Exception: return
         
         outboundDetourTags = self.treasureChest.getOutboundTags()
@@ -577,19 +582,20 @@ class OutboundPanel(OutboundPortocolPanel,
         if (len(outboundDetourTags) > 1):
             for i in outboundDetourTags[1:]:
                 outboundDetourJSONData = self.treasureChest.getOutboundDetour(i)
-                outboundDetour.append(dict(tag       = outboundDetourJSONData["tag"],
-                                           protocol  = outboundDetourJSONData["protocol"]))
+                outboundDetour.append(dict(tag=outboundDetourJSONData["tag"],
+                                           protocol=outboundDetourJSONData["protocol"]))
                 del outboundDetourJSONData
         outboundDetour.insert(0, outbound)
         
         for i in range(0, len(outboundDetour)):
             settableWidgetOutbound(outboundDetour[i]["tag"],
-                                   outboundDetour[i]["protocol"], 
+                                   outboundDetour[i]["protocol"],
                                    i)
 
     def __debugTest(self):
         boundJSONFile = self.treasureChest.exportOutBoundJSONFile()
-        print(json.dumps(boundJSONFile, indent = 4, sort_keys = False))
+        print(json.dumps(boundJSONFile, indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

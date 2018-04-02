@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QLabel,  QWidget, QHBoxLayout, QVBoxLayout, 
-                             QPushButton, QButtonGroup, QLineEdit, 
+from PyQt5.QtWidgets import (QLabel, QWidget, QHBoxLayout, QVBoxLayout,
+                             QPushButton, QButtonGroup, QLineEdit,
                              QFileDialog, QComboBox, QGroupBox)
 from PyQt5.QtCore import QDate, QTime, qWarning, QFileInfo, QCoreApplication
 
@@ -10,26 +10,28 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
+
 
 class logBook():
     """
     Check the status of the v2ray before departure
     """
-    def __init__(self, openFromJSONFile = False):
-        ### only record the debug message when use open conf.json file
+
+    def __init__(self, openFromJSONFile=False):
+        # only record the debug message when use open conf.json file
         self.openFile = openFromJSONFile
 
     def setisOpenJSONFile(self, openFromJSONFile):
         self.openFile = openFromJSONFile
         
     def getTime(self):
-        return QDate.currentDate().toString()+" "+QTime.currentTime().toString("HH:mm:ss")
+        return QDate.currentDate().toString() + " " + QTime.currentTime().toString("HH:mm:ss")
     
-    def writeLog(self, cabin, situation, log = "unkonw"):
+    def writeLog(self, cabin, situation, log="unkonw"):
         if (self.openFile):
             if (situation == "KeyError"):
                 qWarning("Date: {} ---> {} Panel analysis of JSON file error. can not find the key {}, use default value.".format(self.getTime(), cabin, log))
@@ -40,7 +42,9 @@ class logBook():
             else:
                 qWarning("Date: {} ---> {} Panel analysis of JSON file error. have a error:--> {} <--".format(self.getTime(), cabin, log))
 
+
 class logTab(QWidget):
+
     def __init__(self):
         super().__init__()
         self.logJSONFile = {
@@ -53,19 +57,19 @@ class logTab(QWidget):
     def createLogTab(self):
         labelAccess = QLabel(
             self.translate("logTab", "Access File: "))
-        labelError  = QLabel(
+        labelError = QLabel(
             self.translate("logTab", "Error  File:  "))
         self.lineEditAccess = QLineEdit()
-        self.lineEditError  = QLineEdit()
+        self.lineEditError = QLineEdit()
         
         btnSaveAccess = QPushButton(
             self.translate("logTab", "&Save"), self)
-        btnSaveError  = QPushButton(
+        btnSaveError = QPushButton(
             self.translate("logTab", "S&ave"), self)
         
         labelLogLevel = QLabel(self.translate("logTab", "Log Level: "), self)
         self.comboxLogLevel = QComboBox()
-        self.comboxLogLevel.addItems(("warning", "debug", "info", "error" ,"none"))
+        self.comboxLogLevel.addItems(("warning", "debug", "info", "error" , "none"))
         
         self.buttonGroupSave = QButtonGroup()
         self.buttonGroupSave.addButton(btnSaveAccess)
@@ -117,7 +121,7 @@ class logTab(QWidget):
                                                   self.translate("logTab", "Save V2ray Access log file"),
                                                   "_access",
                                                   "Log Files (*.log)",
-                                                  options = options)
+                                                  options=options)
                 self.lineEditAccess.setText(fileName)
                 
         if (e.text() == self.translate("logTab", "S&ave")):
@@ -125,13 +129,13 @@ class logTab(QWidget):
                                                   self.translate("logTab", "Save V2ray Error log file"),
                                                   "_error",
                                                   "Log Files (*.log)",
-                                                  options = options)
+                                                  options=options)
                 self.lineEditError.setText(fileName)
     
-    def settingLogTabFromJSONFile(self, logJSONFile = {}, openFromJSONFile = False):
+    def settingLogTabFromJSONFile(self, logJSONFile={}, openFromJSONFile=False):
         logTagslog = logBook(openFromJSONFile)
         
-        if (logJSONFile == None): logJSONFile = {}
+        if (not logJSONFile): logJSONFile = {}
 
         try:
             logJSONFile["access"]
@@ -160,14 +164,15 @@ class logTab(QWidget):
 
     def createLogJSONFile(self):
         logJSONFile = {}
-        logJSONFile["access"]   = self.lineEditAccess.text()
-        logJSONFile["error"]    = self.lineEditError.text()
+        logJSONFile["access"] = self.lineEditAccess.text()
+        logJSONFile["error"] = self.lineEditError.text()
         logJSONFile["loglevel"] = self.comboxLogLevel.currentText()
         
         return logJSONFile
     
     def __debugTest(self):
-        print(json.dumps(self.createLogJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createLogJSONFile(), indent=4, sort_keys=False))
+
         
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

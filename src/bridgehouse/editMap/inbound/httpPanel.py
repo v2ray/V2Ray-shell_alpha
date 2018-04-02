@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QWidget, QLabel, QSpinBox, 
+from PyQt5.QtWidgets import (QWidget, QLabel, QSpinBox,
                              QHBoxLayout, QGroupBox, QPushButton,
                              QTableWidget, QAbstractItemView, QButtonGroup,
                              QVBoxLayout, QLineEdit, QGridLayout, QTableWidgetItem,
@@ -13,14 +13,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class HttpPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.httpJSONFile = {
@@ -36,7 +38,7 @@ class HttpPanel(QWidget):
                             }
         self.translate = QCoreApplication.translate
         
-        self.labelUserHttpPanel = (self.translate("HttpPanel", "User"), 
+        self.labelUserHttpPanel = (self.translate("HttpPanel", "User"),
                           self.translate("HttpPanel", "Password"))
 
     def createHttpSettingPanel(self):
@@ -65,9 +67,9 @@ class HttpPanel(QWidget):
         hboxuserLevel.addWidget(self.spinBoxHttpuserLevel)
         hboxuserLevel.addStretch()
 
-        btnHttpAdd    = QPushButton(
+        btnHttpAdd = QPushButton(
             self.translate("HttpPanel", "Add"), self)
-        btnHttpClear  = QPushButton(
+        btnHttpClear = QPushButton(
             self.translate("HttpPanel", "Clear"), self)
         btnHttpDelete = QPushButton(
             self.translate("HttpPanel", "Delete"), self)
@@ -144,7 +146,7 @@ class HttpPanel(QWidget):
     def ontableWidgetHttpSelectionChanged(self):
         self.onbtnHttpClear()
         row = self.tableWidgetHttp.currentRow()
-        user     = self.tableWidgetHttp.item(row, 0)
+        user = self.tableWidgetHttp.item(row, 0)
         password = self.tableWidgetHttp.item(row, 1)
         
         if (user):
@@ -161,12 +163,12 @@ class HttpPanel(QWidget):
             self.onbtnHttpDelete()
     
     def onbtnHttpAdd(self):
-        user     = self.lineEditHttpUser.text()
+        user = self.lineEditHttpUser.text()
         password = self.lineEditHttpPassword.text()
-        if (user == "" or password == ""): return
+        if (not user or not password): return
         
         row = self.tableWidgetHttp.rowCount()
-        self.tableWidgetHttp.setRowCount(row+1)
+        self.tableWidgetHttp.setRowCount(row + 1)
         self.tableWidgetHttp.setItem(row, 0, QTableWidgetItem(str(user)))
         self.tableWidgetHttp.setItem(row, 1, QTableWidgetItem(str(password)))
         self.tableWidgetHttp.resizeColumnsToContents()
@@ -174,7 +176,7 @@ class HttpPanel(QWidget):
     
     def onbtnHttpDelete(self):
         self.onbtnHttpClear()
-        if (self.tableWidgetHttp.rowCount() == 0): return
+        if (not self.tableWidgetHttp.rowCount()): return
         row = self.tableWidgetHttp.currentRow()
         self.tableWidgetHttp.removeRow(row)
 
@@ -182,11 +184,11 @@ class HttpPanel(QWidget):
         self.lineEditHttpPassword.clear()
         self.lineEditHttpUser.clear()
     
-    def settinghttpPanelFromJSONFile(self, httpJSONFile = {}, openFromJSONFile = False):
+    def settinghttpPanelFromJSONFile(self, httpJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         self.tableWidgetHttp.setRowCount(0)
         
-        if (httpJSONFile == None): httpJSONFile = {}
+        if (not httpJSONFile): httpJSONFile = {}
 
         try:
             httpJSONFile["timeout"]
@@ -234,12 +236,12 @@ class HttpPanel(QWidget):
         except Exception:pass
 
         accountsNumber = len(httpJSONFile["accounts"])
-        if (accountsNumber > 0):
+        if (accountsNumber):
             accounts = httpJSONFile["accounts"]
             self.tableWidgetHttp.setRowCount(accountsNumber)
             self.groupBoxHttpAuth.setChecked(True)
             for i in range(accountsNumber):
-                try:user     = accounts[i]["user"]
+                try:user = accounts[i]["user"]
                 except Exception: user = ""
                 try:password = accounts[i]["pass"]
                 except Exception: password = ""
@@ -256,7 +258,7 @@ class HttpPanel(QWidget):
         if (self.groupBoxHttpAuth.isChecked()):
             httpJSONFile["accounts"] = []
             accountsNumber = self.tableWidgetHttp.rowCount()
-            if (accountsNumber > 0):
+            if (accountsNumber):
                 account = {}
                 for i in range(accountsNumber):
                     account["user"] = self.tableWidgetHttp.item(i, 0).text()
@@ -265,7 +267,7 @@ class HttpPanel(QWidget):
             else:del httpJSONFile["accounts"]
                 
         httpJSONFile["allowTransparent"] = self.checkBoxallowTransparent.isChecked()
-        httpJSONFile["userLevel"]        = self.spinBoxHttpuserLevel.value()
+        httpJSONFile["userLevel"] = self.spinBoxHttpuserLevel.value()
         
         try:self.treasureChest.addLevel(self.spinBoxHttpuserLevel.value())
         except Exception:pass
@@ -281,7 +283,8 @@ class HttpPanel(QWidget):
     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createHttpJSONFile(), indent = 4, sort_keys = False))
+        print(json.dumps(self.createHttpJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

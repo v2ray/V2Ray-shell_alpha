@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QVBoxLayout, QWidget, QHBoxLayout, 
+from PyQt5.QtWidgets import (QVBoxLayout, QWidget, QHBoxLayout,
                              QPushButton, QTextEdit, QFileDialog,
                              QStatusBar, QGroupBox, QMessageBox, QDialog,
                              QApplication)
@@ -12,19 +12,21 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.port import treasureChest, logbook
 
+
 class openV2rayJSONFile():
     """
     open a config.json file. 
     convert config.json file to v2ray-shell's format
     """
-    def __init__(self, filePath = False, CaptainstreasureChest = False, disableLog = False):
+
+    def __init__(self, filePath=False, CaptainstreasureChest=False, disableLog=False):
         self.translate = QCoreApplication.translate
         self.JSONData = False
         if (disableLog):
@@ -35,10 +37,10 @@ class openV2rayJSONFile():
             self.JSONData = self.openJSONData(filePath) 
  
         self.treasureChest = CaptainstreasureChest
-        if (self.treasureChest == False):
+        if (not self.treasureChest):
             self.treasureChest = treasureChest.treasureChest()
         self.msgBox = QMessageBox()
-        self.fly = QApplication.desktop().screen().rect().center()-self.msgBox.rect().center()
+        self.fly = QApplication.desktop().screen().rect().center() - self.msgBox.rect().center()
 
     def initboundJSONData(self):
         """
@@ -131,10 +133,10 @@ class openV2rayJSONFile():
         self.treasureChest.setApi(JSONData["api"])
         self.treasureChest.setPolicy(JSONData["policy"]["levels"])
         self.treasureChest.setRouting(JSONData["routing"])
-        self.treasureChest.setInbound(JSONData["inbound"], openFromJSONFile = True)
-        self.treasureChest.setOutbound(JSONData["outbound"], openFromJSONFile = True)
-        self.treasureChest.setInboundDetour(None, JSONData["inboundDetour"], openFromJSONFile = True)
-        self.treasureChest.setOutboundDetour(None, JSONData["outboundDetour"], openFromJSONFile = True)
+        self.treasureChest.setInbound(JSONData["inbound"], openFromJSONFile=True)
+        self.treasureChest.setOutbound(JSONData["outbound"], openFromJSONFile=True)
+        self.treasureChest.setInboundDetour(None, JSONData["inboundDetour"], openFromJSONFile=True)
+        self.treasureChest.setOutboundDetour(None, JSONData["outboundDetour"], openFromJSONFile=True)
         self.treasureChest.setTransport(JSONData["transport"])
 
         return JSONData
@@ -148,17 +150,17 @@ class openV2rayJSONFile():
     
     def openJSONData(self, filePath):
         self.msgBox = QMessageBox()
-        self.fly = QApplication.desktop().screen().rect().center()-self.msgBox.rect().center()
+        self.fly = QApplication.desktop().screen().rect().center() - self.msgBox.rect().center()
         fileInfo = QFileInfo(filePath)
         fileName = fileInfo.fileName()
         openFile = QFile(filePath)
         
         openFile.open(QIODevice.ReadOnly | QIODevice.Text)
         if openFile.error() != openFile.NoError:
-            self.msgBox.information(QDialog().move(self.fly), 
-                               "{}".format(fileName), 
+            self.msgBox.information(QDialog().move(self.fly),
+                               "{}".format(fileName),
                                self.translate("openV2rayJSONFile", "Unable to open the file {}:  {}.").format(
-                                   fileName, 
+                                   fileName,
                                    openFile.errorString()))
             openFile = None
             return
@@ -167,7 +169,7 @@ class openV2rayJSONFile():
         try:
             JSONData = json.loads(JSONData)
         except ValueError as e:
-            self.msgBox.information(QDialog().move(self.fly), 
+            self.msgBox.information(QDialog().move(self.fly),
                                self.translate("openV2rayJSONFile", "Parse JSON Data Error"),
                                self.translate("openV2rayJSONFile", "Unable to parse {}:  error:{}.").format(fileName, e))
             openFile = None
@@ -188,10 +190,10 @@ class openV2rayJSONFile():
         
         outFile.open(QIODevice.WriteOnly | QIODevice.Text)
         if outFile.error() != outFile.NoError:
-            self.msgBox.information(QDialog().move(self.fly), 
-                               "{}".format(fileName), 
+            self.msgBox.information(QDialog().move(self.fly),
+                               "{}".format(fileName),
                                self.translate("openV2rayJSONFile", "Unable to open the file {}:  {}.").format(
-                                   fileName, 
+                                   fileName,
                                    outFile.errorString()))
             outFile = None
             return False
@@ -199,27 +201,29 @@ class openV2rayJSONFile():
         outFile.write(codecs.encode(data, "utf-8"))
         
         if outFile.error() != outFile.NoError:
-            self.msgBox.information(QDialog().move(self.fly), 
-                               "{}".format(fileName), 
+            self.msgBox.information(QDialog().move(self.fly),
+                               "{}".format(fileName),
                                self.translate("openV2rayJSONFile", "Unable to save the file {}:  {}.").format(
-                                   fileName, 
+                                   fileName,
                                    outFile.errorString()))
             outFile = None
             return False
         
         outFile.close()
 
+
 class editV2rayJSONFile(QWidget):
     """
     This class for debug or edit json file
     """
-    def __init__(self, CaptainstreasureChest = False):
+
+    def __init__(self, CaptainstreasureChest=False):
         super().__init__()
         
         self._windowTitle = "Edit JSON File"
         
         self.treasureChest = CaptainstreasureChest
-        if (CaptainstreasureChest == False):
+        if (not CaptainstreasureChest):
             self.treasureChest = treasureChest.treasureChest()
 
         self.createPanel()
@@ -234,7 +238,7 @@ class editV2rayJSONFile(QWidget):
         
         hbox = QHBoxLayout()
         hbox.addWidget(self.statusBar)
-        #hbox.addStretch()
+        # hbox.addStretch()
         hbox.addWidget(self.btnOpen)
         hbox.addWidget(self.btnSave)
 
@@ -269,7 +273,7 @@ class editV2rayJSONFile(QWidget):
                                                   v2ray-shell file(*.v2rayshell);;
                                                   All Files (*)
                                                   """,
-                                                  options = options)
+                                                  options=options)
         if (filePath):
             JSONData = {}
             v2rayshell = filePath.split(".")[-1:][0]
@@ -277,12 +281,12 @@ class editV2rayJSONFile(QWidget):
                 self.textEditor.clear()
                 JSONData = openV2rayJSONFile.openJSONData(filePath)
                 JSONData = json.loads(JSONData)
-                JSONData = json.dumps(JSONData, indent = 4, sort_keys = False)
+                JSONData = json.dumps(JSONData, indent=4, sort_keys=False)
                 self.textEditor.setText(JSONData)
                 return
             else:
                 JSONData = openV2rayJSONFile(filePath, self.treasureChest)
-                JSONData = json.dumps(JSONData.initboundJSONData(), indent = 4, sort_keys = False)
+                JSONData = json.dumps(JSONData.initboundJSONData(), indent=4, sort_keys=False)
                 self.textEditor.clear()
                 self.textEditor.setText(JSONData)
                 self._windowTitle = "{}".format(filePath)
@@ -290,7 +294,7 @@ class editV2rayJSONFile(QWidget):
         
     def onbtnSave(self):
         text = self.textEditor.toPlainText()
-        if (text == ""): 
+        if (not text): 
             self.statusBar.showMessage("There have nothing to svae...") 
             return
         JSONData = openV2rayJSONFile().jsonDataValitor(copy.deepcopy(text))
@@ -299,7 +303,7 @@ class editV2rayJSONFile(QWidget):
             self.statusBar.showMessage(JSONData[1])
             return
         else:
-            JSONData = copy.deepcopy(json.dumps(JSONData[1], indent = 4, sort_keys = False))
+            JSONData = copy.deepcopy(json.dumps(JSONData[1], indent=4, sort_keys=False))
         options = QFileDialog.Options()
         fileName, _ = QFileDialog.getSaveFileName(self,
                                                   "Save V2ray config.json file",
@@ -308,10 +312,11 @@ class editV2rayJSONFile(QWidget):
                                                   json file (*.json);;
                                                   All file (*)
                                                   """,
-                                                  options = options)
-        if (fileName and JSONData != ""):
-            openV2rayJSONFile().saveTextdata(filePath = fileName, 
-                                             data     = JSONData)
+                                                  options=options)
+        if (fileName and JSONData):
+            openV2rayJSONFile().saveTextdata(filePath=fileName,
+                                             data=JSONData)
+
             
 if __name__ == "__main__":
     app = QApplication(sys.argv)

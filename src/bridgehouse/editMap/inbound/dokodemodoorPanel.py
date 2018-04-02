@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit, QSpinBox,
-                             QCheckBox, QGroupBox, QHBoxLayout, QVBoxLayout, 
+                             QCheckBox, QGroupBox, QHBoxLayout, QVBoxLayout,
                              QToolTip, QPushButton)
 from PyQt5.QtGui import QCursor
 from PyQt5.QtCore import QFileInfo, QCoreApplication
@@ -11,14 +11,16 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
 
+
 class DokodemodoorPanel(QWidget):
+
     def __init__(self):
         super().__init__()
         self.dokodemodoorJSONFile = {
@@ -111,13 +113,13 @@ class DokodemodoorPanel(QWidget):
             self.checkBoxDokodemodoorFollowRedirect.setCheckable(True)
         else:
             QToolTip.showText(QCursor.pos(),
-                              self.translate("DokodemodoorPanel", "Only suport Linux System."), 
+                              self.translate("DokodemodoorPanel", "Only suport Linux System."),
                               self.checkBoxDokodemodoorFollowRedirect)
 
-    def settingdokodemodoorPanelFromJSONFile(self, dokodemodoorJSONFile = {}, openFromJSONFile = False):
+    def settingdokodemodoorPanelFromJSONFile(self, dokodemodoorJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         
-        if (dokodemodoorJSONFile == None): dokodemodoorJSONFile = {}
+        if (not dokodemodoorJSONFile): dokodemodoorJSONFile = {}
 
         try:
             dokodemodoorJSONFile["address"]
@@ -155,7 +157,6 @@ class DokodemodoorPanel(QWidget):
             logbook.writeLog("dokodemodoor", "KeyError", e)
             dokodemodoorJSONFile["userLevel"] = 0
 
-
         self.lineEditDokodemodoorAddress.setText(str(dokodemodoorJSONFile["address"]))
         try:
             self.spinBoxDokodemodoorPort.setValue(int(dokodemodoorJSONFile["port"]))
@@ -189,19 +190,19 @@ class DokodemodoorPanel(QWidget):
         dokodemodoorJSONFile = {}
         tcp = self.checkBoxDokodemodoorTCP.isChecked()
         udp = self.checkBoxDokodemodoorUDP.isChecked()
-        port = ""   ### defaut
+        port = ""  # defaut
         if (tcp):
             port = "tcp"
         if (udp):
             port = "udp"
         if (tcp and udp):
             port = "tcp,udp"
-        dokodemodoorJSONFile["address"]        = self.lineEditDokodemodoorAddress.text()
-        dokodemodoorJSONFile["port"]           = self.spinBoxDokodemodoorPort.value()
-        dokodemodoorJSONFile["network"]        = port
-        dokodemodoorJSONFile["timeout"]        = self.spinBoxDokodemodoorTimeout.value()
+        dokodemodoorJSONFile["address"] = self.lineEditDokodemodoorAddress.text()
+        dokodemodoorJSONFile["port"] = self.spinBoxDokodemodoorPort.value()
+        dokodemodoorJSONFile["network"] = port
+        dokodemodoorJSONFile["timeout"] = self.spinBoxDokodemodoorTimeout.value()
         dokodemodoorJSONFile["followRedirect"] = self.checkBoxDokodemodoorFollowRedirect.isChecked()
-        dokodemodoorJSONFile["userLevel"]      = self.spinBoxDokodemodooruserLevel.value()
+        dokodemodoorJSONFile["userLevel"] = self.spinBoxDokodemodooruserLevel.value()
         
         try:
             self.treasureChest.addLevel(self.spinBoxDokodemodooruserLevel.value())
@@ -220,7 +221,8 @@ class DokodemodoorPanel(QWidget):
     
     def __debugTest(self):
         import json
-        print(json.dumps(self.createDokodemodorrJSONFile(), indent=4, sort_keys = False))
+        print(json.dumps(self.createDokodemodorrJSONFile(), indent=4, sort_keys=False))
+
 
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication

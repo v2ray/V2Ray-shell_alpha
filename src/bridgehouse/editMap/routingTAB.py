@@ -9,12 +9,14 @@ v2rayshellDebug = False
 
 if __name__ == "__main__":
     v2rayshellDebug = True
-    ### this for debug test
+    # this for debug test
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
 
+
 class routingTab(QWidget):
+
     def __init__(self):
         super().__init__()
         self.routingJSONFile = {
@@ -81,25 +83,25 @@ class routingTab(QWidget):
         self.textEditRoutingJSONFile.setReadOnly(True)
         
         self.textEditRoutingJSONFile.setPlainText(
-            json.dumps(self.routingJSONFile, indent = 4, sort_keys = False))
+            json.dumps(self.routingJSONFile, indent=4, sort_keys=False))
 
         return self.textEditRoutingJSONFile
     
-    def settingRoutingTABFromJSONFile(self, routingJSONFile = {}, openFromJSONFile = False):
+    def settingRoutingTABFromJSONFile(self, routingJSONFile=None, openFromJSONFile=False):
         
-        if (routingJSONFile == None): routingJSONFile = self.routingJSONFile
+        if (not routingJSONFile): routingJSONFile = self.routingJSONFile
         
-        if (openFromJSONFile and routingJSONFile != {} or routingJSONFile != None):
+        if (openFromJSONFile and routingJSONFile):
             self.textEditRoutingJSONFile.clear()
             try:
                 self.textEditRoutingJSONFile.setText(
-                    json.dumps(routingJSONFile, indent = 4, sort_keys = False))
+                    json.dumps(routingJSONFile, indent=4, sort_keys=False))
             except Exception:
                 pass
-        elif (openFromJSONFile == False):
-            ### use default settings
+        elif (not openFromJSONFile):
+            # use default settings
             self.textEditRoutingJSONFile.setText(
-                json.dumps(self.routingJSONFile, indent = 4, sort_keys = False))
+                json.dumps(self.routingJSONFile, indent=4, sort_keys=False))
     
     def createRoutingJSONFile(self):
         try:
@@ -109,6 +111,7 @@ class routingTab(QWidget):
             routingJSONFile = {}
         
         return routingJSONFile
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -2,6 +2,7 @@
 
 from PyQt5.QtCore import pyqtSignal, QObject
 
+
 class updateListSignal(QObject):
     """
     when the outbound tag had added or changed. 
@@ -9,5 +10,5 @@ class updateListSignal(QObject):
     
     when have new level or email will emit to they panel. fresh the list.
     """
-    setInboundTag       = pyqtSignal()
+    setInboundTag = pyqtSignal()
     updateLevelandEmail = pyqtSignal()
