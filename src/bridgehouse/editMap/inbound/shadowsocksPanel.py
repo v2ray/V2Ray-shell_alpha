@@ -29,7 +29,8 @@ class InboundShadowsocksPanel(QWidget):
                                     "password": "",
                                     "udp": False,
                                     "level": 1,
-                                    "ota": True
+                                    "ota": True,
+                                    "network": "tcp,udp"
                                     }
         self.listMethodShadowsocksPanel = "aes-256-cfb", "aes-128-cfb", "chacha20", "chacha20-ietf", "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305"
         self.translate = QCoreApplication.translate
@@ -51,11 +52,22 @@ class InboundShadowsocksPanel(QWidget):
         self.spinBoxInboundShadowsocksLevel = QSpinBox()
         self.checkBoxInboundShadowsocksOTA = QCheckBox(
             self.translate("InboundShadowsocksPanel", "One Time Auth (OTA)"), self)
+        labelNetwork = QLabel(self.translate("InboundShadowsocksPanel", "Network: "), self)
+        self.checkBoxNewtworkTCP = QCheckBox("TCP", self)
+        self.checkBoxNewtworkUDP = QCheckBox("UDP", self)
+        hboxNetwork = QHBoxLayout()
+        hboxNetwork.addWidget(self.checkBoxNewtworkTCP)
+        hboxNetwork.addWidget(self.checkBoxNewtworkUDP)
+        hboxNetwork.addStretch()
         
         self.comboBoxInboundShadowsocksMethod.addItems(self.listMethodShadowsocksPanel)
         self.checkBoxInboundShadowsocksUDP.setChecked(False)
         self.spinBoxInboundShadowsocksLevel.setRange(0, 65535)
         self.spinBoxInboundShadowsocksLevel.setValue(0)
+        self.checkBoxNewtworkTCP.setChecked(True)
+        self.checkBoxNewtworkUDP.setChecked(False)
+        self.checkBoxInboundShadowsocksUDP.setVisible(False)
+        self.checkBoxInboundShadowsocksUDP.setChecked(False)
 
         gridBoxInboundShadowsocks = QGridLayout(self)
         gridBoxInboundShadowsocks.addWidget(labelEmail, 0, 0)
@@ -65,6 +77,8 @@ class InboundShadowsocksPanel(QWidget):
         gridBoxInboundShadowsocks.addWidget(labelPassowrd, 2, 0)
         gridBoxInboundShadowsocks.addWidget(self.lineEditInboundShadowsocksPassowrd, 2, 1)
         gridBoxInboundShadowsocks.addWidget(labelLevel, 3, 0)
+        gridBoxInboundShadowsocks.addWidget(labelNetwork, 6, 0)
+        gridBoxInboundShadowsocks.addLayout(hboxNetwork, 6, 1)
         
         hboxLevel = QHBoxLayout()
         hboxLevel.addWidget(self.spinBoxInboundShadowsocksLevel)
@@ -76,7 +90,7 @@ class InboundShadowsocksPanel(QWidget):
         
         if (v2rayshellDebug):
             self.__debugBtn = QPushButton("__debugTest", self)
-            gridBoxInboundShadowsocks.addWidget(self.__debugBtn, 6, 0)
+            gridBoxInboundShadowsocks.addWidget(self.__debugBtn, 7, 0)
             self.__debugBtn.clicked.connect(self.__debugTest)
             self.settingInboundShadowsocksPanelFromJSONFile(self.inboundShadowsocksJSONFile, True)
 
@@ -130,6 +144,12 @@ class InboundShadowsocksPanel(QWidget):
         except KeyError as e:
             logbook.writeLog("InboundShadowsocks", "KeyError", e)
             inboundShadowsocksJSONFile["ota"] = True
+            
+        try:
+            inboundShadowsocksJSONFile["network"]
+        except KeyError as e:
+            logbook.writeLog("InboundShadowsocks", "KeyError", e)
+            inboundShadowsocksJSONFile["network"] = "tcp"
 
         self.lineEditInboundShadowsocksEmail.setText(str(inboundShadowsocksJSONFile["email"]))
         self.comboBoxInboundShadowsocksMethod.setCurrentText(str(inboundShadowsocksJSONFile["method"]))
@@ -148,7 +168,19 @@ class InboundShadowsocksPanel(QWidget):
             self.treasureChest.addEmail(self.lineEditInboundShadowsocksEmail.text())
         except Exception:
             pass
-        
+
+        network = [x.strip() for x in str(inboundShadowsocksJSONFile["network"]).split(",")]
+            
+        if (network):
+            if "tcp" in network:
+                self.checkBoxNewtworkTCP.setChecked(True)
+            else:
+                self.checkBoxNewtworkTCP.setChecked(False)
+            if "udp" in network:
+                self.checkBoxNewtworkUDP.setChecked(True)
+            else:
+                self.checkBoxNewtworkUDP.setChecked(False)
+
     def createInboundShadowsocksJSONFile(self):
         inboundShadowsocksJSONFile = {}
         inboundShadowsocksJSONFile["email"] = self.lineEditInboundShadowsocksEmail.text()
@@ -158,20 +190,39 @@ class InboundShadowsocksPanel(QWidget):
         inboundShadowsocksJSONFile["level"] = self.spinBoxInboundShadowsocksLevel.value()
         inboundShadowsocksJSONFile["ota"] = self.checkBoxInboundShadowsocksOTA.isChecked()
         
+        network = None
+        tcp = "tcp" if self.checkBoxNewtworkTCP.isChecked() else None
+        udp = "udp" if self.checkBoxInboundShadowsocksUDP.isChecked() else None
+        udp = "udp" if self.checkBoxNewtworkUDP.isChecked() else None
+
+        if (not tcp and udp):
+            network = udp
+        if (tcp and not udp):
+            network = tcp
+        if (tcp and udp):
+            network = None
+            network = tcp + "," + udp
+
+        inboundShadowsocksJSONFile["network"] = network
+        if not network:
+            inboundShadowsocksJSONFile["network"] = "tcp"    # V2Ray 3.16+ default is "tcp"
+
         try:
             self.treasureChest.addLevel(self.spinBoxInboundShadowsocksLevel.value())
             self.treasureChest.addEmail(self.lineEditInboundShadowsocksEmail.text())
         except Exception:
             pass
-        
+
         return inboundShadowsocksJSONFile
-    
+
     def clearinboundShadowsocksPanel(self):
         self.lineEditInboundShadowsocksEmail.clear()
         self.comboBoxInboundShadowsocksMethod.setCurrentIndex(0)
         self.lineEditInboundShadowsocksPassowrd.clear()
         self.checkBoxInboundShadowsocksUDP.setChecked(False)
         self.checkBoxInboundShadowsocksOTA.setChecked(False)
+        self.checkBoxNewtworkTCP.setChecked(False)
+        self.checkBoxNewtworkUDP.setChecked(False)
         self.spinBoxInboundShadowsocksLevel.setValue(0)
         
     def __debugTest(self):

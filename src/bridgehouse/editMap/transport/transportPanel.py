@@ -38,7 +38,7 @@ class TransportSettingPanel(QWidget):
             self.translate("TransportSettingPanel", "ws"), self)
 
         radioButtonTCP.setChecked(True)
-        
+
         self.groupBtnNewtwork = QButtonGroup(self)
         self.groupBtnNewtwork.addButton(radioButtonmKCP)
         self.groupBtnNewtwork.addButton(radioButtonTCP)
@@ -236,7 +236,8 @@ class TransportPanel(TransportSettingPanel,
                                         },
                         "tcpSettings": {},
                         "kcpSettings": {},
-                        "wsSettings": {}
+                        "wsSettings": {},
+                        "httpSettings": {}
                         }
         self.translate = QCoreApplication.translate
     
