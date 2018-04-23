@@ -251,6 +251,8 @@ class treasureChest():
     def setTransport(self, JSONDataTransport=False):
         if (JSONDataTransport):
             self.__transport = copy.deepcopy(JSONDataTransport)
+        else:
+            self.__transport = None
 
     def setRouting(self, JSONDataRouting):
         self.__routing = copy.deepcopy(JSONDataRouting)
@@ -305,7 +307,7 @@ class treasureChest():
         transport = copy.deepcopy(self.__transport)
         if (not transport):
             return False
-        else: return transport 
+        else: return transport
 
     def getRouting(self):
         routing = copy.deepcopy(self.__routing)

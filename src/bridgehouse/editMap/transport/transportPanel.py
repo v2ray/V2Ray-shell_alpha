@@ -316,7 +316,7 @@ class TransportPanel(TransportSettingPanel,
         logbook.setisOpenJSONFile(openFromJSONFile)
         certificatesFilesNumber = 0
 
-        if (transportJSONFile == None): 
+        if (not transportJSONFile ): 
             transportJSONFile = {}
             self.checkBoxTransportSetting.setChecked(False)
             return False
@@ -370,7 +370,7 @@ class TransportPanel(TransportSettingPanel,
                 hideSettingsandDisableRadioButton()
                 self.radioButtonTransportTCP.setChecked(True)
                 self.tcpPanel.show()
-                if (not transportJSONFile["tcpSettings"]):
+                if (transportJSONFile["tcpSettings"]):
                     self.tcp.settingtcpPanelFromJSONFile(
                         copy.deepcopy(transportJSONFile["tcpSettings"]), openFromJSONFile)
                     self.tcp.groupBoxTCPSetting.setChecked(True)
@@ -379,7 +379,7 @@ class TransportPanel(TransportSettingPanel,
                 hideSettingsandDisableRadioButton()
                 self.radioButtonmTransportKCP.setChecked(True)
                 self.mkcpPanel.show()
-                if (not transportJSONFile["kcpSettings"]):
+                if (transportJSONFile["kcpSettings"]):
                     self.mkcp.settingmKcpPanelFromJSONFile(
                         copy.deepcopy(transportJSONFile["kcpSettings"]), openFromJSONFile)
                     self.mkcp.groupBoxmKCPSetting.setChecked(True)
