@@ -144,7 +144,6 @@ class nauticalChartPanel(QDialog):
                                                   self.translate("nauticalChartPanel", "Save V2Ray config.json File"),
                                                   "config.json",
                                                   """
-                                                  V2Ray config.json (config.json);;
                                                   json file (*.json);;
                                                   All Files (*)
                                                   """,

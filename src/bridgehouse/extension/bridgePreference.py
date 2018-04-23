@@ -348,9 +348,8 @@ class bridgepreferencesPanel(QDialog):
                               self.comboxStarup)
 
     def onbuttonpreferenceApply(self):
-        filePath = self.lineEditFilePath.text()
-        if not filePath:
-            self.bridgetreasureChest.setV2raycoreFilePath(filePath)
+
+        self.bridgetreasureChest.setV2raycoreFilePath(self.lineEditFilePath.text())
 
         connection = {}
         connection["enable"] = True if self.grouBoxConnection.isChecked() else False
