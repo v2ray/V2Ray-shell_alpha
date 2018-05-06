@@ -43,7 +43,9 @@
 但请注意如果使用PyQt请遵循Riverbank公司的[协议](https://www.riverbankcomputing.com/commercial/license-faq)。<br>
 或者使用PySide请遵循Qt公司[相应协议](http://code.qt.io/cgit/pyside/pyside-setup.git/tree/?h=5.9)<br>
 为了兼顾两家公司的协议，所以此脚本才会使用[公有领域协议](https://zh.wikipedia.org/wiki/%E5%85%AC%E6%9C%89%E9%A2%86%E5%9F%9F)<br>
-如果你购买了Riverbank或Qt的商业授权。闭源是被允许。
+如果你购买了Riverbank或Qt的商业授权。闭源是被允许。<br>
+PySide2可以在这[下载](http://download.qt.io/snapshots/ci/pyside/5.9/latest/pyside2/)。<br>
+PyQt5可以直接用pip安装。
 
 ### 维护
 由于作者还有其他工作。只能用业余时间去维护这个项目。<br>
@@ -100,12 +102,9 @@ Name[en_US]=v2rayshell
 欢迎有能力与时间的朋友参与脚本的翻译与修正。<br>
 或者帮助设计无版权图标(带Alpha通道的PSD或者TIF文件受欢迎)。
 翻译方法：<br> 
-> 1. [注册QT账号](https://login.qt.io/login) [下载QT开发包](https://www.qt.io/download-qt-for-application-development) 或者下载在线安装包<br>
->[Linux Host](http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run)<br>
->[macOS Host](http://download.qt.io/official_releases/online_installers/qt-unified-mac-x64-online.dmg)<br>
->[Windows Host](http://download.qt.io/official_releases/online_installers/qt-unified-windows-x86-online.exe)<br>
+> 1. [下载QT开发包](https://download.qt.io/archive/qt/)<br>
 > 2. 打开v2rayshell.pro文件，在TRANSLATIONS项目里增加相应语言。<br>
-> 3. 命令行中找到v2ray-shell的v2rayshell.pro文件。执行此命令`pylupdate5 v2rayshell.pro`生成ts文件。<br>
+> 3. 命令行中找到v2ray-shell的v2rayshell.pro文件。执行此命令`pylupdate5 v2rayshell.pro `生成ts文件。<br>
 > 4. 到translations目录找到相应的ts目标文件。<br>
 > 5. 找到QT开发包的Qt Linguist，使用Linguist打开ts文件并开始翻译。Qt Linguist的使用方法可以查看帮助文档Qt Linguist Manual。<br>
 > 6. 翻译好后文件后，在Qt Linguist中找到File->Release As 发布翻译好的qm文件。<br>

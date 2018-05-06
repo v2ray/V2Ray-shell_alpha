@@ -15,7 +15,8 @@ if __name__ == "__main__":
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-4]))
         
-from bridgehouse.editMap.transport import (mkcpPanel, wsPanel, tcpPanel, logbook)
+from bridgehouse.editMap.transport import (
+    mkcpPanel, wsPanel, tcpPanel, httpPanel, logbook)
 
 
 class TransportSettingPanel(QWidget):
@@ -36,6 +37,8 @@ class TransportSettingPanel(QWidget):
             self.translate("TransportSettingPanel", "mKcp"), self)
         self.radioButtonTransportWS = radioButtonWS = QRadioButton(
             self.translate("TransportSettingPanel", "ws"), self)
+        self.radioButtonTransportHTTP = radioButtonHTTP = QRadioButton(
+            self.translate("TransportSettingPanel", "http"), self)
 
         radioButtonTCP.setChecked(True)
 
@@ -43,12 +46,14 @@ class TransportSettingPanel(QWidget):
         self.groupBtnNewtwork.addButton(radioButtonmKCP)
         self.groupBtnNewtwork.addButton(radioButtonTCP)
         self.groupBtnNewtwork.addButton(radioButtonWS)
+        self.groupBtnNewtwork.addButton(radioButtonHTTP)
         
         hboxNetwork = QHBoxLayout()
         hboxNetwork.addWidget(labelNetwork)
         hboxNetwork.addWidget(radioButtonTCP)
         hboxNetwork.addWidget(radioButtonmKCP)
         hboxNetwork.addWidget(radioButtonWS)
+        hboxNetwork.addWidget(radioButtonHTTP)
         hboxNetwork.addStretch()
         
         self.vboxNetwork = QVBoxLayout()
@@ -246,16 +251,20 @@ class TransportPanel(TransportSettingPanel,
         self.mkcp = mkcpPanel.mKcpPanel()
         self.tcp = tcpPanel.TcpPanel()
         self.ws = wsPanel.wsPanel()
+        self.http = httpPanel.httpPanel()
         self.mkcpPanel = self.mkcp.createmKcpSettingPanel()
         self.tcpPanel = self.tcp.createTCPSettingPanel()
         self.wsPanel = self.ws.createwsSettingPanel()
+        self.httpPanel = self.http.createHttpSettingPanel()
         self.mkcpPanel.hide()
         self.wsPanel.hide()
+        self.httpPanel.hide()
         
         vboxTransportProtocols = QVBoxLayout()
         vboxTransportProtocols.addWidget(self.mkcpPanel)
         vboxTransportProtocols.addWidget(self.tcpPanel)
         vboxTransportProtocols.addWidget(self.wsPanel)
+        vboxTransportProtocols.addWidget(self.httpPanel)
         vboxTransportProtocols.addStretch()
         
         self.checkBoxTransportSetting = QCheckBox(
@@ -297,12 +306,15 @@ class TransportPanel(TransportSettingPanel,
             self.tcpPanel.hide()
             self.wsPanel.hide()
             self.mkcpPanel.hide()
+            self.httpPanel.hide()
             if (btn == self.translate("TransportSettingPanel", "mKcp")):
                 self.mkcpPanel.show()
             elif (btn == self.translate("TransportSettingPanel", "ws")):
                 self.wsPanel.show()
             elif (btn == self.translate("TransportSettingPanel", "TCP")):
                 self.tcpPanel.show()
+            elif (btn == self.translate("TransportSettingPanel", "http")):
+                self.httpPanel.show()
 
         showNetwork(e.text())
 
@@ -312,7 +324,7 @@ class TransportPanel(TransportSettingPanel,
         else :
             self.groupTransportPanel.hide()
 
-    def settingtransportPanelFromJSONFile(self, transportJSONFile={}, openFromJSONFile=False):
+    def settingtransportPanelFromJSONFile(self, transportJSONFile=None, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         certificatesFilesNumber = 0
 
@@ -337,33 +349,42 @@ class TransportPanel(TransportSettingPanel,
             transportJSONFile["tlsSettings"]
         except KeyError as e:
             logbook.writeLog("transport", "KeyError", e)
-            transportJSONFile["tlsSettings"] = {}
+            transportJSONFile["tlsSettings"] = None
         
         try:
             transportJSONFile["tcpSettings"]
         except KeyError as e:
             logbook.writeLog("transport", "KeyError", e)
-            transportJSONFile["tcpSettings"] = {}
+            transportJSONFile["tcpSettings"] = None
         
         try:
             transportJSONFile["kcpSettings"]
         except KeyError as e:
             logbook.writeLog("transport", "KeyError", e)
-            transportJSONFile["kcpSettings"] = {}
+            transportJSONFile["kcpSettings"] = None
         
         try:
             transportJSONFile["wsSettings"]
         except KeyError as e:
             logbook.writeLog("transport", "KeyError", e)
-            transportJSONFile["wsSettings"] = {}
+            transportJSONFile["wsSettings"] = None
+            
+        try:
+            transportJSONFile["httpSettings"]
+        except KeyError as e:
+            logbook.writeLog("transport", "KeyError", e)
+            transportJSONFile["httpSettings"] = None
+        
         
         def hideSettingsandDisableRadioButton():
             self.tcpPanel.hide()
             self.wsPanel.hide()
             self.mkcpPanel.hide()
+            self.httpPanel.hide()
             self.ws.groupBoxwsSetting.setChecked(False)
             self.mkcp.groupBoxmKCPSetting.setChecked(False)
             self.tcp.groupBoxTCPSetting.setChecked(False)
+            self.http.groupBoxhttp.setChecked(False)
 
         def setTransport(protocol=transportJSONFile["network"]):
             if (protocol == "tcp"):
@@ -375,7 +396,7 @@ class TransportPanel(TransportSettingPanel,
                         copy.deepcopy(transportJSONFile["tcpSettings"]), openFromJSONFile)
                     self.tcp.groupBoxTCPSetting.setChecked(True)
             
-            elif(protocol == "kcp"):
+            elif (protocol == "kcp"):
                 hideSettingsandDisableRadioButton()
                 self.radioButtonmTransportKCP.setChecked(True)
                 self.mkcpPanel.show()
@@ -384,7 +405,7 @@ class TransportPanel(TransportSettingPanel,
                         copy.deepcopy(transportJSONFile["kcpSettings"]), openFromJSONFile)
                     self.mkcp.groupBoxmKCPSetting.setChecked(True)
 
-            elif(protocol == "ws"):
+            elif (protocol == "ws"):
                 hideSettingsandDisableRadioButton()
                 self.radioButtonTransportWS.setChecked(True)
                 self.wsPanel.show()
@@ -392,6 +413,15 @@ class TransportPanel(TransportSettingPanel,
                     self.ws.settingwsPanelFromJSONFile(
                         copy.deepcopy(transportJSONFile["wsSettings"]), openFromJSONFile)
                     self.ws.groupBoxwsSetting.setChecked(True)
+                    
+            elif (protocol == "http"):
+                hideSettingsandDisableRadioButton()
+                self.radioButtonTransportHTTP.setCheckable(True)
+                self.httpPanel.show()
+                if (transportJSONFile["httpSettings"]):
+                    self.http.groupBoxhttp.setChecked(True)
+                    self.http.settingHttpPanelFromJSONFile(
+                        copy.deepcopy(transportJSONFile["httpSettings"]), openFromJSONFile)
         
         setTransport()
         
@@ -431,7 +461,7 @@ class TransportPanel(TransportSettingPanel,
             cleartlsSettings()
             certificatesFilesNumber = 0
             
-        if (certificatesFilesNumber > 0):
+        if (certificatesFilesNumber):
             self.tableWidgetUserCertificates.setRowCount(certificatesFilesNumber)
             try:
                 for i in range(certificatesFilesNumber):
@@ -453,12 +483,16 @@ class TransportPanel(TransportSettingPanel,
             transportJSONFile["network"] = "tcp"
         if (self.radioButtonTransportWS.isChecked()):
             transportJSONFile["network"] = "ws"
+        if (self.radioButtonTransportHTTP.isChecked()):
+            transportJSONFile["network"] = "http"
         
         if (self.groupBoxTLSSetting.isChecked()):
             transportJSONFile["security"] = "tls"
             transportJSONFile["tlsSettings"] = {}
-            transportJSONFile["tlsSettings"]["allowInsecure"] = self.checkBoxCertificateAllowInsecure.isChecked()
-            transportJSONFile["tlsSettings"]["serverName"] = copy.deepcopy(self.lineEditCertificateServerName.text())
+            if self.checkBoxCertificateAllowInsecure.isChecked():
+                transportJSONFile["tlsSettings"]["allowInsecure"] = True
+            if self.lineEditCertificateServerName.text():
+                transportJSONFile["tlsSettings"]["serverName"] = copy.deepcopy(self.lineEditCertificateServerName.text())
             certificatesFilesNumber = self.tableWidgetUserCertificates.rowCount()
             files = []
             if (certificatesFilesNumber > 0):
@@ -476,27 +510,22 @@ class TransportPanel(TransportSettingPanel,
         else:
             transportJSONFile["security"] = "none"
 
-        transportJSONFile["kcpSettings"] = {}
         if (self.radioButtonmTransportKCP.isChecked() and self.mkcp.groupBoxmKCPSetting.isChecked()):
             transportJSONFile["kcpSettings"] = copy.deepcopy(self.mkcp.createmKcpSettingJSONFile())
-        else:
-            del transportJSONFile["kcpSettings"]
 
-        transportJSONFile["tcpSettings"] = {}
         if (self.radioButtonTransportTCP.isChecked() and self.tcp.groupBoxTCPSetting.isChecked()):
             transportJSONFile["tcpSettings"] = copy.deepcopy(self.tcp.createtcpSettingJSONFile())
-        else:
-            del transportJSONFile["tcpSettings"]
 
-        transportJSONFile["wsSettings"] = {}
         if (self.radioButtonTransportWS.isChecked() and self.ws.groupBoxwsSetting.isChecked()):
             transportJSONFile["wsSettings"] = copy.deepcopy(self.ws.createwsSettingJSONFile())
-        else:
-            del transportJSONFile["wsSettings"]
+
+        if (self.radioButtonTransportHTTP.isChecked() and self.http.groupBoxhttp.isChecked()):
+            transportJSONFile["httpSettings"] = copy.deepcopy(self.http.createHttpSettingJSONFile())
         
         return transportJSONFile
     
     def clearTransportPanel(self):
+        # set to Default
         self.checkBoxTransportSetting.setChecked(False)
         self.tableWidgetUserCertificates.setRowCount(0)
         self.groupBoxTLSSetting.setChecked(False)
@@ -507,17 +536,19 @@ class TransportPanel(TransportSettingPanel,
         self.radioButtonTransportTCP.setChecked(True)
         self.radioButtonmTransportKCP.setChecked(False)
         self.radioButtonTransportWS.setChecked(False)
+        self.radioButtonTransportHTTP.setChecked(False)
         self.tcpPanel.show()
         self.groupTransportPanel.hide()
         self.mkcp.clearmkcpPanel()
         self.ws.clearwsPanel()
         self.tcp.cleartcpPanel()
+        self.http.clearHttpPanel()
 
     def __debugTest(self):
         import json
         print(json.dumps(self.createtransportSettingJSONFile(), indent=4, sort_keys=False))
 
-            
+
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)

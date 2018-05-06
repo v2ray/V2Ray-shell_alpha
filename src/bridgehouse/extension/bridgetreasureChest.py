@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from PyQt5.QtCore import (QObject, pyqtSignal, QFile, QFileInfo,
-                          QIODevice, Qt, QCoreApplication, QDir,
-                          qDebug)
+                          QIODevice, Qt, QCoreApplication, QDir)
 from PyQt5.QtWidgets import QDialog, QMessageBox, QApplication
 from PyQt5.QtNetwork import QNetworkProxy
 

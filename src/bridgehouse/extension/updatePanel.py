@@ -260,7 +260,7 @@ class updateV2ray(QObject):
             api = None
         if (api):
             try:
-                # ## this code for get Latest release Download Files' path
+                # this code for get Latest release Download Files' path
                 for i in api["assets"]:
                     self.v2rayAPI.setdownloadINFO(i["name"], i["browser_download_url"])
                 self.v2rayAPI.setV2raycoreVersion(api["tag_name"])

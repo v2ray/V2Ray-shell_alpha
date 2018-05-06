@@ -157,7 +157,7 @@ StartupNotify=false
 </plist>"""
         macOSSplitFile = macOSSplitFile.format(name=splitFileName, target=execFileTarget)
         splitFileName = "{}.split".format(splitFileName)
-        if not self.createStartupFile(launchAgentsPath, splitFileName, macOSSplitFile, enable):
+        if not self.createStartupFile(launchAgentsPath, splitFileName, macOSSplitFile):
             return False
         return True
         
