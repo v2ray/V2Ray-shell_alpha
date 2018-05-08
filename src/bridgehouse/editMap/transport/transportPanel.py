@@ -542,7 +542,7 @@ class TransportPanel(TransportSettingPanel,
         self.mkcp.clearmkcpPanel()
         self.ws.clearwsPanel()
         self.tcp.cleartcpPanel()
-        self.http.clearHttpPanel()
+        #self.http.clearHttpPanel()  # a bug need fix
 
     def __debugTest(self):
         import json
