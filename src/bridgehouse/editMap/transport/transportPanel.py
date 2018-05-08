@@ -416,7 +416,7 @@ class TransportPanel(TransportSettingPanel,
                     
             elif (protocol == "http"):
                 hideSettingsandDisableRadioButton()
-                self.radioButtonTransportHTTP.setCheckable(True)
+                self.radioButtonTransportHTTP.setChecked(True)
                 self.httpPanel.show()
                 if (transportJSONFile["httpSettings"]):
                     self.http.groupBoxhttp.setChecked(True)
