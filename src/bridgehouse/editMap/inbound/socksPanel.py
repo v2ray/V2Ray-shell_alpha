@@ -49,20 +49,10 @@ class InboundSocksPanel(QWidget):
         self.spinBoxInboundSocksTimeout = QSpinBox()
         self.checkBoxInboundSocksUDP = QCheckBox(
             self.translate("InboundSocksPanel", "Enable the UDP protocol"), self)
-        self.btnInboundSocksUserAdd = QPushButton(
-            self.translate("InboundSocksPanel", "Add"), self)
-        self.btnInboundSocksChange = QPushButton(
-            self.translate("InboundSocksPanel", "Modify"), self)
-        self.btnInboundSocksPanelClear = QPushButton(
-            self.translate("InboundSocksPanel", "Clear"), self)
+        self.btnInboundSocksUserNew = QPushButton(
+            self.translate("InboundSocksPanel", "New"), self)
         self.btnInboundSocksUserDelete = QPushButton(
             self.translate("InboundSocksPanel", "Delete"), self)
-        labelUserName = QLabel(
-            self.translate("InboundSocksPanel", "User: "), self)
-        self.lineEditInboundSocksUserName = QLineEdit()
-        labelPassowrd = QLabel(
-            self.translate("InboundSocksPanel", "Password: "), self)
-        self.lineEditInboundSocksPassword = QLineEdit()
         self.tableWidgetInboundSocksUser = QTableWidget(self)
         
         self.spinBoxInboundSocksTimeout.setRange(0, 999)
@@ -94,17 +84,8 @@ class InboundSocksPanel(QWidget):
         hboxTimeout.addWidget(self.spinBoxInboundSocksTimeout)
         hboxTimeout.addStretch()
         
-        hboxUser = QHBoxLayout()
-        hboxUser.addWidget(labelUserName)
-        hboxUser.addWidget(self.lineEditInboundSocksUserName)
-        hboxUser.addWidget(labelPassowrd)
-        hboxUser.addWidget(self.lineEditInboundSocksPassword)
-        hboxUser.addStretch()
-        
         vboxBtnSocksUser.addStretch()
-        vboxBtnSocksUser.addWidget(self.btnInboundSocksUserAdd)
-        vboxBtnSocksUser.addWidget(self.btnInboundSocksPanelClear)
-        vboxBtnSocksUser.addWidget(self.btnInboundSocksChange)
+        vboxBtnSocksUser.addWidget(self.btnInboundSocksUserNew)
         vboxBtnSocksUser.addWidget(self.btnInboundSocksUserDelete)
         
         vboxSocksSetting.addLayout(hboxIP)
@@ -117,7 +98,7 @@ class InboundSocksPanel(QWidget):
         self.tableWidgetInboundSocksUser.setHorizontalHeaderLabels(self.labelUserSocksPanel)
         self.tableWidgetInboundSocksUser.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableWidgetInboundSocksUser.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.tableWidgetInboundSocksUser.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        #self.tableWidgetInboundSocksUser.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidgetInboundSocksUser.horizontalHeader().setStretchLastSection(True)
         
         self.groupBoxAuth = groupBoxAuth = QGroupBox(
@@ -130,7 +111,6 @@ class InboundSocksPanel(QWidget):
         hboxInboundSocksAuthTableWidget.addLayout(vboxBtnSocksUser)
         
         vboxInboundSocksAuth = QVBoxLayout()
-        vboxInboundSocksAuth.addLayout(hboxUser)
         vboxInboundSocksAuth.addLayout(hboxInboundSocksAuthTableWidget)
         
         groupBoxAuth.setLayout(vboxInboundSocksAuth)
@@ -156,54 +136,22 @@ class InboundSocksPanel(QWidget):
         return groupSocksPanel
 
     def createInboundSocksPanelSignals(self):
-        self.tableWidgetInboundSocksUser.itemSelectionChanged.connect(
-            self.ontableWidgetInboundSocksUserSelectionChanged)
-        self.btnInboundSocksPanelClear.clicked.connect(self.onbtnInboundSocksPanelClear)
-        self.btnInboundSocksUserAdd.clicked.connect(self.onbtnInboundSocksUserAdd)
+        self.btnInboundSocksUserNew.clicked.connect(self.onbtnInboundSocksUserNew)
         self.btnInboundSocksUserDelete.clicked.connect(self.onbtnInboundSocksUserDelete)
-        self.btnInboundSocksChange.clicked.connect(self.onbtnInboundSocksChange)
-        
-    def onbtnInboundSocksChange(self):
-        row = self.tableWidgetInboundSocksUser.currentRow()
-        self.tableWidgetInboundSocksUser.setItem(
-            row, 0, QTableWidgetItem(self.lineEditInboundSocksUserName.text()))
-        self.tableWidgetInboundSocksUser.setItem(
-            row, 1, QTableWidgetItem(self.lineEditInboundSocksPassword.text()))
-        
+    
+    def onbtnInboundSocksUserNew(self):
+        row = self.tableWidgetInboundSocksUser.rowCount()
+        if (not row):
+            self.tableWidgetInboundSocksUser.setRowCount(row+1)
+        else:
+            user = self.tableWidgetInboundSocksUser.item(row-1, 0)
+            password = self.tableWidgetInboundSocksUser.item(row-1, 1)
+            if (user and password):
+                self.tableWidgetInboundSocksUser.setRowCount(row+1)
+
     def onbtnInboundSocksUserDelete(self):
-        self.onbtnInboundSocksPanelClear()
         row = self.tableWidgetInboundSocksUser.currentRow()
         self.tableWidgetInboundSocksUser.removeRow(row)
-        
-    def onbtnInboundSocksUserAdd(self):
-        if (not self.lineEditInboundSocksPassword.text() or not self.lineEditInboundSocksUserName.text()): return
-        row = self.tableWidgetInboundSocksUser.rowCount()
-        self.tableWidgetInboundSocksUser.setRowCount(row + 1)
-        self.tableWidgetInboundSocksUser.setItem(
-            row, 0, QTableWidgetItem(self.lineEditInboundSocksUserName.text()))
-        self.tableWidgetInboundSocksUser.setItem(
-            row, 1, QTableWidgetItem(self.lineEditInboundSocksPassword.text()))
-        self.tableWidgetInboundSocksUser.resizeColumnsToContents()
-        self.onbtnInboundSocksPanelClear()
-        
-    def onbtnInboundSocksPanelClear(self):
-        self.lineEditInboundSocksUserName.clear()
-        self.lineEditInboundSocksPassword.clear()
-        
-    def ontableWidgetInboundSocksUserSelectionChanged(self):
-        self.onbtnInboundSocksPanelClear()
-        row = self.tableWidgetInboundSocksUser.currentRow()
-        user = self.tableWidgetInboundSocksUser.item(row, 0)
-        password = self.tableWidgetInboundSocksUser.item(row, 1)
-        
-        if (user):
-            self.lineEditInboundSocksUserName.setText(user.text())
-        else:
-            self.lineEditInboundSocksUserName.clear()
-        if (password):
-            self.lineEditInboundSocksPassword.setText(password.text())
-        else:
-            self.lineEditInboundSocksPassword.clear()
 
     def settingInboundSocksPanelFromJSONFile(self, inboundSocksJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
@@ -318,8 +266,6 @@ class InboundSocksPanel(QWidget):
     def clearinboundsocksPanel(self):
         self.tableWidgetInboundSocksUser.setRowCount(0)
         self.lineEditInboundSocksIP.clear()
-        self.lineEditInboundSocksPassword.clear()
-        self.lineEditInboundSocksUserName.clear()
         self.checkBoxInboundSocksUDP.setChecked(False)
         self.groupBoxAuth.setChecked(False)
         self.spinBoxInboundSocksTimeout.setValue(300)

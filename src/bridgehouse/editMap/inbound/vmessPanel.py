@@ -130,7 +130,7 @@ class InboundVmessPanel(QWidget):
         tableWidgetUser.setHorizontalHeaderLabels(self.labelUserVmessPanel)
         tableWidgetUser.setSelectionMode(QAbstractItemView.SingleSelection)
         tableWidgetUser.setSelectionBehavior(QAbstractItemView.SelectRows)
-        tableWidgetUser.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        #tableWidgetUser.setEditTriggers(QAbstractItemView.NoEditTriggers)
         tableWidgetUser.horizontalHeader().setStretchLastSection(True)
 
         hboxTableWidgetUser = QHBoxLayout()
@@ -150,18 +150,18 @@ class InboundVmessPanel(QWidget):
         vboxVmessPanel.addWidget(self.checkBoxdisableInsecureEncryption)
         vboxVmessPanel.addWidget(self.createVmessDefaultSettingPanel())
         vboxVmessPanel.addWidget(groupBoxClientsSetting)
-        
+
+        self.createVmessPanelSignals()
+
         if (v2rayshellDebug):
             self.__debugBtn = QPushButton("__debugTest", self)
             vboxVmessPanel.addWidget(self.__debugBtn)
             self.__debugBtn.clicked.connect(self.__debugTest)
             self.settingInboundVmessPanelFromJSONFile(self.inboundVmessJSONFile, True)
-       
+
         groupBoxVmessPanel = QGroupBox(
             self.translate("InboundVmessPanel", "Vmess"), self)
         groupBoxVmessPanel.setLayout(vboxVmessPanel)
-
-        self.createVmessPanelSignals()
 
         return groupBoxVmessPanel
     

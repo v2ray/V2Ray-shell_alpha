@@ -67,34 +67,19 @@ class HttpPanel(QWidget):
         hboxuserLevel.addWidget(self.spinBoxHttpuserLevel)
         hboxuserLevel.addStretch()
 
-        btnHttpAdd = QPushButton(
-            self.translate("HttpPanel", "Add"), self)
-        btnHttpClear = QPushButton(
-            self.translate("HttpPanel", "Clear"), self)
+        btnHttpNew = QPushButton(
+            self.translate("HttpPanel", "New"), self)
         btnHttpDelete = QPushButton(
             self.translate("HttpPanel", "Delete"), self)
         
         self.groupButtonHttp = QButtonGroup()
-        self.groupButtonHttp.addButton(btnHttpAdd)
-        self.groupButtonHttp.addButton(btnHttpClear)
+        self.groupButtonHttp.addButton(btnHttpNew)
         self.groupButtonHttp.addButton(btnHttpDelete)
         
         vboxButtonHttp = QVBoxLayout()
         vboxButtonHttp.addStretch()
-        vboxButtonHttp.addWidget(btnHttpAdd)
-        vboxButtonHttp.addWidget(btnHttpClear)
+        vboxButtonHttp.addWidget(btnHttpNew)
         vboxButtonHttp.addWidget(btnHttpDelete)
-        
-        labelHttpUser = QLabel(self.translate("HttpPanel", "User: "), self)
-        self.lineEditHttpUser = QLineEdit()
-        labelHttpPassword = QLabel(self.translate("HttpPanel", "Password: "), self)
-        self.lineEditHttpPassword = QLineEdit()
-        
-        gridBoxHttpUser = QGridLayout()
-        gridBoxHttpUser.addWidget(labelHttpUser, 0, 0)
-        gridBoxHttpUser.addWidget(self.lineEditHttpUser, 0, 1)
-        gridBoxHttpUser.addWidget(labelHttpPassword, 1, 0)
-        gridBoxHttpUser.addWidget(self.lineEditHttpPassword, 1, 1)
         
         self.tableWidgetHttp = QTableWidget()
         self.tableWidgetHttp.setColumnCount(2)
@@ -102,7 +87,7 @@ class HttpPanel(QWidget):
         self.tableWidgetHttp.setHorizontalHeaderLabels(self.labelUserHttpPanel)
         self.tableWidgetHttp.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableWidgetHttp.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.tableWidgetHttp.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        #self.tableWidgetHttp.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidgetHttp.horizontalHeader().setStretchLastSection(True)
         
         hboxHttpTableWidget = QHBoxLayout()
@@ -110,7 +95,6 @@ class HttpPanel(QWidget):
         hboxHttpTableWidget.addLayout(vboxButtonHttp)
         
         vboxHttpTableWidget = QVBoxLayout()
-        vboxHttpTableWidget.addLayout(gridBoxHttpUser)
         vboxHttpTableWidget.addLayout(hboxHttpTableWidget)
         
         self.groupBoxHttpAuth = QGroupBox(
@@ -140,49 +124,28 @@ class HttpPanel(QWidget):
     
     def createHttpPanelSignals(self):
         self.groupButtonHttp.buttonClicked.connect(self.ongroupButtonHttp)
-        self.tableWidgetHttp.itemSelectionChanged.connect(self.ontableWidgetHttpSelectionChanged)
-        self.tableWidgetHttp.itemClicked.connect(self.ontableWidgetHttpSelectionChanged)
-        
-    def ontableWidgetHttpSelectionChanged(self):
-        self.onbtnHttpClear()
-        row = self.tableWidgetHttp.currentRow()
-        user = self.tableWidgetHttp.item(row, 0)
-        password = self.tableWidgetHttp.item(row, 1)
-        
-        if (user):
-            self.lineEditHttpUser.setText(user.text())
-        if (password):
-            self.lineEditHttpPassword.setText(password.text())
         
     def ongroupButtonHttp(self, e):
-        if (e.text() == self.translate("HttpPanel", "Add")):
-            self.onbtnHttpAdd()
-        if (e.text() == self.translate("HttpPanel", "Clear")):
-            self.onbtnHttpClear()
         if (e.text() == self.translate("HttpPanel", "Delete")):
             self.onbtnHttpDelete()
-    
-    def onbtnHttpAdd(self):
-        user = self.lineEditHttpUser.text()
-        password = self.lineEditHttpPassword.text()
-        if (not user or not password): return
-        
+        if (e.text() == self.translate("HttpPanel", "New")):
+            self.onbtnHttpNew()
+
+    def onbtnHttpNew(self):
         row = self.tableWidgetHttp.rowCount()
-        self.tableWidgetHttp.setRowCount(row + 1)
-        self.tableWidgetHttp.setItem(row, 0, QTableWidgetItem(str(user)))
-        self.tableWidgetHttp.setItem(row, 1, QTableWidgetItem(str(password)))
-        self.tableWidgetHttp.resizeColumnsToContents()
-        self.onbtnHttpClear()
-    
+        if (not row):
+            self.tableWidgetHttp.setRowCount(row + 1)
+        else:
+            user = self.tableWidgetHttp.item(row-1, 0)
+            password = self.tableWidgetHttp.item(row-1, 1)
+            if (user and password):
+                self.tableWidgetHttp.setRowCount(row + 1)
+
     def onbtnHttpDelete(self):
         self.onbtnHttpClear()
         if (not self.tableWidgetHttp.rowCount()): return
         row = self.tableWidgetHttp.currentRow()
         self.tableWidgetHttp.removeRow(row)
-
-    def onbtnHttpClear(self):
-        self.lineEditHttpPassword.clear()
-        self.lineEditHttpUser.clear()
     
     def settinghttpPanelFromJSONFile(self, httpJSONFile={}, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
