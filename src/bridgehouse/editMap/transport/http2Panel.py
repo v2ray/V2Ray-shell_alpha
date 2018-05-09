@@ -17,9 +17,9 @@ if __name__ == "__main__":
 from bridgehouse.editMap.transport import logbook
 
 
-class httpPanel(QWidget):
+class http2Panel(QWidget):
     def __init__(self):
-        super(httpPanel, self).__init__()
+        super(http2Panel, self).__init__()
         self.httpJSONFile = {
                 "host": ["v2ray.com"],
                 "path": "/random/path"
@@ -27,10 +27,10 @@ class httpPanel(QWidget):
         self.translate = QCoreApplication.translate
 
     def createHttpSettingPanel(self):
-        labelHost = QLabel(self.translate("httpPanel", "Host: "), self)
+        labelHost = QLabel(self.translate("http2Panel", "Host: "), self)
         self.lineEditHost = QLineEdit()
         
-        labelPath = QLabel(self.translate("httpPanel", "Path: "), self)
+        labelPath = QLabel(self.translate("http2Panel", "Path: "), self)
         self.lineEditPath = QLineEdit()
         
         grid = QGridLayout(self)
@@ -39,7 +39,7 @@ class httpPanel(QWidget):
         grid.addWidget(labelPath, 1, 0)
         grid.addWidget(self.lineEditPath, 1, 1)
         
-        self.groupBoxhttp = box = QGroupBox(self.translate("httpPanel", "http Settings "), self)
+        self.groupBoxhttp = box = QGroupBox(self.translate("http2Panel", "http Settings "), self)
         box.setCheckable(True)
         box.setChecked(False)
         box.setLayout(grid)
@@ -98,7 +98,7 @@ class httpPanel(QWidget):
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)
-    ex = httpPanel()
+    ex = http2Panel()
     ex.createHttpSettingPanel()
     ex.setGeometry(300, 300, 680, 230)
     ex.show()

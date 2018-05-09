@@ -224,26 +224,23 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
         self.comboBoxInboundProtocol.currentTextChanged.connect(self.oncomboBoxInboundProtocol)
         
     def oncomboBoxInboundProtocol(self, e):
+        protocol=e
+        self.insocks.hide()
+        self.http.hide()
+        self.invmess.hide()
+        self.inshadowsocks.hide()
+        self.dokodemodoor.hide()
+        if (protocol == "socks"):
+            self.insocks.show()
+        elif (protocol == "vmess"):
+            self.invmess.show()
+        elif (protocol == "shadowsocks"):
+            self.inshadowsocks.show()
+        elif (protocol == "http"):
+            self.http.show()
+        elif (protocol == "dokodemo-door"):
+            self.dokodemodoor.show()
 
-        def showProtocol(protocol=e):
-            self.insocks.hide()
-            self.http.hide()
-            self.invmess.hide()
-            self.inshadowsocks.hide()
-            self.dokodemodoor.hide()
-            if (protocol == "socks"):
-                self.insocks.show()
-            elif (protocol == "vmess"):
-                self.invmess.show()
-            elif (protocol == "shadowsocks"):
-                self.inshadowsocks.show()
-            elif (protocol == "http"):
-                self.http.show()
-            elif (protocol == "dokodemo-door"):
-                self.dokodemodoor.show()
-        
-        showProtocol(e)
-        
     def ScrollLayout(self, layout):
         box = QVBoxLayout(self)
         scroll = QScrollArea(self)

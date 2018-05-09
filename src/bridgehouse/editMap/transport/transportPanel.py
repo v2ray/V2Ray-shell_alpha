@@ -16,7 +16,7 @@ if __name__ == "__main__":
     sys.path.append("/".join(srcPath[:-4]))
         
 from bridgehouse.editMap.transport import (
-    mkcpPanel, wsPanel, tcpPanel, httpPanel, logbook)
+    mkcpPanel, wsPanel, tcpPanel, http2Panel, logbook)
 
 
 class TransportSettingPanel(QWidget):
@@ -222,7 +222,8 @@ class TransportSettingPanel(QWidget):
 class TransportPanel(TransportSettingPanel,
                      mkcpPanel.mKcpPanel,
                      wsPanel.wsPanel,
-                     tcpPanel.TcpPanel):
+                     tcpPanel.TcpPanel,
+                     http2Panel.http2Panel):
 
     def __init__(self):
         super().__init__()
@@ -251,20 +252,20 @@ class TransportPanel(TransportSettingPanel,
         self.mkcp = mkcpPanel.mKcpPanel()
         self.tcp = tcpPanel.TcpPanel()
         self.ws = wsPanel.wsPanel()
-        self.http = httpPanel.httpPanel()
+        self.http2 = http2Panel.http2Panel()
         self.mkcpPanel = self.mkcp.createmKcpSettingPanel()
         self.tcpPanel = self.tcp.createTCPSettingPanel()
         self.wsPanel = self.ws.createwsSettingPanel()
-        self.httpPanel = self.http.createHttpSettingPanel()
+        self.http2Panel = self.http2.createHttpSettingPanel()
         self.mkcpPanel.hide()
         self.wsPanel.hide()
-        self.httpPanel.hide()
+        self.http2Panel.hide()
         
         vboxTransportProtocols = QVBoxLayout()
         vboxTransportProtocols.addWidget(self.mkcpPanel)
         vboxTransportProtocols.addWidget(self.tcpPanel)
         vboxTransportProtocols.addWidget(self.wsPanel)
-        vboxTransportProtocols.addWidget(self.httpPanel)
+        vboxTransportProtocols.addWidget(self.http2Panel)
         vboxTransportProtocols.addStretch()
         
         self.checkBoxTransportSetting = QCheckBox(
@@ -301,22 +302,20 @@ class TransportPanel(TransportSettingPanel,
         self.groupBtnCertificates.buttonClicked.connect(self.ongroupBtnCertificatesClicked)
         
     def ongroupBtnNetwork(self, e):
+        btn = e.text()
+        self.tcpPanel.hide()
+        self.wsPanel.hide()
+        self.mkcpPanel.hide()
+        self.http2Panel.hide()
+        if (btn == self.translate("TransportSettingPanel", "mKcp")):
+            self.mkcpPanel.show()
+        elif (btn == self.translate("TransportSettingPanel", "ws")):
+            self.wsPanel.show()
+        elif (btn == self.translate("TransportSettingPanel", "TCP")):
+            self.tcpPanel.show()
+        elif (btn == self.translate("TransportSettingPanel", "http")):
+            self.http2Panel.show()
 
-        def showNetwork(btn=e):
-            self.tcpPanel.hide()
-            self.wsPanel.hide()
-            self.mkcpPanel.hide()
-            self.httpPanel.hide()
-            if (btn == self.translate("TransportSettingPanel", "mKcp")):
-                self.mkcpPanel.show()
-            elif (btn == self.translate("TransportSettingPanel", "ws")):
-                self.wsPanel.show()
-            elif (btn == self.translate("TransportSettingPanel", "TCP")):
-                self.tcpPanel.show()
-            elif (btn == self.translate("TransportSettingPanel", "http")):
-                self.httpPanel.show()
-
-        showNetwork(e.text())
 
     def onHideAndShowStreamStettingPanle(self, e):
         if (e):
@@ -380,11 +379,11 @@ class TransportPanel(TransportSettingPanel,
             self.tcpPanel.hide()
             self.wsPanel.hide()
             self.mkcpPanel.hide()
-            self.httpPanel.hide()
+            self.http2Panel.hide()
             self.ws.groupBoxwsSetting.setChecked(False)
             self.mkcp.groupBoxmKCPSetting.setChecked(False)
             self.tcp.groupBoxTCPSetting.setChecked(False)
-            self.http.groupBoxhttp.setChecked(False)
+            self.http2.groupBoxhttp.setChecked(False)
 
         def setTransport(protocol=transportJSONFile["network"]):
             if (protocol == "tcp"):
@@ -417,10 +416,10 @@ class TransportPanel(TransportSettingPanel,
             elif (protocol == "http"):
                 hideSettingsandDisableRadioButton()
                 self.radioButtonTransportHTTP.setChecked(True)
-                self.httpPanel.show()
+                self.http2Panel.show()
                 if (transportJSONFile["httpSettings"]):
-                    self.http.groupBoxhttp.setChecked(True)
-                    self.http.settingHttpPanelFromJSONFile(
+                    self.http2.groupBoxhttp.setChecked(True)
+                    self.http2.settingHttpPanelFromJSONFile(
                         copy.deepcopy(transportJSONFile["httpSettings"]), openFromJSONFile)
         
         setTransport()
@@ -519,8 +518,8 @@ class TransportPanel(TransportSettingPanel,
         if (self.radioButtonTransportWS.isChecked() and self.ws.groupBoxwsSetting.isChecked()):
             transportJSONFile["wsSettings"] = copy.deepcopy(self.ws.createwsSettingJSONFile())
 
-        if (self.radioButtonTransportHTTP.isChecked() and self.http.groupBoxhttp.isChecked()):
-            transportJSONFile["httpSettings"] = copy.deepcopy(self.http.createHttpSettingJSONFile())
+        if (self.radioButtonTransportHTTP.isChecked() and self.http2.groupBoxhttp.isChecked()):
+            transportJSONFile["httpSettings"] = copy.deepcopy(self.http2.createHttpSettingJSONFile())
         
         return transportJSONFile
     
@@ -542,7 +541,7 @@ class TransportPanel(TransportSettingPanel,
         self.mkcp.clearmkcpPanel()
         self.ws.clearwsPanel()
         self.tcp.cleartcpPanel()
-        #self.http.clearHttpPanel()  # a bug need fix
+        self.http2.clearHttpPanel()
 
     def __debugTest(self):
         import json
