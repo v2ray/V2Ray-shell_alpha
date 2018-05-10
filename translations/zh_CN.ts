@@ -120,68 +120,73 @@
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="158"/>
         <source>Add</source>
-        <translation>添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="160"/>
         <source>Clear</source>
-        <translation>清除</translation>
+        <translation type="obsolete">清除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="162"/>
+        <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="129"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="88"/>
         <source>User: </source>
-        <translation>用户名: </translation>
+        <translation type="obsolete">用户名: </translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="90"/>
         <source>Password: </source>
-        <translation>密码: </translation>
+        <translation type="obsolete">密码: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="116"/>
+        <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="100"/>
         <source>Requires Authentication: </source>
         <translation>需要认证: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="136"/>
+        <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="120"/>
         <source>Http</source>
         <translation>Http</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/inbound/httpPanel.py" line="131"/>
+        <source>New</source>
+        <translation>增加</translation>
     </message>
 </context>
 <context>
     <name>InboundPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="310"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="307"/>
         <source>Tag name</source>
         <translation>标识</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="310"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="307"/>
         <source>Listen: port</source>
         <translation>监听地址: 端口</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="310"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="307"/>
         <source>Protocol</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="438"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="435"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="440"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="437"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="442"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="439"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
@@ -297,7 +302,7 @@
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/shadowsocksPanel.py" line="55"/>
         <source>Network: </source>
-        <translation>服务器网络协议类型:</translation>
+        <translation>网络协议类型: </translation>
     </message>
 </context>
 <context>
@@ -313,7 +318,7 @@
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="73"/>
+        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="63"/>
         <source>User Level: </source>
         <translation>用户等级: </translation>
     </message>
@@ -335,63 +340,63 @@
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="52"/>
         <source>Add</source>
-        <translation>添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="54"/>
         <source>Modify</source>
-        <translation>修改</translation>
+        <translation type="obsolete">修改</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="56"/>
         <source>Clear</source>
-        <translation>清除</translation>
+        <translation type="obsolete">清除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="58"/>
+        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="54"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="60"/>
-        <source>User: </source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="63"/>
         <source>Password: </source>
-        <translation>密码: </translation>
+        <translation type="obsolete">密码: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="123"/>
+        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="104"/>
         <source>Requires Authentication: </source>
         <translation>需要认证: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="152"/>
+        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="132"/>
         <source>Socks</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/inbound/socksPanel.py" line="52"/>
+        <source>New</source>
+        <translation>增加</translation>
     </message>
 </context>
 <context>
     <name>InboundVmessPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="49"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
         <source>Email</source>
         <translation>邮件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="49"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
         <source>Level</source>
         <translation>等级</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="49"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
         <source>AlterID</source>
         <translation>额外的ID</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="49"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="52"/>
         <source>UUID</source>
         <translation>通用唯一识别码</translation>
     </message>
@@ -403,72 +408,82 @@
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="63"/>
         <source>Email: </source>
-        <translation>邮件: </translation>
+        <translation type="obsolete">邮件: </translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="66"/>
         <source>UUID: </source>
-        <translation>通用唯一识别码: </translation>
+        <translation type="obsolete">通用唯一识别码: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="172"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="132"/>
         <source>AlterID: </source>
         <translation>额外的ID: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="169"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="129"/>
         <source>Level: </source>
         <translation>等级: </translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="73"/>
         <source>Generate UUID</source>
-        <translation>生成通用唯一识别码</translation>
+        <translation type="obsolete">生成通用唯一识别码</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="75"/>
         <source>Modify</source>
-        <translation>修改</translation>
+        <translation type="obsolete">修改</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="77"/>
         <source>Clear</source>
-        <translation>清除</translation>
+        <translation type="obsolete">清除</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="79"/>
         <source>Add</source>
-        <translation>添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="81"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="68"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="142"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="102"/>
         <source>Clients: </source>
         <translation>服务器认可的用户: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="160"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="122"/>
         <source>Vmess</source>
         <translation>Vmess</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="181"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="141"/>
         <source>Default: </source>
         <translation>默认值: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="56"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="59"/>
         <source>Detour To InboundDetour: </source>
         <translation>转向额外的传入连接配置: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="59"/>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="62"/>
         <source>Disable Insecure Encryption</source>
         <translation>禁止客户端使用不安全的加密方式</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="66"/>
+        <source>New</source>
+        <translation>增加</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/inbound/vmessPanel.py" line="84"/>
+        <source>Gerate UUID</source>
+        <translation>生成通用唯一识别码</translation>
     </message>
 </context>
 <context>
@@ -787,7 +802,7 @@
         <translation>TCP 传输方式设置</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="261"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="271"/>
         <source>Transport Setting</source>
         <translation>低层协议传输设置</translation>
     </message>
@@ -795,94 +810,99 @@
 <context>
     <name>TransportSettingPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="27"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="28"/>
         <source>Certificate File</source>
         <translation>证书文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="27"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="28"/>
         <source>Key File</source>
         <translation>密钥文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="163"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="168"/>
         <source>Open Certificates File</source>
         <translation>打开证书文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="31"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="32"/>
         <source>Network: </source>
         <translation>数据流所使用的网络: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="304"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="314"/>
         <source>TCP</source>
         <translation>TCP</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="300"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="310"/>
         <source>mKcp</source>
         <translation>mKcp</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="302"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="312"/>
         <source>ws</source>
         <translation>ws</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="73"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="78"/>
         <source>Certificate File: </source>
         <translation>证书文件: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="75"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="80"/>
         <source>Server Name: </source>
         <translation>服务器名: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="77"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="82"/>
         <source>Key File: </source>
         <translation>密钥文件: </translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="169"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="174"/>
         <source>&amp;Open</source>
         <translation>&amp;打开</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="171"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="176"/>
         <source>O&amp;pen</source>
         <translation>打&amp;开</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="209"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="214"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="203"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="208"/>
         <source>Modify</source>
         <translation>修改</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="198"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="203"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="206"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="211"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="92"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="97"/>
         <source>Allow Insecure</source>
         <translation>是否允许不安全连接</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="145"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="150"/>
         <source>TLS Setting: </source>
         <translation>TLS 配置: </translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="316"/>
+        <source>http</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1183,22 +1203,22 @@ the maximum value of try times is 12</source>
 <context>
     <name>bridgetreasureChest</name>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="462"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="461"/>
         <source>Parse JSON Data Error</source>
         <translation>解析JSON文件格式出错</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="614"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="613"/>
         <source>Unable to open the file {}:  {}.</source>
         <translation>无法打开文件{}: {}.</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="462"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="461"/>
         <source>Unable to parse {}:  error:{}.</source>
         <translation>无法解析文件{}: 错误: {}.</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="624"/>
+        <location filename="../src/bridgehouse/extension/bridgetreasureChest.py" line="623"/>
         <source>Unable to save the file {}:  {}.</source>
         <translation>无法保存文件{}: {}.</translation>
     </message>
@@ -1459,6 +1479,24 @@ How Fix:
         <location filename="../src/bridgehouse/editMap/dnsTAB.py" line="206"/>
         <source>Modify</source>
         <translation>修改</translation>
+    </message>
+</context>
+<context>
+    <name>http2Panel</name>
+    <message>
+        <location filename="../src/bridgehouse/editMap/transport/http2Panel.py" line="30"/>
+        <source>Host: </source>
+        <translation>域名: </translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/transport/http2Panel.py" line="33"/>
+        <source>Path: </source>
+        <translation>HTTP 协议路径: </translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/transport/http2Panel.py" line="42"/>
+        <source>http Settings </source>
+        <translation>http 传输方式设置 </translation>
     </message>
 </context>
 <context>
