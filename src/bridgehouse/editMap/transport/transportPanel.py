@@ -2,11 +2,12 @@
 
 from PyQt5.QtWidgets import (QLabel, QCheckBox, QWidget, QGroupBox, QHBoxLayout, QVBoxLayout,
                              QRadioButton, QTableWidget, QPushButton, QAbstractItemView,
-                             QButtonGroup, QLineEdit, QFileDialog, QTableWidgetItem)
-from PyQt5.QtCore import QFileInfo, QCoreApplication
+                             QButtonGroup, QLineEdit, QFileDialog, QTableWidgetItem,
+                             QComboBox, QListView, QTextEdit, QDialog, QApplication)
+from PyQt5.QtCore import QFileInfo, QCoreApplication, Qt
 v2rayshellDebug = False
 
-import sys, copy
+import sys, copy, re
 
 if __name__ == "__main__":
     v2rayshellDebug = True
@@ -25,8 +26,12 @@ class TransportSettingPanel(QWidget):
         super().__init__()
         self.translate = QCoreApplication.translate
 
-        self.labelHeaderTLSSetting = (self.translate("TransportSettingPanel", "Certificate File"),
-                                      self.translate("TransportSettingPanel", "Key File"))
+        self.labelHeaderTLSSetting = (
+            self.translate("TransportSettingPanel", "Usage"),
+            self.translate("TransportSettingPanel", "Certificate File"),
+            self.translate("TransportSettingPanel", "Key File"),
+            self.translate("TransportSettingPanel", "Certificate"),
+            self.translate("TransportSettingPanel", "Key"))
 
     def createTransportSettingPanel(self):
         labelNetwork = QLabel(
@@ -63,51 +68,38 @@ class TransportSettingPanel(QWidget):
         self.createTransportSettingPanelSignals()
         
         return self.vboxNetwork
+    
+    def addTLSusageCombox(self):
+        usage = ("encipherment", "verify", "issue")
+        comboxUsage = QComboBox()
+        comboxUsage.setView(QListView())
+        comboxUsage.insertItems(0, usage)
+        return comboxUsage
    
     def createCertificatesSetting(self):
         self.tableWidgetUserCertificates = tableWidgetUser = QTableWidget(self)
         tableWidgetUser.setRowCount(0)
-        tableWidgetUser.setColumnCount(2)
-        tableWidgetUser.adjustSize()
+        tableWidgetUser.setColumnCount(5)
         tableWidgetUser.setHorizontalHeaderLabels(self.labelHeaderTLSSetting)
         tableWidgetUser.setSelectionMode(QAbstractItemView.SingleSelection)
         tableWidgetUser.setSelectionBehavior(QAbstractItemView.SelectRows)
-        tableWidgetUser.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        # tableWidgetUser.horizontalHeader().setStretchLastSection(True)
-        
-        labelCertificateFile = QLabel(
-            self.translate("TransportSettingPanel", "Certificate File: "), self)
+
         labelServerName = QLabel(
             self.translate("TransportSettingPanel", "Server Name: "), self)
-        labelKeyFile = QLabel(
-            self.translate("TransportSettingPanel", "Key File: "), self)
-        btnOpenCertificatesFile = QPushButton(
-            self.translate("TransportSettingPanel", "&Open"), self)
-        btnOpenKeyFile = QPushButton(
-            self.translate("TransportSettingPanel", "O&pen"), self)
-        btnClear = QPushButton(
-            self.translate("TransportSettingPanel", "Clear"), self)
-        btnChange = QPushButton(
-            self.translate("TransportSettingPanel", "Modify"), self)
-        btnAdd = QPushButton(
-            self.translate("TransportSettingPanel", "Add"), self)
+        labelalpn= QLabel(
+            self.translate("TransportSettingPanel", "Alpn: "), self)
+        btnNew= QPushButton(
+            self.translate("TransportSettingPanel", "New"), self)
         btnDelete = QPushButton(
             self.translate("TransportSettingPanel", "Delete"), self)
 
         self.checkBoxCertificateAllowInsecure = QCheckBox(
             self.translate("TransportSettingPanel", "Allow Insecure"), self)
         self.lineEditCertificateServerName = QLineEdit()
-        self.lineEditCertificateFile = QLineEdit(self)
-        self.lineEditCertificateKeyFile = QLineEdit(self)
-        
-        self.groupBtnOpenCertificatesFile = QButtonGroup()
-        self.groupBtnOpenCertificatesFile.addButton(btnOpenCertificatesFile)
-        self.groupBtnOpenCertificatesFile.addButton(btnOpenKeyFile)
+        self.lineEditCertificatealpn = QLineEdit(self)
         
         self.groupBtnCertificates = QButtonGroup(self)
-        self.groupBtnCertificates.addButton(btnClear)
-        self.groupBtnCertificates.addButton(btnChange)
-        self.groupBtnCertificates.addButton(btnAdd)
+        self.groupBtnCertificates.addButton(btnNew)
         self.groupBtnCertificates.addButton(btnDelete)
         
         hboxServerName = QHBoxLayout()
@@ -116,35 +108,26 @@ class TransportSettingPanel(QWidget):
         hboxServerName.addWidget(self.checkBoxCertificateAllowInsecure)
         hboxServerName.addStretch()
         
-        hboxCertificateFile = QHBoxLayout()
-        hboxCertificateFile.addWidget(labelCertificateFile)
-        hboxCertificateFile.addWidget(self.lineEditCertificateFile)
-        hboxCertificateFile.addWidget(btnOpenCertificatesFile)
-        
-        hboxCertificateKeyFile = QHBoxLayout()
-        hboxCertificateKeyFile.addWidget(labelKeyFile)
-        hboxCertificateKeyFile.addWidget(self.lineEditCertificateKeyFile)
-        hboxCertificateKeyFile.addWidget(btnOpenKeyFile)
-        
-        vboxCertificateFiles = QVBoxLayout()
-        vboxCertificateFiles.addLayout(hboxCertificateFile)
-        vboxCertificateFiles.addLayout(hboxCertificateKeyFile)
-        
+        hboxaphn = QHBoxLayout()
+        hboxaphn.addWidget(labelalpn)
+        hboxaphn.addWidget(self.lineEditCertificatealpn)
+        hboxaphn.addStretch()   
+
         vboxCertificateFilesBtn = QVBoxLayout()
         vboxCertificateFilesBtn.addStretch()
-        vboxCertificateFilesBtn.addWidget(btnAdd)
-        vboxCertificateFilesBtn.addWidget(btnClear)
-        vboxCertificateFilesBtn.addWidget(btnChange)
+        vboxCertificateFilesBtn.addWidget(btnNew)
         vboxCertificateFilesBtn.addWidget(btnDelete)
         
         hboxTableWidgetCertificate = QHBoxLayout()
         hboxTableWidgetCertificate.addWidget(self.tableWidgetUserCertificates)
         hboxTableWidgetCertificate.addLayout(vboxCertificateFilesBtn)
         
+        vboxCertificateFiles = QVBoxLayout()
         vboxCertificateFiles.addLayout(hboxTableWidgetCertificate)
         
         vboxTLSSetting = QVBoxLayout()
         vboxTLSSetting.addLayout(hboxServerName)
+        vboxTLSSetting.addLayout(hboxaphn)
         vboxTLSSetting.addLayout(vboxCertificateFiles)
         
         self.groupBoxTLSSetting = groupBoxTLSSetting = QGroupBox(
@@ -160,64 +143,85 @@ class TransportSettingPanel(QWidget):
         return groupBoxTLSSetting
             
     def createTransportSettingPanelSignals(self):
-        self.groupBtnOpenCertificatesFile.buttonClicked.connect(self.onbtnOpenCertificatesFile)
-        self.tableWidgetUserCertificates.itemSelectionChanged.connect(self.ontableWidgetUserCeritficatesItemSelectionChanged)
+        self.tableWidgetUserCertificates.cellDoubleClicked.connect(self.ontableWidgetCellDoubleClicked)
         
-    def onbtnOpenCertificatesFile(self, e):
+    def ontableWidgetCellDoubleClicked(self, row, column):
+        if (column == 1 or column == 2):
+            # certificateFile or keyFile
+            self.openCertificatesFile(row, column)
+        if (column == 3 or column == 4):
+            # certificate or key
+            text = self.tableWidgetUserCertificates.item(row, column)
+            self.openWindowTextInput(
+                row, column, None if not text else text.text())
+        
+    def openCertificatesFile(self, row, column):
         options = QFileDialog.Options()
         fileName, _ = QFileDialog.getOpenFileName(self,
                                                   self.translate("TransportSettingPanel", "Open Certificates File"),
                                                   "",
                                                   "All Files (*)",
                                                   options=options)
-        if (fileName):
-            if (e.text() == self.translate("TransportSettingPanel", "&Open")):
-                self.lineEditCertificateFile.setText(fileName)
-            if (e.text() == self.translate("TransportSettingPanel", "O&pen")):
-                self.lineEditCertificateKeyFile.setText(fileName)
+
+        self.tableWidgetUserCertificates.setItem(
+                row, column, QTableWidgetItem("" if not fileName else fileName))
         
-    def ontableWidgetUserCeritficatesItemSelectionChanged(self):
-        currentRow = self.tableWidgetUserCertificates.currentRow()
-        certificateFile = self.tableWidgetUserCertificates.item(currentRow, 0) 
-        keyFile = self.tableWidgetUserCertificates.item(currentRow, 1) 
+    def openWindowTextInput(self, row, column, text=None):
+        textEdit = QTextEdit()
+        btnok = QPushButton(self.translate("TransportSettingPanel", "OK"))
+        btncancel = QPushButton(self.translate("TransportSettingPanel", "Cancel"))
+        hbox = QHBoxLayout()
+        hbox.addStretch()
+        hbox.addWidget(btnok)
+        hbox.addWidget(btncancel)
+        vbox = QVBoxLayout()
+        vbox.addWidget(textEdit)
+        vbox.addLayout(hbox)
         
-        if (certificateFile):
-            self.lineEditCertificateFile.setText(certificateFile.text())
-        else:
-            self.lineEditCertificateFile.clear()
-        
-        if (keyFile):
-            self.lineEditCertificateKeyFile.setText(keyFile.text())
-        else:
-            self.lineEditCertificateKeyFile.clear()
-            
+        def getTextSetTabel(d):
+            self.tableWidgetUserCertificates.setItem(
+                row, column, QTableWidgetItem(",".join(textEdit.toPlainText().split(",\n"))))
+            d.close()
+
+        if text:
+            textEdit.setText(",\n".join(text.split(",")))
+        if column == 3:
+            title =  self.translate("TransportSettingPanel", "Certificate")
+        if column == 4:
+            title =  self.translate("TransportSettingPanel", "Key")
+        dialogTextEdit = QDialog()
+        dialogTextEdit.setAttribute(Qt.WA_DeleteOnClose)
+        dialogTextEdit.setWindowTitle(title)
+        dialogTextEdit.move(
+            QApplication.desktop().screen().rect().center()-dialogTextEdit.rect().center())
+        dialogTextEdit.setLayout(vbox)
+        btncancel.clicked.connect(dialogTextEdit.close)
+        btnok.clicked.connect(lambda: getTextSetTabel(dialogTextEdit))
+        dialogTextEdit.open()
+        dialogTextEdit.exec_()
+
     def ongroupBtnCertificatesClicked(self, e):
         rowCount = self.tableWidgetUserCertificates.rowCount()
         currentRow = self.tableWidgetUserCertificates.currentRow()
-        
-        def settableWidgetUserCertificates(row):
-            self.tableWidgetUserCertificates.setItem(row, 0, QTableWidgetItem(self.lineEditCertificateFile.text()))
-            self.tableWidgetUserCertificates.setItem(row, 1, QTableWidgetItem(self.lineEditCertificateKeyFile.text()))
-            self.tableWidgetUserCertificates.resizeColumnsToContents()
 
-        if (e.text() == self.translate("TransportSettingPanel", "Add")):
-            if (not self.lineEditCertificateFile.text() or not self.lineEditCertificateKeyFile.text()): return
-            self.tableWidgetUserCertificates.setRowCount(rowCount + 1)
-            settableWidgetUserCertificates(rowCount)
-            self.onbtnInboudPanelClear()
-        if (e.text() == self.translate("TransportSettingPanel", "Modify")):
-            if (not self.lineEditCertificateFile.text() or not self.lineEditCertificateKeyFile.text()): return
-            settableWidgetUserCertificates(currentRow)
         if (e.text() == self.translate("TransportSettingPanel", "Delete")):
             self.tableWidgetUserCertificates.removeRow(currentRow)
-            self.onbtnInboudPanelClear()
-        if (e.text() == self.translate("TransportSettingPanel", "Clear")):
-            self.onbtnInboudPanelClear()
-           
-    def onbtnInboudPanelClear(self):
-        self.lineEditCertificateFile.clear()
-        self.lineEditCertificateKeyFile.clear()
-
+        if (e.text() == self.translate("TransportSettingPanel", "New")):
+            self.onbtnCertificatesaddNewRow()
+    
+    def onbtnCertificatesaddNewRow(self):
+        row = self.tableWidgetUserCertificates.rowCount()
+        if (not row):
+            self.tableWidgetUserCertificates.setRowCount(row+1)
+            self.tableWidgetUserCertificates.setCellWidget(row, 0, self.addTLSusageCombox())
+        else:
+            crtFile = self.tableWidgetUserCertificates.item(row-1, 1)
+            keyFile = self.tableWidgetUserCertificates.item(row-1, 2)
+            crt = self.tableWidgetUserCertificates.item(row-1, 3)
+            key = self.tableWidgetUserCertificates.item(row-1, 4)
+            if ((crtFile and keyFile) or (crt and key)):
+                self.tableWidgetUserCertificates.setRowCount(row+1)
+                self.tableWidgetUserCertificates.setCellWidget(row, 0, self.addTLSusageCombox())
 
 class TransportPanel(TransportSettingPanel,
                      mkcpPanel.mKcpPanel,
@@ -229,17 +233,67 @@ class TransportPanel(TransportSettingPanel,
         super().__init__()
         self.transportJSONFile = {
                         "network": "tcp",
-                        "security": "none",
+                        "security": "tls",
                         "tlsSettings": {
                             "serverName": "v2ray.com",
                             "allowInsecure": True,
+                            "alpn": ["http/1.1"],
                             "certificates": [
                                 {
+                                    "usage": "encipherment",
                                     "certificateFile": "/path/to/certificate.crt",
-                                    "keyFile": "/path/to/key.key"
-                                    }
-                                             ]
-                                        },
+                                    "keyFile": "/path/to/key.key",
+                                    "certificate": [
+                                              "-----BEGIN CERTIFICATE-----",
+                                              "MIICwDCCAaigAwIBAgIRAO16JMdESAuHidFYJAR/7kAwDQYJKoZIhvcNAQELBQAw",
+                                              "ADAeFw0xODA0MTAxMzU1MTdaFw0xODA0MTAxNTU1MTdaMAAwggEiMA0GCSqGSIb3",
+                                              "DQEBAQUAA4IBDwAwggEKAoIBAQCs2PX0fFSCjOemmdm9UbOvcLctF94Ox4BpSfJ+",
+                                              "3lJHwZbvnOFuo56WhQJWrclKoImp/c9veL1J4Bbtam3sW3APkZVEK9UxRQ57HQuw",
+                                              "OzhV0FD20/0YELou85TwnkTw5l9GVCXT02NG+pGlYsFrxesUHpojdl8tIcn113M5",
+                                              "pypgDPVmPeeORRf7nseMC6GhvXYM4txJPyenohwegl8DZ6OE5FkSVR5wFQtAhbON",
+                                              "OAkIVVmw002K2J6pitPuJGOka9PxcCVWhko/W+JCGapcC7O74palwBUuXE1iH+Jp",
+                                              "noPjGp4qE2ognW3WH/sgQ+rvo20eXb9Um1steaYY8xlxgBsXAgMBAAGjNTAzMA4G",
+                                              "A1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMBAf8EAjAA",
+                                              "MA0GCSqGSIb3DQEBCwUAA4IBAQBUd9sGKYemzwPnxtw/vzkV8Q32NILEMlPVqeJU",
+                                              "7UxVgIODBV6A1b3tOUoktuhmgSSaQxjhYbFAVTD+LUglMUCxNbj56luBRlLLQWo+",
+                                              "9BUhC/ow393tLmqKcB59qNcwbZER6XT5POYwcaKM75QVqhCJVHJNb1zSEE7Co7iO",
+                                              "6wIan3lFyjBfYlBEz5vyRWQNIwKfdh5cK1yAu13xGENwmtlSTHiwbjBLXfk+0A/8",
+                                              "r/2s+sCYUkGZHhj8xY7bJ1zg0FRalP5LrqY+r6BckT1QPDIQKYy615j1LpOtwZe/",
+                                              "d4q7MD/dkzRDsch7t2cIjM/PYeMuzh87admSyL6hdtK0Nm/Q",
+                                              "-----END CERTIFICATE-----"
+                                            ],
+                                    "key": [
+                                              "-----BEGIN RSA PRIVATE KEY-----",
+                                              "MIIEowIBAAKCAQEArNj19HxUgoznppnZvVGzr3C3LRfeDseAaUnyft5SR8GW75zh",
+                                              "bqOeloUCVq3JSqCJqf3Pb3i9SeAW7Wpt7FtwD5GVRCvVMUUOex0LsDs4VdBQ9tP9",
+                                              "GBC6LvOU8J5E8OZfRlQl09NjRvqRpWLBa8XrFB6aI3ZfLSHJ9ddzOacqYAz1Zj3n",
+                                              "jkUX+57HjAuhob12DOLcST8np6IcHoJfA2ejhORZElUecBULQIWzjTgJCFVZsNNN",
+                                              "itieqYrT7iRjpGvT8XAlVoZKP1viQhmqXAuzu+KWpcAVLlxNYh/iaZ6D4xqeKhNq",
+                                              "IJ1t1h/7IEPq76NtHl2/VJtbLXmmGPMZcYAbFwIDAQABAoIBAFCgG4phfGIxK9Uw",
+                                              "qrp+o9xQLYGhQnmOYb27OpwnRCYojSlT+mvLcqwvevnHsr9WxyA+PkZ3AYS2PLue",
+                                              "C4xW0pzQgdn8wENtPOX8lHkuBocw1rNsCwDwvIguIuliSjI8o3CAy+xVDFgNhWap",
+                                              "/CMzfQYziB7GlnrM6hH838iiy0dlv4I/HKk+3/YlSYQEvnFokTf7HxbDDmznkJTM",
+                                              "aPKZ5qbnV+4AcQfcLYJ8QE0ViJ8dVZ7RLwIf7+SG0b0bqloti4+oQXqGtiESUwEW",
+                                              "/Wzi7oyCbFJoPsFWp1P5+wD7jAGpAd9lPIwPahdr1wl6VwIx9W0XYjoZn71AEaw4",
+                                              "bK4xUXECgYEA3g2o9WqyrhYSax3pGEdvV2qN0VQhw7Xe+jyy98CELOO2DNbB9QNJ",
+                                              "8cSSU/PjkxQlgbOJc8DEprdMldN5xI/srlsbQWCj72wXxXnVnh991bI2clwt7oYi",
+                                              "pcGZwzCrJyFL+QaZmYzLxkxYl1tCiiuqLm+EkjxCWKTX/kKEFb6rtnMCgYEAx0WR",
+                                              "L8Uue3lXxhXRdBS5QRTBNklkSxtU+2yyXRpvFa7Qam+GghJs5RKfJ9lTvjfM/PxG",
+                                              "3vhuBliWQOKQbm1ZGLbgGBM505EOP7DikUmH/kzKxIeRo4l64mioKdDwK/4CZtS7",
+                                              "az0Lq3eS6bq11qL4mEdE6Gn/Y+sqB83GHZYju80CgYABFm4KbbBcW+1RKv9WSBtK",
+                                              "gVIagV/89moWLa/uuLmtApyEqZSfn5mAHqdc0+f8c2/Pl9KHh50u99zfKv8AsHfH",
+                                              "TtjuVAvZg10GcZdTQ/I41ruficYL0gpfZ3haVWWxNl+J47di4iapXPxeGWtVA+u8",
+                                              "eH1cvgDRMFWCgE7nUFzE8wKBgGndUomfZtdgGrp4ouLZk6W4ogD2MpsYNSixkXyW",
+                                              "64cIbV7uSvZVVZbJMtaXxb6bpIKOgBQ6xTEH5SMpenPAEgJoPVts816rhHdfwK5Q",
+                                              "8zetklegckYAZtFbqmM0xjOI6bu5rqwFLWr1xo33jF0wDYPQ8RHMJkruB1FIB8V2",
+                                              "GxvNAoGBAM4g2z8NTPMqX+8IBGkGgqmcYuRQxd3cs7LOSEjF9hPy1it2ZFe/yUKq",
+                                              "ePa2E8osffK5LBkFzhyQb0WrGC9ijM9E6rv10gyuNjlwXdFJcdqVamxwPUBtxRJR",
+                                              "cYTY2HRkJXDdtT0Bkc3josE6UUDvwMpO0CfAETQPto1tjNEDhQhT",
+                                              "-----END RSA PRIVATE KEY-----"
+                                            ]
+                                }
+                            ]
+                        },
                         "tcpSettings": {},
                         "kcpSettings": {},
                         "wsSettings": {},
@@ -456,19 +510,30 @@ class TransportPanel(TransportSettingPanel,
                         bool(transportJSONFile["tlsSettings"]["allowInsecure"]))
                 except KeyError as e:
                     logbook.writeLog("transport", "KeyError", e)
+                try:
+                    self.lineEditCertificatealpn.setText(", ".join([str(x) for x in transportJSONFile["tlsSettings"]["alpn"]]))
+                except KeyError as e:
+                    logbook.writeLog("transport", "KeyError", e)
         else:
             cleartlsSettings()
             certificatesFilesNumber = 0
             
         if (certificatesFilesNumber):
-            self.tableWidgetUserCertificates.setRowCount(certificatesFilesNumber)
             try:
                 for i in range(certificatesFilesNumber):
+                    self.onbtnCertificatesaddNewRow()
+                    combox = self.tableWidgetUserCertificates.cellWidget(i, 0)
+                    try:
+                        combox.setCurrentText(str(certificateFiles[i]["useage"]))
+                    except Exception: pass
                     self.tableWidgetUserCertificates.setItem(
-                        i, 0, QTableWidgetItem(str(certificateFiles[i]["certificateFile"])))
+                        i, 1, QTableWidgetItem(str(certificateFiles[i]["certificateFile"])))
                     self.tableWidgetUserCertificates.setItem(
-                        i, 1, QTableWidgetItem(str(certificateFiles[i]["keyFile"])))
-                    self.tableWidgetUserCertificates.resizeColumnsToContents()
+                        i, 2, QTableWidgetItem(str(certificateFiles[i]["keyFile"])))
+                    self.tableWidgetUserCertificates.setItem(
+                        i, 3, QTableWidgetItem(",".join(certificateFiles[i]["certificate"])))
+                    self.tableWidgetUserCertificates.setItem(
+                        i, 4, QTableWidgetItem(",".join(certificateFiles[i]["key"])))
             except KeyError as e:
                 logbook.writeLog("transport", "KeyError", e)
         else:
@@ -491,18 +556,29 @@ class TransportPanel(TransportSettingPanel,
             if self.checkBoxCertificateAllowInsecure.isChecked():
                 transportJSONFile["tlsSettings"]["allowInsecure"] = True
             if self.lineEditCertificateServerName.text():
-                transportJSONFile["tlsSettings"]["serverName"] = copy.deepcopy(self.lineEditCertificateServerName.text())
+                transportJSONFile["tlsSettings"]["serverName"] = copy.deepcopy(
+                    self.lineEditCertificateServerName.text())
+            if self.lineEditCertificatealpn.text():
+                transportJSONFile["tlsSettings"]["alpn"] = copy.deepcopy(
+                    [x.strip() for x in re.split(r"[,;]", self.lineEditCertificatealpn.text())])
             certificatesFilesNumber = self.tableWidgetUserCertificates.rowCount()
             files = []
             if (certificatesFilesNumber > 0):
                 for i in range(0, certificatesFilesNumber):
                     fileName = {}
-                    certificateFile = self.tableWidgetUserCertificates.item(i, 0)
-                    keyFile = self.tableWidgetUserCertificates.item(i, 1)
+                    useage = self.tableWidgetUserCertificates.cellWidget(i, 0)
+                    certificateFile = self.tableWidgetUserCertificates.item(i, 1)
+                    keyFile = self.tableWidgetUserCertificates.item(i, 2)
+                    certificate = self.tableWidgetUserCertificates.item(i, 3)
+                    key = self.tableWidgetUserCertificates.item(i, 4)
+                    fileName["useage"] = useage.currentText()
                     if (certificateFile and keyFile):
                         fileName["certificateFile"] = certificateFile.text()
                         fileName["keyFile"] = keyFile.text()
-                        files.append(copy.deepcopy(fileName))
+                    if (certificate and key):
+                        fileName["certificate"] = [x for x in certificate.text().split(",")]
+                        fileName["key"] = [x for x in key.text().split(",")]
+                    files.append(copy.deepcopy(fileName))
                 transportJSONFile["tlsSettings"]["certificates"] = copy.deepcopy(files)
             else:
                 del files; certificatesFilesNumber
@@ -549,7 +625,6 @@ class TransportPanel(TransportSettingPanel,
 
 
 if __name__ == "__main__":
-    from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)
     ex = TransportPanel()
     ex.setLayout(ex.createTransportPanel())
