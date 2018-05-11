@@ -318,7 +318,7 @@ class updateV2ray(QObject):
                              latestVersion=False,
                              bridgetreasureChest=False,
                              bridgeSingal=False):
-        if not downloadPath and not latestVersion and not downloadFile: return False
+        if not downloadPath or not latestVersion or not downloadFile: return False
         if (bridgetreasureChest):
             self.bridgetreasureChest = bridgetreasureChest
             
@@ -390,7 +390,10 @@ class updateV2ray(QObject):
                         self.newV2rayPath = None
                         self.newV2rayPath = QFileInfo(QFile(absoluteFilePath))
                         if self.newV2rayPath and checkFilesize(self.newV2rayPath):break
-                zip_ref.extractall(fileInfo.absolutePath())
+                try:
+                    zip_ref.extractall(fileInfo.absolutePath())
+                except PermissionError:
+                    return
                 if sys.platform.startswith('win'):pass
                 else:
                     os.chmod(self.newV2rayPath.absoluteFilePath(), 0o755)
