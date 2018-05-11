@@ -172,7 +172,6 @@ class OutboundPortocolPanel(blackholePanel.BlackholePanel,
     def clearOutboundPortocolPanel(self):
         self.clearblackholePanel()
         self.clearfreedomPanel()
-        self.clearoutboundShadowsocksPanel()
         self.clearoutboundSocksPanel()
         self.clearoutboundVmessPanel()
 
