@@ -172,10 +172,10 @@ class OutboundPortocolPanel(blackholePanel.BlackholePanel,
     def clearOutboundPortocolPanel(self):
         self.clearblackholePanel()
         self.clearfreedomPanel()
-        self.clearoutboundSocksPanel()
-        self.clearoutboundVmessPanel()
+        self.clearOutVmessPanel()
+        self.clearSocksPanel()
+        self.clearShadowsocksPanel()
 
- 
 class OutboundPanel(OutboundPortocolPanel,
                     OutboundSettingPanel,
                     muxPanel.muxPanel,

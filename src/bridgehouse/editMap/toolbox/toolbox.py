@@ -1,7 +1,8 @@
 from PyQt5.QtCore import QModelIndex, Qt
 from PyQt5.QtGui import QStandardItemModel
 from PyQt5.QtWidgets import (QApplication, QStyledItemDelegate,
-        QTableView, QWidget, QPushButton, QLineEdit, QStyle, QSpinBox)
+        QTableView, QWidget, QPushButton, QLineEdit, QStyle, QSpinBox,
+    QComboBox)
 import uuid
 
 class UUIDLineEdit(QLineEdit):
@@ -64,6 +65,46 @@ class SpinBoxDelegate(QStyledItemDelegate):
         spinBox.interpretText()
         value = spinBox.value()
 
+        model.setData(index, value, Qt.EditRole)
+
+    def updateEditorGeometry(self, editor, option, index):
+        editor.setGeometry(option.rect)
+        
+        
+class ComboBoxDelegate(QStyledItemDelegate):
+    def __init__(self, comboList=None):
+        super(ComboBoxDelegate, self).__init__()
+        self.comboList = comboList
+        
+    def createEditor(self, parent, option, index):
+        if index.parent().row() != -1:
+            editor = QComboBox(parent)
+            if self.comboList:
+                editor.addItems(self.comboList)
+            
+            return editor
+        else:
+            editor = QSpinBox(parent)
+            editor.setMaximum(65535)
+            editor.setMinimum(0)
+            editor.setValue(443)
+            return editor
+
+    def setEditorData(self, comboBox, index):
+        value = index.model().data(index, Qt.EditRole)
+        if index.parent().row() != -1 and value in self.comboList:
+            comboBox.setCurrentText(value)
+        else:
+            try:
+                comboBox.setValue(int(value))
+            except:
+                pass
+
+    def setModelData(self, comboBox, model, index):
+        if index.parent().row() != -1:
+            value = comboBox.currentText()
+        else:
+            value = comboBox.value()
         model.setData(index, value, Qt.EditRole)
 
     def updateEditorGeometry(self, editor, option, index):

@@ -61,7 +61,10 @@ class OutboundShadowsocksPanel(QWidget):
             self.translate("OutboundShadowsocksPanel", "Delete"), self)
 
         vboxBtn = QVBoxLayout()
-        vboxBtn.addStretch()
+        vboxBtn.addWidget(QLabel())
+        vboxBtn.addWidget(QLabel())
+        vboxBtn.addWidget(QLabel())
+        vboxBtn.addWidget(QLabel())
         vboxBtn.addWidget(self.btnOutShadowsocksNew)
         vboxBtn.addWidget(self.btnOutShadowsocksDelete)
         
@@ -199,6 +202,9 @@ class OutboundShadowsocksPanel(QWidget):
 
         return outboundShadowsocksJSONFile
 
+    def clearShadowsocksPanel(self):
+        self.tableWidgetOutShadowsocks.setRowCount(0)
+        
     def __DebugTest(self):
         import json
         print(json.dumps(self.createOutboundShadowsocksJSONFile(), indent=4, sort_keys=False))

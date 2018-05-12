@@ -9,6 +9,7 @@ from PyQt5.QtCore import QFileInfo, QCoreApplication
 
 import sys, copy
 
+
 v2rayshellDebug = False
 
 if __name__ == "__main__":
@@ -43,72 +44,26 @@ class OutboundSocksPanel(QWidget):
                               self.translate("OutboundSocksPanel", "Level"))
     
     def createOutboundSocksSettingPanel(self):
-        labelAddress = QLabel(
-            self.translate("OutboundSocksPanel", "Server Address: "), self)
-        self.lineEditOutboundSocksAddress = QLineEdit()
-        labelPort = QLabel(
-            self.translate("OutboundSocksPanel", "Port: "), self)
-        self.spinBoxOutboundSocksPort = QSpinBox()
-    
-        labelUserName = QLabel(
-            self.translate("OutboundSocksPanel", "User: "), self)
-        self.lineEditOutboundSocksUserName = QLineEdit()
-        labelPassowrd = QLabel(
-            self.translate("OutboundSocksPanel", "Password: "), self)
-        self.lineEditOutboundSocksPassword = QLineEdit()
-        self.lineEditOutboundSocksUserName.setDisabled(True)
-        self.lineEditOutboundSocksPassword.setDisabled(True)
-        
-        labelLevel = QLabel(
-            self.translate("OutboundSocksPanel", "User Level: "))
-        self.spinBoxOutboundSocksuerLevel = QSpinBox()
-        self.spinBoxOutboundSocksuerLevel.setRange(0, 65535)
-        self.spinBoxOutboundSocksuerLevel.setValue(0)
-        self.spinBoxOutboundSocksuerLevel.setDisabled(True)
-        
-        hboxuserLevel = QHBoxLayout()
-        hboxuserLevel.addWidget(labelLevel)
-        hboxuserLevel.addWidget(self.spinBoxOutboundSocksuerLevel)
-        hboxuserLevel.addStretch()
-        
-        self.btnOutboundSocksClear = QPushButton(
-            self.translate("OutboundSocksPanel", "Clear"))
-        self.btnOutboundSocksChange = QPushButton(
-            self.translate("OutboundSocksPanel", "Modify"))
-        self.btnOutboundSocksAdd = QPushButton(
-            self.translate("OutboundSocksPanel", "Add"))
+        self.btnOutboundSocksNewUser= QPushButton(
+            self.translate("OutboundSocksPanel", "New User"))
+        self.btnOutboundSocksNewServer= QPushButton(
+            self.translate("OutboundSocksPanel", "New Server"))
         self.btnOutboundSocksDelete = QPushButton(
             self.translate("OutboundSocksPanel", "Delete"))
         
-        self.spinBoxOutboundSocksPort.setRange(0, 65535)
-        self.spinBoxOutboundSocksPort.setValue(1080)
-        
-        hboxAdress = QHBoxLayout()
-        hboxAdress.addWidget(labelAddress)
-        hboxAdress.addWidget(self.lineEditOutboundSocksAddress)
-        hboxAdress.addWidget(labelPort)
-        hboxAdress.addWidget(self.spinBoxOutboundSocksPort)
-        hboxAdress.addStretch()
-        
-        hboxUser = QHBoxLayout()
-        hboxUser.addWidget(labelUserName)
-        hboxUser.addWidget(self.lineEditOutboundSocksUserName)
-        hboxUser.addWidget(labelPassowrd)
-        hboxUser.addWidget(self.lineEditOutboundSocksPassword)
-        hboxUser.addStretch()
-        
         vboxBtnUser = QVBoxLayout()
-        vboxBtnUser.addStretch()
-        vboxBtnUser.addWidget(self.btnOutboundSocksAdd)
-        vboxBtnUser.addWidget(self.btnOutboundSocksClear)
-        vboxBtnUser.addWidget(self.btnOutboundSocksChange)
+        vboxBtnUser.addWidget(QLabel())
+        vboxBtnUser.addWidget(QLabel())
+        vboxBtnUser.addWidget(QLabel())
+        vboxBtnUser.addWidget(QLabel())
+        vboxBtnUser.addWidget(self.btnOutboundSocksNewUser)
+        vboxBtnUser.addWidget(self.btnOutboundSocksNewServer)
         vboxBtnUser.addWidget(self.btnOutboundSocksDelete)
         
         self.treeViewoutSocksAddress = treeViewoutSocksAddress = QTreeView() 
         treeViewoutSocksAddress.setSelectionMode(QAbstractItemView.SingleSelection)
         treeViewoutSocksAddress.setSelectionBehavior(QAbstractItemView.SelectRows)
         treeViewoutSocksAddress.setUniformRowHeights(True)
-        treeViewoutSocksAddress.setEditTriggers(QAbstractItemView.NoEditTriggers)
         
         self.treeViewoutSocksAddressMode = QStandardItemModel()
         self.treeViewoutSocksAddressMode.setHorizontalHeaderLabels(self.labeloutSocks)
@@ -119,9 +74,6 @@ class OutboundSocksPanel(QWidget):
         hboxtreeView.addLayout(vboxBtnUser)
         
         vboxOutboundSocks = QVBoxLayout()
-        vboxOutboundSocks.addLayout(hboxAdress)
-        vboxOutboundSocks.addLayout(hboxUser)
-        vboxOutboundSocks.addLayout(hboxuserLevel)
         vboxOutboundSocks.addLayout(hboxtreeView)
 
         groupBoxOutboundSocksPanel = QGroupBox(
@@ -139,121 +91,50 @@ class OutboundSocksPanel(QWidget):
         return groupBoxOutboundSocksPanel
     
     def createOutboundSocksPanelSignals(self):
-        self.btnOutboundSocksAdd.clicked.connect(self.onbtnOutboundSocksAdd)
-        self.btnOutboundSocksChange.clicked.connect(self.onbtnOutboundSocksChange)
-        self.btnOutboundSocksClear.clicked.connect(self.onbtnOutboundSocksClear)
         self.btnOutboundSocksDelete.clicked.connect(self.onbtnOutboundSocksDelete)
-        self.treeViewoutSocksAddress.clicked.connect(self.ontreeViewoutSocksAddressClicked)
-
-    def onbtnOutboundSocksAdd(self):
-        if (not self.treeViewoutSocksAddressMode.rowCount()):
-            if (not self.lineEditOutboundSocksAddress.text()): return
-            self.treeViewoutSocksAddressMode.appendRow((QStandardItem(str(self.lineEditOutboundSocksAddress.text())),
-                                                        QStandardItem(str(self.spinBoxOutboundSocksPort.value()))))
-            self.treeViewoutSocksAddress.setCurrentIndex(self.treeViewoutSocksAddressMode.index(0, 0))
-            self.btnOutboundSocksDelete.setEnabled(True)
-            self.lineEditOutboundSocksUserName.setEnabled(True)
-            self.lineEditOutboundSocksPassword.setEnabled(True)
-            self.spinBoxOutboundSocksuerLevel.setEnabled(True)
-            self.onbtnOutboundSocksClear()
+        self.btnOutboundSocksNewUser.clicked.connect(self.onbtnOutboundSocksNewUser)
+        self.btnOutboundSocksNewServer.clicked.connect(self.onbtnOutboundSocksNewServer)
+        
+    def onbtnOutboundSocksNewUser(self):
+        rowCount = self.treeViewoutSocksAddressMode.rowCount()
+        if not rowCount:
+            self.newRowOutSocks(rowCount)
+            self.treeViewoutSocksAddress.setCurrentIndex(self.treeViewoutSocksAddressMode.index(rowCount, 0))
             return
-        
+    
         itemSelection = self.treeViewoutSocksAddress.selectionModel()
         rowCurrent = itemSelection.selectedIndexes()[0]
         root = rowCurrent.parent().row()
         row = rowCurrent.row()
-        
-        rowCountAdrress = self.treeViewoutSocksAddressMode.rowCount()
-        addresses = []
-        for i in range(rowCountAdrress):
-            addresses.append(self.treeViewoutSocksAddressMode.item(i, 0).text() + ":" + self.treeViewoutSocksAddressMode.item(i, 1).text())
-        address = self.lineEditOutboundSocksAddress.text() + ":" + str(self.spinBoxOutboundSocksPort.value())
-        if (root == -1):
-            if (address not in addresses and self.lineEditOutboundSocksAddress.text() != ""):
-                self.treeViewoutSocksAddressMode.appendRow((QStandardItem(str(self.lineEditOutboundSocksAddress.text())),
-                                                            QStandardItem(str(self.spinBoxOutboundSocksPort.value()))))
-                self.treeViewoutSocksAddress.setCurrentIndex(
-                    self.treeViewoutSocksAddressMode.index(self.treeViewoutSocksAddressMode.rowCount() - 1, 0))
-                self.lineEditOutboundSocksUserName.setEnabled(True)
-                self.lineEditOutboundSocksPassword.setEnabled(True)
-                self.spinBoxOutboundSocksuerLevel.setEnabled(True)
-                self.onbtnOutboundSocksClear()
-                
-            if (not self.treeViewoutSocksAddressMode.item(row).hasChildren() and
-                (self.lineEditOutboundSocksUserName.text() or self.lineEditOutboundSocksPassword.text())):
-                self.treeViewoutSocksAddressMode.item(row).appendRow((QStandardItem(str(self.lineEditOutboundSocksUserName.text())),
-                                                                      QStandardItem(str(self.lineEditOutboundSocksPassword.text())),
-                                                                      QStandardItem(str(self.spinBoxOutboundSocksuerLevel.value()))))
-                self.lineEditOutboundSocksUserName.setDisabled(True)
-                self.lineEditOutboundSocksPassword.setDisabled(True)
-                self.spinBoxOutboundSocksuerLevel.setDisabled(True)
-                self.onbtnOutboundSocksClear()
+        if root == -1:
+            self.treeViewoutSocksAddressMode.item(row).appendRow((
+                QStandardItem("user_name"),
+                QStandardItem("********"),
+                QStandardItem("0")))
+            self.treeViewoutSocksAddress.expand(self.treeViewoutSocksAddressMode.index(row, 0))
         else:
-            if (not self.lineEditOutboundSocksUserName.text() or not self.lineEditOutboundSocksPassword.text()):
-                return  # an empty name or password will not be added
-            self.treeViewoutSocksAddressMode.item(root).appendRow((QStandardItem(str(self.lineEditOutboundSocksUserName.text())),
-                                                                   QStandardItem(str(self.lineEditOutboundSocksPassword.text())),
-                                                                   QStandardItem(str(self.spinBoxOutboundSocksuerLevel.value()))))
-            # the newest item always will be selected
-            self.treeViewoutSocksAddress.setCurrentIndex(
-                self.treeViewoutSocksAddressMode.index(
-                    self.treeViewoutSocksAddressMode.item(root).rowCount() - 1, 0, rowCurrent.parent()))
-            self.onbtnOutboundSocksClear()
-            
-    def onbtnOutboundSocksChange(self):
-        if (not self.treeViewoutSocksAddressMode.rowCount()): return
-            
-        itemSelection = self.treeViewoutSocksAddress.selectionModel()
-        rowCurrent = itemSelection.selectedIndexes()[0]
-        root = rowCurrent.parent().row()
-        row = rowCurrent.row()
+            self.treeViewoutSocksAddressMode.item(root).appendRow((
+                QStandardItem("user_name"),
+                QStandardItem("********"),
+                QStandardItem("0")))
         
-        rowCountAdrress = self.treeViewoutSocksAddressMode.rowCount()
-        addresses = []
-        for i in range(rowCountAdrress):
-            addresses.append(
-                self.treeViewoutSocksAddressMode.item(i, 0).text() + ":" + self.treeViewoutSocksAddressMode.item(i, 1).text())
-        address = self.lineEditOutboundSocksAddress.text() + ":" + str(self.spinBoxOutboundSocksPort.value())
-                
-        if (root == -1):
-            if (address in addresses or not self.lineEditOutboundSocksAddress.text()):
-                return
-            
-            users = []  # change address or port will delete child items, now save child items
-            userNumber = self.treeViewoutSocksAddressMode.item(row).rowCount()
-            if (self.treeViewoutSocksAddressMode.hasChildren()):
-                for i in range(userNumber):
-                    users.append((self.treeViewoutSocksAddressMode.item(row).child(i, 0).text(),
-                                  self.treeViewoutSocksAddressMode.item(row).child(i, 1).text()))
-            
-            self.treeViewoutSocksAddressMode.setItem(row, 0, QStandardItem(self.lineEditOutboundSocksAddress.text()))
-            self.treeViewoutSocksAddressMode.setItem(row, 1, QStandardItem(str(self.spinBoxOutboundSocksPort.value())))
+    def onbtnOutboundSocksNewServer(self):
+        row = self.treeViewoutSocksAddressMode.rowCount()
+        if not row:
+            self.newRowOutSocks(row)
             self.treeViewoutSocksAddress.setCurrentIndex(self.treeViewoutSocksAddressMode.index(row, 0))
-            
-            # restore child items
-            if (self.treeViewoutSocksAddressMode.hasChildren()):
-                for i in range(userNumber):
-                    self.treeViewoutSocksAddressMode.item(row).appendRow((QStandardItem(users[i][0]),
-                                                                          QStandardItem(users[i][1]),
-                                                                          QStandardItem(users[i][2])))
-        
         else:
-            if (not self.lineEditOutboundSocksUserName.text() or not self.lineEditOutboundSocksPassword.text()):
-                return
-            self.treeViewoutSocksAddressMode.item(root).setChild(row, 0, QStandardItem(self.lineEditOutboundSocksUserName.text()))
-            self.treeViewoutSocksAddressMode.item(root).setChild(row, 1, QStandardItem(self.lineEditOutboundSocksPassword.text()))
-            self.treeViewoutSocksAddressMode.item(root).setChild(row, 2, QStandardItem(str(self.spinBoxOutboundSocksuerLevel.value())))
-            self.treeViewoutSocksAddress.setCurrentIndex(self.treeViewoutSocksAddressMode.index(row, 0, rowCurrent.parent()))
-            
-    def onbtnOutboundSocksClear(self):
-        if (self.lineEditOutboundSocksAddress.isEnabled()):
-            self.lineEditOutboundSocksAddress.clear()
-            self.spinBoxOutboundSocksPort.setValue(1080)
-        if (self.lineEditOutboundSocksUserName.isEnabled()):
-            self.lineEditOutboundSocksPassword.clear()
-            self.lineEditOutboundSocksUserName.clear()
-            self.spinBoxOutboundSocksuerLevel.setValue(0)
-            
+            r = self.treeViewoutSocksAddressMode.item(row-1)
+            if r.hasChildren():
+                self.newRowOutSocks(row)
+
+    def newRowOutSocks(self, row):
+        self.treeViewoutSocksAddressMode.setRowCount(row+1)
+        address = self.treeViewoutSocksAddressMode.index(row, 0)
+        port = self.treeViewoutSocksAddressMode.index(row, 1)
+        self.treeViewoutSocksAddressMode.setData(address, "127.0.0.1")
+        self.treeViewoutSocksAddressMode.setData(port, "1080")
+
     def onbtnOutboundSocksDelete(self):
         if (not self.treeViewoutSocksAddressMode.rowCount()): return
         
@@ -261,57 +142,10 @@ class OutboundSocksPanel(QWidget):
         rowCurrent = itemSelection.selectedIndexes()[0]
         root = rowCurrent.parent().row()
         row = rowCurrent.row()
-
-        if (root == -1):
+        if root == -1:
             self.treeViewoutSocksAddressMode.removeRow(row)
-            if (not self.treeViewoutSocksAddressMode.rowCount()):
-                self.lineEditOutboundSocksAddress.setEnabled(True)
-                self.spinBoxOutboundSocksPort.setEnabled(True)
-                self.lineEditOutboundSocksUserName.setDisabled(True)
-                self.lineEditOutboundSocksPassword.setDisabled(True)
-            self.onbtnOutboundSocksClear()
         else:
             self.treeViewoutSocksAddressMode.item(root).removeRow(row)
-            self.onbtnOutboundSocksClear()
-    
-    def ontreeViewoutSocksAddressClicked(self):
-        itemSelection = self.treeViewoutSocksAddress.selectionModel()
-        rowCurrent = itemSelection.selectedIndexes()[0]
-        root = rowCurrent.parent().row()
-        row = rowCurrent.row()
-        if (root == -1):
-            address = self.treeViewoutSocksAddressMode.item(row, 0).text() 
-            port = self.treeViewoutSocksAddressMode.item(row, 1).text()
-            self.lineEditOutboundSocksAddress.setText(address)
-            self.spinBoxOutboundSocksPort.setValue(int(port))
-            self.lineEditOutboundSocksPassword.clear()
-            self.lineEditOutboundSocksUserName.clear()
-            self.lineEditOutboundSocksAddress.setEnabled(True)
-            self.spinBoxOutboundSocksPort.setEnabled(True)
-            if (self.treeViewoutSocksAddressMode.item(row).hasChildren()):
-                self.lineEditOutboundSocksUserName.setEnabled(False)
-                self.lineEditOutboundSocksPassword.setEnabled(False)
-                self.spinBoxOutboundSocksuerLevel.setEnabled(False)
-            else:
-                self.lineEditOutboundSocksUserName.setEnabled(True)
-                self.lineEditOutboundSocksPassword.setEnabled(True)
-                self.spinBoxOutboundSocksuerLevel.setEnabled(True)
-        else:
-            address = self.treeViewoutSocksAddressMode.item(root, 0).text()
-            port = self.treeViewoutSocksAddressMode.item(root, 1).text()
-            user = self.treeViewoutSocksAddressMode.item(root).child(row, 0).text()
-            password = self.treeViewoutSocksAddressMode.item(root).child(row, 1).text()
-            level = self.treeViewoutSocksAddressMode.item(root).child(row, 2).text()
-            self.lineEditOutboundSocksUserName.setText(user)
-            self.lineEditOutboundSocksPassword.setText(password)
-            self.lineEditOutboundSocksAddress.setText(address)
-            self.spinBoxOutboundSocksPort.setValue(int(port))
-            self.spinBoxOutboundSocksuerLevel.setValue(int(level))
-            self.lineEditOutboundSocksAddress.setEnabled(False)
-            self.spinBoxOutboundSocksPort.setEnabled(False)
-            self.lineEditOutboundSocksUserName.setEnabled(True)
-            self.lineEditOutboundSocksPassword.setEnabled(True)
-            self.spinBoxOutboundSocksuerLevel.setEnabled(True)
             
     def settingOutboundSocksPanelFromJSONFile(self, outboundSocksJSONFile={}, openFromJSONFile=True):
         logbook.setisOpenJSONFile(openFromJSONFile)
@@ -330,17 +164,6 @@ class OutboundSocksPanel(QWidget):
         
         # just show the first server detail in TabelWidget
         if (serversNumber):
-            try:
-                self.lineEditOutboundSocksAddress.setText(servers[0]["address"])
-            except KeyError as e:
-                logbook.writeLog("OutboundSocks", "KeyError", e)
-                
-            try:
-                self.spinBoxOutboundSocksPort.setValue(int(servers[0]["port"]))
-            except KeyError as e:
-                logbook.writeLog("OutboundSocks", "KeyError", e)
-            except (ValueError, TypeError) as e:
-                logbook.writeLog("OutboundSocks", "ValueError or TypeError", e)
 
             for i in range(serversNumber):
                 try:
@@ -385,7 +208,6 @@ class OutboundSocksPanel(QWidget):
                     except:
                         logbook.writeLog("OutboundSocks set user", "unkonw")
                 self.treeViewoutSocksAddressMode.appendRow((serverAddress, serverPort))
-                    
         # make a sure add items success
         if (self.treeViewoutSocksAddressMode.rowCount()):
             # if there no any selectItem, "Add, Modify, Delete" button's slot will crash
@@ -395,8 +217,8 @@ class OutboundSocksPanel(QWidget):
         outboundSocksJSONFile = {}
         outboundSocksJSONFile["servers"] = []
         serversNumber = self.treeViewoutSocksAddressMode.rowCount()
-        if (not serversNumber): return self.outboundSocksJSONFile
-        
+        if (not serversNumber): return
+        print(serversNumber)
         for i in range(serversNumber):
             server = {}
             user = {}
@@ -420,13 +242,8 @@ class OutboundSocksPanel(QWidget):
 
         return outboundSocksJSONFile
     
-    def clearoutboundSocksPanel(self):
+    def clearSocksPanel(self):
         self.treeViewoutSocksAddressMode.setRowCount(0)
-        self.lineEditOutboundSocksAddress.clear()
-        self.lineEditOutboundSocksPassword.clear()
-        self.lineEditOutboundSocksUserName.clear()
-        self.spinBoxOutboundSocksPort.setValue(1080)
-        self.spinBoxOutboundSocksuerLevel.setValue(0)
         
     def __DebugTest(self):
         import json

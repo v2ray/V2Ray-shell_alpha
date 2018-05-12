@@ -85,6 +85,10 @@ class InboundSocksPanel(QWidget):
         hboxTimeout.addStretch()
         
         vboxBtnSocksUser.addStretch()
+        vboxBtnSocksUser.addWidget(QLabel())
+        vboxBtnSocksUser.addWidget(QLabel())
+        vboxBtnSocksUser.addWidget(QLabel())
+        vboxBtnSocksUser.addWidget(QLabel())
         vboxBtnSocksUser.addWidget(self.btnInboundSocksUserNew)
         vboxBtnSocksUser.addWidget(self.btnInboundSocksUserDelete)
         
@@ -270,6 +274,7 @@ class InboundSocksPanel(QWidget):
         self.groupBoxAuth.setChecked(False)
         self.spinBoxInboundSocksTimeout.setValue(300)
         self.spinBoxInboundSocksuserLevel.setValue(0)
+        self.tableWidgetInboundSocksUser.setRowCount(0)
                     
     def __debugTest(self):
         import json

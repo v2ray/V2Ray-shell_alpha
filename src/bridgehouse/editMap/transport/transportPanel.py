@@ -139,6 +139,7 @@ class TransportSettingPanel(QWidget):
             groupBoxTLSSetting.setChecked(False)
             
         groupBoxTLSSetting.setLayout(vboxTLSSetting)
+        groupBoxTLSSetting.setFixedHeight(groupBoxTLSSetting.height()*10)
         
         return groupBoxTLSSetting
             

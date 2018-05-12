@@ -18,7 +18,7 @@ if __name__ == "__main__":
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.inbound import logbook
-
+from bridgehouse.editMap.toolbox import toolbox
     
 class OutboundVmessSettingPanel(QWidget):
 
@@ -49,105 +49,42 @@ class OutboundVmessSettingPanel(QWidget):
         self.listMethodoutVmess = "auto", "aes-128-cfb", "aes-128-gcm", "chacha20-poly1305", "none"
 
     def createOutboundVmessPanel(self):
-        labelAddress = QLabel(
-            self.translate("OutboundVmessSettingPanel", "Server Address: "), self)
-        self.lineEditOutboundVmessAddress = QLineEdit()
-        labelPort = QLabel(
-            self.translate("OutboundVmessSettingPanel", "Port: "), self)
-        self.spinBoxOutboundVmessPort = QSpinBox()
-        self.spinBoxOutboundVmessPort.setRange(0, 65535)
-        self.spinBoxOutboundVmessPort.setValue(443)
-        
-        labelUIID = QLabel(
-            self.translate("OutboundVmessSettingPanel", "UUID: "), self)
-        self.lineEditOutboundVmessUUID = QLineEdit()
-        self.btnoutVmessGerateUUID = QPushButton(
-            self.translate("OutboundVmessSettingPanel", "Gerate UUID"), self)
-        labelAlterID = QLabel(
-            self.translate("OutboundVmessSettingPanel", "AlterID: "), self)
-        self.spinBoxOutboundVmessAlterID = QSpinBox()
-        self.comboBoxOutboundVmessMethod = QComboBox()
-        self.spinBoxOutboundVmessAlterID.setRange(0, 65535)
-        self.lineEditOutboundVmessUUID.setInputMask("HHHHHHHH-HHHH-HHHH-HHHH-HHHHHHHHHHHH;_")
-        self.comboBoxOutboundVmessMethod.addItems(self.listMethodoutVmess)
-        
-        labelLevel = QLabel(
-            self.translate("OutboundVmessSettingPanel", "User Level: "))
-        self.spinBoxOutboundVmessuserLevel = QSpinBox()
-        self.spinBoxOutboundVmessuserLevel.setRange(0, 65535)
-        self.spinBoxOutboundVmessuserLevel.setValue(0)
-        
-        hboxuserLevel = QHBoxLayout()
-        hboxuserLevel.addWidget(labelLevel)
-        hboxuserLevel.addWidget(self.spinBoxOutboundVmessuserLevel)
-        
-        hboxAddress = QHBoxLayout()
-        hboxAddress.addWidget(labelAddress)
-        hboxAddress.addWidget(self.lineEditOutboundVmessAddress)
-        hboxAddress.addWidget(labelPort)
-        hboxAddress.addWidget(self.spinBoxOutboundVmessPort)
-        hboxAddress.addStretch()
-        
-        self.groupBoxOutBoundVmessAddress = QGroupBox("", self)
-        self.groupBoxOutBoundVmessAddress.setLayout(hboxAddress)
-        
-        hboxID = QHBoxLayout()
-        hboxID.addWidget(labelUIID)
-        hboxID.addWidget(self.lineEditOutboundVmessUUID)
-        hboxID.addWidget(self.btnoutVmessGerateUUID)
-        
-        hboxAlterID = QHBoxLayout()
-        hboxAlterID.addLayout(hboxuserLevel)
-        hboxAlterID.addWidget(labelAlterID)
-        hboxAlterID.addWidget(self.spinBoxOutboundVmessAlterID)
-        hboxAlterID.addWidget(self.comboBoxOutboundVmessMethod)
-        hboxAlterID.addStretch()
-        
         self.treeViewOutboundVmessAddress = treeViewOutboundVmessAddress = QTreeView()
         treeViewOutboundVmessAddress.setSelectionMode(QAbstractItemView.SingleSelection)
         treeViewOutboundVmessAddress.setSelectionBehavior(QAbstractItemView.SelectRows)
         treeViewOutboundVmessAddress.setUniformRowHeights(True)
-        treeViewOutboundVmessAddress.setEditTriggers(QAbstractItemView.NoEditTriggers)
         
         self.treeViewOutboundVmessAddressMode = QStandardItemModel()
         self.treeViewOutboundVmessAddressMode.setHorizontalHeaderLabels(self.labeloutVmess)
         treeViewOutboundVmessAddress.setModel(self.treeViewOutboundVmessAddressMode)
         
-        self.btnoutVmessClear = QPushButton(
-            self.translate("OutboundVmessSettingPanel", "Clear"))
-        self.btnoutVmessChange = QPushButton(
-            self.translate("OutboundVmessSettingPanel", "Modify"))
-        self.btnoutVmessAdd = QPushButton(
-            self.translate("OutboundVmessSettingPanel", "Add"))
+        treeViewOutboundVmessAddress.setItemDelegateForColumn(1, toolbox.ComboBoxDelegate(self.listMethodoutVmess))
+        
+        self.btnoutVmessNewUser = QPushButton(
+            self.translate("OutboundVmessSettingPanel", "New User"))
+        self.btnoutVmessNewServer= QPushButton(
+            self.translate("OutboundVmessSettingPanel", "New Sever"))
         self.btnoutVmessDelete = QPushButton(
             self.translate("OutboundVmessSettingPanel", "Delete"))
 
         vboxBtn = QVBoxLayout()
-        vboxBtn.addStretch()
-        vboxBtn.addWidget(self.btnoutVmessAdd)
-        vboxBtn.addWidget(self.btnoutVmessClear)
-        vboxBtn.addWidget(self.btnoutVmessChange)
+        vboxBtn.addWidget(QLabel())
+        vboxBtn.addWidget(QLabel())
+        vboxBtn.addWidget(QLabel())
+        vboxBtn.addWidget(QLabel())
+        vboxBtn.addWidget(self.btnoutVmessNewUser)
+        vboxBtn.addWidget(self.btnoutVmessNewServer)
         vboxBtn.addWidget(self.btnoutVmessDelete)
-
-        vboxID = QVBoxLayout()
-        vboxID.addLayout(hboxID)
-        vboxID.addLayout(hboxAlterID)
-        
-        self.groupBoxOutBoundVmessID = QGroupBox("", self)
-        self.groupBoxOutBoundVmessID.setLayout(vboxID)
-        self.groupBoxOutBoundVmessID.setEnabled(False)
         
         hboxTreeView = QHBoxLayout()
         hboxTreeView.addWidget(treeViewOutboundVmessAddress)
         hboxTreeView.addLayout(vboxBtn)
         
         vboxOutBoundVmessUser = QVBoxLayout()
-        vboxOutBoundVmessUser.addWidget(self.groupBoxOutBoundVmessAddress)
-        vboxOutBoundVmessUser.addWidget(self.groupBoxOutBoundVmessID)
         vboxOutBoundVmessUser.addLayout(hboxTreeView)
         
-        self.groupBoxOutboundVmessUser = QGroupBox("", self)
-        self.groupBoxOutboundVmessUser.setLayout(vboxOutBoundVmessUser)
+        groupBoxOutboundVmessUser = QGroupBox("", self)
+        groupBoxOutboundVmessUser.setLayout(vboxOutBoundVmessUser)
         
         self.createOutboundVmessPanelSignals()
 
@@ -159,206 +96,76 @@ class OutboundVmessSettingPanel(QWidget):
             self.settingOutboundVmessPanelFromJSONFile(self.outboundVmessJSONFile, True)
             return
             
-        return self.groupBoxOutboundVmessUser
+        return groupBoxOutboundVmessUser
     
     def createOutboundVmessPanelSignals(self):
-        self.btnoutVmessGerateUUID.clicked.connect(self.onbtnoutVmessGerateUUID)
-        self.treeViewOutboundVmessAddress.clicked.connect(self.ontreeViewOutboundVmessAddress)
-        self.btnoutVmessClear.clicked.connect(self.onbtnoutVmessClear)
-        self.btnoutVmessAdd.clicked.connect(self.onbtnoutVmessAdd)
         self.btnoutVmessDelete.clicked.connect(self.onbtnoutVmessDelete)
-        self.btnoutVmessChange.clicked.connect(self.onbtnoutVmessChange)
-        
-    def onbtnoutVmessGerateUUID(self):
-        self.lineEditOutboundVmessUUID.setText(self.createUUID())
-        
-    def onbtnoutVmessClear(self):
-        if (self.groupBoxOutBoundVmessAddress.isEnabled()):
-            self.outVmessClearAddress()
-        if (self.groupBoxOutBoundVmessID.isEnabled()):
-            self.outVmessClearID()
-            
-    def outVmessClearID(self):
-        self.lineEditOutboundVmessUUID.clear()
-        self.spinBoxOutboundVmessAlterID.setValue(10)
-        self.comboBoxOutboundVmessMethod.setCurrentText("aes-128-cfb")
-        self.spinBoxOutboundVmessuserLevel.setValue(0)
-        
-    def outVmessClearAddress(self):
-        self.lineEditOutboundVmessAddress.clear()
-        self.spinBoxOutboundVmessPort.setValue(443)
-    
-    def ontreeViewOutboundVmessAddress(self):
-        itemSelection = self.treeViewOutboundVmessAddress.selectionModel()
-        rowCurrent = itemSelection.selectedIndexes()[0]
-        root = rowCurrent.parent().row()
-        row = rowCurrent.row()
-        
-        if (root == -1):
-            self.groupBoxOutBoundVmessAddress.setEnabled(True)
-            address = self.treeViewOutboundVmessAddressMode.item(row, 0).text() 
-            port = self.treeViewOutboundVmessAddressMode.item(row, 1).text()
-            self.lineEditOutboundVmessAddress.setText(address)
-            self.spinBoxOutboundVmessPort.setValue(int(port))
-            self.outVmessClearID()
-            if (self.treeViewOutboundVmessAddressMode.item(row).hasChildren()):
-                self.groupBoxOutBoundVmessID.setEnabled(False)
-            else:
-                self.groupBoxOutBoundVmessID.setEnabled(True)
-        else:
-            self.groupBoxOutBoundVmessID.setEnabled(True)
-            self.groupBoxOutBoundVmessAddress.setEnabled(False)
-            
-            address = self.treeViewOutboundVmessAddressMode.item(root, 0).text()
-            port = self.treeViewOutboundVmessAddressMode.item(root, 1).text()
-            uuidString = self.treeViewOutboundVmessAddressMode.item(root).child(row, 2).text()
-            alterId = self.treeViewOutboundVmessAddressMode.item(root).child(row, 0).text()
-            security = self.treeViewOutboundVmessAddressMode.item(root).child(row, 1).text()
-            level = self.treeViewOutboundVmessAddressMode.item(root).child(row, 3).text()
-            self.lineEditOutboundVmessAddress.setText(address)
-            self.spinBoxOutboundVmessPort.setValue(int(port))
-            self.lineEditOutboundVmessUUID.setText(uuidString)
-            self.spinBoxOutboundVmessAlterID.setValue(int(alterId))
-            self.comboBoxOutboundVmessMethod.setCurrentText(security)
-            self.spinBoxOutboundVmessuserLevel.setValue(int(level))
-
-    def onbtnoutVmessChange(self):
-        if (not self.treeViewOutboundVmessAddressMode.rowCount()): return
-        
-        itemSelection = self.treeViewOutboundVmessAddress.selectionModel()
-        rowCurrent = itemSelection.selectedIndexes()[0]
-        root = rowCurrent.parent().row()
-        row = rowCurrent.row()
-        
-        rowCountAddress = self.treeViewOutboundVmessAddressMode.rowCount()
-        addresses = []
-        for i in range(rowCountAddress):
-            # make sure no Duplicate address
-            addresses.append(
-                self.treeViewOutboundVmessAddressMode.item(i, 0).text() + ":" + self.treeViewOutboundVmessAddressMode.item(i, 1).text())
-        address = self.lineEditOutboundVmessAddress.text() + ":" + str(self.spinBoxOutboundVmessPort.value())
-
-        if (root == -1):
-            if ((address in addresses) or (self.lineEditOutboundVmessAddress.text() == "")):
-                return
-            
-            users = []
-            usersNumber = self.treeViewOutboundVmessAddressMode.item(row).rowCount()
-            if (self.treeViewOutboundVmessAddressMode.hasChildren()):  # or use usersNumber > 0  but hasChildren() more clearer
-                for i in range(usersNumber):
-                    alterID = self.treeViewOutboundVmessAddressMode.item(row).child(i, 0).text()
-                    security = self.treeViewOutboundVmessAddressMode.item(row).child(i, 1).text()
-                    uuidString = self.treeViewOutboundVmessAddressMode.item(row).child(i, 2).text()
-                    level = self.treeViewOutboundVmessAddressMode.item(row).child(i, 3).text()
-                    users.append((alterID, security, uuidString, level))
-            
-            self.treeViewOutboundVmessAddressMode.setItem(
-                row, 0, QStandardItem(str(self.lineEditOutboundVmessAddress.text())))
-            self.treeViewOutboundVmessAddressMode.setItem(
-                row, 1, QStandardItem(str(self.spinBoxOutboundVmessPort.value())))
-            self.treeViewOutboundVmessAddress.setCurrentIndex(
-                self.treeViewOutboundVmessAddressMode.index(row, 0))
-            
-            if (self.treeViewOutboundVmessAddressMode.hasChildren()):
-                for i in range(usersNumber):
-                    alterID = QStandardItem(str(users[i][0])) 
-                    security = QStandardItem(str(users[i][1]))
-                    uuidString = QStandardItem(str(users[i][2]))
-                    level = QStandardItem(str(users[i][3]))
-                    self.treeViewOutboundVmessAddressMode.item(row).appendRow((alterID, security, uuidString, level))
-        else:
-            if (self.lineEditOutboundVmessUUID.text() == "----"): return
-            alterID = QStandardItem(str(self.spinBoxOutboundVmessAlterID.value()))
-            security = QStandardItem(str(self.comboBoxOutboundVmessMethod.currentText()))
-            uuidString = QStandardItem(str(self.lineEditOutboundVmessUUID.text()))
-            level = QStandardItem(str(self.spinBoxOutboundVmessuserLevel.value()))
-            self.treeViewOutboundVmessAddressMode.item(root).setChild(row, 0, alterID)
-            self.treeViewOutboundVmessAddressMode.item(root).setChild(row, 1, security)
-            self.treeViewOutboundVmessAddressMode.item(root).setChild(row, 2, uuidString)
-            self.treeViewOutboundVmessAddressMode.item(root).setChild(row, 3, level)
-            self.treeViewOutboundVmessAddress.setCurrentIndex(
-                self.treeViewOutboundVmessAddressMode.index(row, 0, rowCurrent.parent()))
-
-    def onbtnoutVmessAdd(self):
-        if (not self.treeViewOutboundVmessAddressMode.rowCount()):
-            if (not self.lineEditOutboundVmessAddress.text()): return
-            self.treeViewOutboundVmessAddressMode.appendRow((QStandardItem(str(self.lineEditOutboundVmessAddress.text())),
-                                                             QStandardItem(str(self.spinBoxOutboundVmessPort.value()))))
-            self.treeViewOutboundVmessAddress.setCurrentIndex(
-                self.treeViewOutboundVmessAddressMode.index(0, 0))
-            self.btnoutVmessDelete.setEnabled(True)
-            self.groupBoxOutBoundVmessID.setEnabled(True)
-            self.onbtnoutVmessClear()
-            return
-        
-        itemSelection = self.treeViewOutboundVmessAddress.selectionModel()
-        rowCurrent = itemSelection.selectedIndexes()[0]
-        root = rowCurrent.parent().row()
-        row = rowCurrent.row()
-        
-        rowCountAddress = self.treeViewOutboundVmessAddressMode.rowCount()
-        addresses = []
-        for i in range(rowCountAddress):
-            # make sure no Duplicate address
-            addresses.append(self.treeViewOutboundVmessAddressMode.item(i, 0).text() + ":" + self.treeViewOutboundVmessAddressMode.item(i, 1).text())
-        address = self.lineEditOutboundVmessAddress.text() + ":" + str(self.spinBoxOutboundVmessPort.value())
-        
-        if (root == -1):  # user clicked address
-            if (address not in addresses and self.lineEditOutboundVmessAddress.text() != ""):
-                self.treeViewOutboundVmessAddressMode.appendRow((QStandardItem(str(self.lineEditOutboundVmessAddress.text())),
-                                                             QStandardItem(str(self.spinBoxOutboundVmessPort.value()))))
-                self.treeViewOutboundVmessAddress.setCurrentIndex(
-                    self.treeViewOutboundVmessAddressMode.index(
-                        self.treeViewOutboundVmessAddressMode.rowCount() - 1, 0))
-                self.groupBoxOutBoundVmessID.setEnabled(True)
-                self.onbtnoutVmessClear()
-                     
-            if (not self.treeViewOutboundVmessAddressMode.item(row).hasChildren() and
-                (self.lineEditOutboundVmessUUID.text() != "----")):
-                alterID = QStandardItem(str(self.spinBoxOutboundVmessAlterID.value()))
-                security = QStandardItem(str(self.comboBoxOutboundVmessMethod.currentText()))
-                uuidString = QStandardItem(str(self.lineEditOutboundVmessUUID.text()))
-                level = QStandardItem(str(self.spinBoxOutboundVmessuserLevel.value()))
-                self.treeViewOutboundVmessAddressMode.item(row).appendRow((alterID, security, uuidString, level))                                              
-                self.onbtnoutVmessClear()
-        else:
-            if (self.lineEditOutboundVmessUUID.text() == "----"): return  # an empty UUID not allow
-            alterID = QStandardItem(str(self.spinBoxOutboundVmessAlterID.value()))
-            security = QStandardItem(str(self.comboBoxOutboundVmessMethod.currentText()))
-            uuidString = QStandardItem(str(self.lineEditOutboundVmessUUID.text()))
-            level = QStandardItem(str(self.spinBoxOutboundVmessuserLevel.value()))
-            self.treeViewOutboundVmessAddressMode.item(root).appendRow((alterID, security, uuidString, level))
-            
-            # the newest item always will be selected
-            self.treeViewOutboundVmessAddress.setCurrentIndex(
-                self.treeViewOutboundVmessAddressMode.index(
-                    self.treeViewOutboundVmessAddressMode.item(root).rowCount() - 1, 0, rowCurrent.parent()))    
-            self.onbtnoutVmessClear()
+        self.btnoutVmessNewServer.clicked.connect(self.onbtnoutVmessNewServer)
+        self.btnoutVmessNewUser.clicked.connect(self.onbtnoutVmessNewUser)
             
     def onbtnoutVmessDelete(self):
         if (not self.treeViewOutboundVmessAddressMode.rowCount()): return
-        
+
         itemSelection = self.treeViewOutboundVmessAddress.selectionModel()
         rowCurrent = itemSelection.selectedIndexes()[0]
         root = rowCurrent.parent().row()
         row = rowCurrent.row()
-        
+
         if (root == -1):
             self.treeViewOutboundVmessAddressMode.removeRow(row)
-            if (not self.treeViewOutboundVmessAddressMode.rowCount()):
-                self.onbtnoutVmessClear()
-                self.groupBoxOutBoundVmessAddress.setEnabled(True)
-                self.groupBoxOutBoundVmessID.setDisabled(True)
-            self.onbtnoutVmessClear()
         else:
             self.treeViewOutboundVmessAddressMode.item(root).removeRow(row)
-            self.onbtnoutVmessClear()
-          
+    
+    def onbtnoutVmessNewUser(self):
+        rowCount = self.treeViewOutboundVmessAddressMode.rowCount()
+        if not rowCount:
+            self.newRowOutVmess(rowCount)
+            self.treeViewOutboundVmessAddress.setCurrentIndex(
+                self.treeViewOutboundVmessAddressMode.index(rowCount, 0))
+            return
+    
+        itemSelection = self.treeViewOutboundVmessAddress.selectionModel()
+        rowCurrent = itemSelection.selectedIndexes()[0]
+        root = rowCurrent.parent().row()
+        row = rowCurrent.row()
+        if root == -1:
+            self.treeViewOutboundVmessAddressMode.item(row).appendRow((
+                QStandardItem("10"),
+                QStandardItem("aes-128-cfb"),
+                QStandardItem(self.createUUID()),
+                QStandardItem("0")))
+            self.treeViewOutboundVmessAddress.expand(self.treeViewOutboundVmessAddressMode.index(row, 0))
+        else:
+            self.treeViewOutboundVmessAddressMode.item(root).appendRow((
+                QStandardItem("10"),
+                QStandardItem("aes-128-cfb"),
+                QStandardItem(self.createUUID()),
+                QStandardItem("0")))
+    
+    def onbtnoutVmessNewServer(self):
+        row = self.treeViewOutboundVmessAddressMode.rowCount()
+        if not row:
+            self.newRowOutVmess(row)
+            self.treeViewOutboundVmessAddress.setCurrentIndex(
+                self.treeViewOutboundVmessAddressMode.index(row, 0))
+        else:
+            r = self.treeViewOutboundVmessAddressMode.item(row-1)
+            if r.hasChildren():
+                self.newRowOutVmess(row)
+
+    def newRowOutVmess(self, row):
+        self.treeViewOutboundVmessAddressMode.setRowCount(row+1)
+        address = self.treeViewOutboundVmessAddressMode.index(row, 0)
+        port = self.treeViewOutboundVmessAddressMode.index(row, 1)
+        self.treeViewOutboundVmessAddressMode.setData(address, "127.0.0.1")
+        self.treeViewOutboundVmessAddressMode.setData(port, "443")
+
     def settingOutboundVmessPanelFromJSONFile(self, outboundVmessJSONFile=None, openFromJSONFile=False):
         logbook.setisOpenJSONFile(openFromJSONFile)
         self.treeViewOutboundVmessAddressMode.setRowCount(0)
         
-        if (not outboundVmessJSONFile): outboundVmessJSONFile = {}
+        if (not outboundVmessJSONFile):
+            outboundVmessJSONFile = {}
 
         try:
             outboundVmessJSONFile["vnext"]
@@ -370,19 +177,6 @@ class OutboundVmessSettingPanel(QWidget):
         
         if (addressNumber):
             addresses = outboundVmessJSONFile["vnext"]
-            try:
-                self.lineEditOutboundVmessAddress.setText(str(addresses[0]["address"]))
-            except KeyError as e:
-                logbook.writeLog("OutboundVmess", "KeyError", e)
-            except ValueError as e:
-                logbook.writeLog("OutboundVmess", "KeyError", e)
-                
-            try:
-                self.spinBoxOutboundVmessPort.setValue(int(addresses[0]["port"]))
-            except KeyError as e:
-                logbook.writeLog("OutboundVmess", "KeyError", e)
-            except (TypeError, ValueError) as e:
-                logbook.writeLog("OutboundVmess", "ValueError or TypeError", e)
             
             for i in range(addressNumber):
                 try:
@@ -421,7 +215,7 @@ class OutboundVmessSettingPanel(QWidget):
         outboundVmessJSONFile = {}
         outboundVmessJSONFile["vnext"] = []
         serversNumber = self.treeViewOutboundVmessAddressMode.rowCount()
-        if (not serversNumber): return self.outboundVmessJSONFile
+        if (not serversNumber): return
         
         for i in range(serversNumber):
             server = {}
@@ -446,15 +240,6 @@ class OutboundVmessSettingPanel(QWidget):
             outboundVmessJSONFile["vnext"].append(copy.deepcopy(server))
         
         return outboundVmessJSONFile
-
-    def clearoutboundVmessPanel(self):
-        self.treeViewOutboundVmessAddressMode.setRowCount(0)
-        self.lineEditOutboundVmessAddress.clear()
-        self.lineEditOutboundVmessUUID.clear()
-        self.comboBoxOutboundVmessMethod.setCurrentIndex(0)
-        self.spinBoxOutboundVmessAlterID.setValue(10)
-        self.spinBoxOutboundVmessPort.setValue(443)
-        self.spinBoxOutboundVmessuserLevel.setValue(0)
                      
     def createUUID(self):
         return str(uuid.uuid4())
@@ -465,12 +250,15 @@ class OutboundVmessSettingPanel(QWidget):
         except ValueError:
             return False
         return True
-        
+
+    def clearOutVmessPanel(self):
+        self.treeViewOutboundVmessAddressMode.setRowCount(0)
+
     def __DebugTest(self):
         import json
         print(json.dumps(self.createOutboundVmessJSONFile(), indent=4, sort_keys=False))
 
-    
+
 if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)

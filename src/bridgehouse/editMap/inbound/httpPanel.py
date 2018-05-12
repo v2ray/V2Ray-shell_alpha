@@ -77,7 +77,10 @@ class HttpPanel(QWidget):
         self.groupButtonHttp.addButton(btnHttpDelete)
         
         vboxButtonHttp = QVBoxLayout()
-        vboxButtonHttp.addStretch()
+        vboxButtonHttp.addWidget(QLabel())
+        vboxButtonHttp.addWidget(QLabel())
+        vboxButtonHttp.addWidget(QLabel())
+        vboxButtonHttp.addWidget(QLabel())
         vboxButtonHttp.addWidget(btnHttpNew)
         vboxButtonHttp.addWidget(btnHttpDelete)
         
@@ -243,6 +246,7 @@ class HttpPanel(QWidget):
         self.spinBoxHttpuserLevel.setValue(0)
         self.checkBoxallowTransparent.setChecked(False)
         self.groupBoxHttpAuth.setChecked(False)
+        self.tableWidgetHttp.setRowCount(0)
     
     def __debugTest(self):
         import json

@@ -77,7 +77,10 @@ class InboundVmessPanel(QWidget):
         # hboxDetourTo.addStretch()
 
         vboxInVmessBtn = QVBoxLayout()
-        vboxInVmessBtn.addStretch()
+        vboxInVmessBtn.addWidget(QLabel())
+        vboxInVmessBtn.addWidget(QLabel())
+        vboxInVmessBtn.addWidget(QLabel())
+        vboxInVmessBtn.addWidget(QLabel())
         vboxInVmessBtn.addWidget(self.btnInVmessNew)
         vboxInVmessBtn.addWidget(self.btnInVmessDelete)
 
