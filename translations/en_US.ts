@@ -715,6 +715,19 @@
     </message>
 </context>
 <context>
+    <name>apiTAB</name>
+    <message>
+        <location filename="../src/bridgehouse/editMap/apiTAB.py" line="42"/>
+        <source>API&apos;s Tag: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/apiTAB.py" line="50"/>
+        <source>Services: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>bridgePanel</name>
     <message>
         <location filename="../src/bridgehouse/bridge.py" line="111"/>
@@ -1329,12 +1342,12 @@ Feature Request Details:
 <context>
     <name>nauticalChartPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="137"/>
+        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="136"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="135"/>
+        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="134"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1374,7 +1387,7 @@ Feature Request Details:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="143"/>
+        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="142"/>
         <source>Save V2Ray config.json File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1535,7 +1548,7 @@ Feature Request Details:
 <context>
     <name>transportTab</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/transportTAB.py" line="40"/>
+        <location filename="../src/bridgehouse/editMap/transportTAB.py" line="35"/>
         <source>Transport Setting (Global)</source>
         <translation type="unfinished"></translation>
     </message>

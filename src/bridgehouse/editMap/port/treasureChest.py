@@ -25,6 +25,7 @@ class treasureChest():
         self.__stats = {}
         self.__emails = set()
         self.__levels = set()
+        self.__apitag = set()
         self.updateList = updateListSignal.updateListSignal()
     
     def clear(self):
@@ -42,14 +43,23 @@ class treasureChest():
         self.__levels.clear()
     
     def __validBoundTags(self, tag):
-        if (not tag): return False
+        if (not tag):
+            return False
 
-        if (tag in self.getAllTags()): return True
-        else: return False
+        if (tag in self.getAllTags()):
+            return True
+        else:
+            return False
+        
+    def setApitag(self, tag):
+        self.__apitag.clear()
+        for i in tag:
+            self.__apitag.add(i)
         
     def getAllTags(self):
         allTags = set()
-        allTags.add("api")  # v2ray 3.7 have new tag
+        for i in self.__apitag:
+            allTags.add(i)  # v2ray 3.7 have new tag
         if (len(self.__outbound) > 0):
             for i in self.__outbound.items():
                 allTags.add(i[1]["tag"])
@@ -64,7 +74,7 @@ class treasureChest():
                 allTags.add(i[1]["tag"])
 
         return allTags
- 
+
     def getInbound(self):
         if (self.__inbound):
             inbound = {}  # return a copy
@@ -98,8 +108,10 @@ class treasureChest():
         if (not openFromJSONFile):
             tag = inboundJSONData["tag"]
             self.__inbound.clear()  # make sure this inbound is only one
-            if (self.__validBoundTags(tag)): return False
-            if not tag: return False
+            if (self.__validBoundTags(tag)):
+                return False
+            if not tag:
+                return False
             self.__inbound[tag] = copy.deepcopy(inboundJSONData)
             self.updateList.updateLevelandEmail.emit()
             return tag
@@ -173,7 +185,8 @@ class treasureChest():
         """
         if (not openFromJSONFile):
             tag = inboundDetourJSONData["tag"]
-            if (self.__validBoundTags(tag)): return False
+            if (self.__validBoundTags(tag)):
+                return False
             else:
                 self.__inboundDetour[tag] = copy.deepcopy(inboundDetourJSONData)
                 self.updateList.updateLevelandEmail.emit()
@@ -210,9 +223,11 @@ class treasureChest():
             self.addInboundDetour(newinboundDetourJSONData, openFromJSONFile)
             return True
         elif (openFromJSONFile):
-            if not newinboundDetourJSONData: return False
+            if not newinboundDetourJSONData:
+                return False
             for i in newinboundDetourJSONData:
-                if not i: break
+                if not i:
+                    break
                 self.addInboundDetour(i, openFromJSONFile)
             return True
         else:
@@ -232,14 +247,16 @@ class treasureChest():
                     pass
             sortLevel.sort()
             return [str(i) for i in sortLevel]
-        else: return False
+        else:
+            return False
 
     def addEmail(self, email):
         if email:
             self.__emails.add(copy.deepcopy(email))
         
     def getEmails(self):
-        if len(self.__emails) > 0: return self.__emails
+        if self.__emails:
+            return self.__emails
         else: return False
 
     def setLog(self, JSONDataLog):
@@ -261,7 +278,8 @@ class treasureChest():
         try:
             self.__api["tag"] = copy.deepcopy(JSONDataApi["tag"])
             self.__api["services"] = copy.deepcopy(JSONDataApi["services"])
-        except Exception: pass
+        except Exception:
+            pass
     
     def getApi(self):
         api = copy.deepcopy(self.__api)
@@ -305,9 +323,8 @@ class treasureChest():
     
     def getTransport(self):
         transport = copy.deepcopy(self.__transport)
-        if (not transport):
-            return False
-        else: return transport
+        if (transport):
+            return transport
 
     def getRouting(self):
         routing = copy.deepcopy(self.__routing)
@@ -336,8 +353,10 @@ class treasureChest():
         if (not openFromJSONFile):
             tag = outboundJSONData["tag"]
             self.__outbound.clear()  # make sure this outbound is only one
-            if (self.__validBoundTags(tag)): return False
-            if not tag: return False
+            if (self.__validBoundTags(tag)):
+                return False
+            if not tag:
+                return False
             self.__outbound[tag] = copy.deepcopy(outboundJSONData)
             self.updateList.setInboundTag.emit()
             self.updateList.updateLevelandEmail.emit()
@@ -381,7 +400,8 @@ class treasureChest():
             return True
         elif (openFromJSONFile):
             for i in newoutboundDetourJSONData:
-                if not i: break
+                if not i:
+                    break
                 self.addOutboundDetour(i, openFromJSONFile)
                 self.updateList.setInboundTag.emit()
             return True

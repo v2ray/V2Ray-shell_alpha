@@ -24,10 +24,6 @@ class transportTab(transportPanel.TransportPanel):
 
     def createTransportPanel(self):
         super(transportTab, self).createTransportPanel()
-        self.checkBoxTransportSetting.hide()
-        self.mkcpPanel.hide()
-        self.wsPanel.hide()
-        self.groupTransportPanel.show()
 
         if v2rayshellDebug:
             self.setLayout(self.vboxcheckBoxStreamSetting)
@@ -36,16 +32,11 @@ class transportTab(transportPanel.TransportPanel):
             self.__debugBtn.clicked.connect(self.__debugTest)
             self.settingtransportPanelFromJSONFile(self.transportJSONFile, True)
         
-        self.createTransportPanelSignals()
         self.groupTransportPanel.setTitle(self.translate("transportTab", "Transport Setting (Global)"))
         self.groupTransportPanel.setCheckable(True)
         self.groupTransportPanel.setChecked(False)
         
         return self.groupTransportPanel
-
-    def createTransportPanelSignals(self):
-        self.groupBtnNewtwork.buttonClicked.connect(self.ongroupBtnNetwork)
-        self.groupBtnCertificates.buttonClicked.connect(self.ongroupBtnCertificatesClicked)
         
     def __debugTest(self):
         print(json.dumps(self.createtransportSettingJSONFile(), indent=4, sort_keys=False))

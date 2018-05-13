@@ -88,7 +88,7 @@ class nauticalChartPanel(QDialog):
             self.logTAB.createLogTab(),
             self.translate("nauticalChartPanel", "Log Files"))
         
-        self.apiTAB = apiTAB.apiTAB()
+        self.apiTAB = apiTAB.apiTAB(self.treasureChest)
         tabWidgetConfigurePanel.addTab(self.apiTAB.createapiTAB(), "Api")
         
         vboxConfigure = QVBoxLayout()
@@ -125,13 +125,12 @@ class nauticalChartPanel(QDialog):
             openV2rayJSONFile.openV2rayJSONFile(self.filePath, self.treasureChest).initboundJSONData()
             self.settingv2rayshellPanelFromJSONFile(openFromJSONFile=True)
         
-        self.createPanelSignals()
+        self.createnauticalChartPanelSignals()
 
-    def createPanelSignals(self):
+    def createnauticalChartPanelSignals(self):
         self.groupButtonConfigure.buttonClicked.connect(self.ongroupButtonConfigureclicked)
         
     def ongroupButtonConfigureclicked(self, e):
-        print(e.text())
         if e.text() == self.translate("nauticalChartPanel", "Exit"):
             self.close()
         elif e.text() == self.translate("nauticalChartPanel", "Save"):
@@ -205,9 +204,9 @@ class nauticalChartPanel(QDialog):
         if (tansportJSONData):
             self.transportTAB.settingtransportPanelFromJSONFile(
                 transportJSONFile=tansportJSONData, openFromJSONFile=True)
-            self.transportTAB.groupBoxStreamSetting.setChecked(True)
+            self.transportTAB.groupTransportPanel.setChecked(True)
         else:
-            pass
+            self.transportTAB.groupTransportPanel.setChecked(False)
         self.dnsTAB.settingDnsTabFromJSONFile(
             dnsJSONFile=self.treasureChest.getDns(), openFromJSONFile=True)
         self.policyTAB.settingPolicyTabFromJSONFile(

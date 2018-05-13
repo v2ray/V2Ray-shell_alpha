@@ -14,8 +14,11 @@ if __name__ == "__main__":
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
 
+from bridgehouse.editMap.port import treasureChest
+
+
 class apiTAB(QWidget):
-    def __init__(self):
+    def __init__(self, CaptainstreasureChest=False):
         super(apiTAB, self).__init__()
         self.apiJSONFILE = {
                             "tag": "api",
@@ -25,12 +28,18 @@ class apiTAB(QWidget):
                                 ]
                             }
         
+        self.translate = QCoreApplication.translate
+        if (CaptainstreasureChest):
+            self.treasureChest = CaptainstreasureChest
+        else:
+            self.treasureChest = treasureChest.treasureChest()
+        
     def createapiTAB(self):
         self.groupBoxAPI = QGroupBox("API")
         self.groupBoxAPI.setCheckable(True)
         self.groupBoxAPI.setChecked(False)
         
-        labelAPI = QLabel("API's Tag: ")
+        labelAPI = QLabel(self.translate("apiTAB","API's Tag: "))
         self.lineEditTagName = QLineEdit("api")
         hboxApi = QHBoxLayout()
         hboxApi.addWidget(labelAPI)
@@ -38,8 +47,8 @@ class apiTAB(QWidget):
         hboxApi.addStretch()
         
         hboxServices = QHBoxLayout()
-        labelServices = QLabel("Services: ")
-        self.lineEditServices = QLineEdit("HandlerService, LoggerService")
+        labelServices = QLabel(self.translate("apiTAB", "Services: "))
+        self.lineEditServices = QLineEdit("HandlerService, LoggerService, StatsService")
         hboxServices.addWidget(labelServices)
         hboxServices.addWidget(self.lineEditServices)
         
@@ -49,6 +58,8 @@ class apiTAB(QWidget):
         vbox.addStretch()
         
         self.groupBoxAPI.setLayout(vbox)
+        self.lineEditTagName.editingFinished.connect(
+            lambda:self.treasureChest.setApitag([x.strip() for x in re.split(r"[,;]", self.lineEditTagName.text())]))
         
         if v2rayshellDebug:
             self.__debugBtn = QPushButton("__debugTest", self)
@@ -72,7 +83,7 @@ class apiTAB(QWidget):
         try:
             apiJSONFile["services"]
         except Exception:
-            apiJSONFile["services"] = "HandlerService, LoggerService"
+            apiJSONFile["services"] = "HandlerService, LoggerService, StatsService"
 
         self.lineEditServices.clear()
         self.lineEditTagName.clear()

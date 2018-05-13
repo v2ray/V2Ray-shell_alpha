@@ -204,7 +204,7 @@ class TransportSettingPanel(QWidget):
     def ongroupBtnCertificatesClicked(self, e):
         rowCount = self.tableWidgetUserCertificates.rowCount()
         currentRow = self.tableWidgetUserCertificates.currentRow()
-
+        print((currentRow, e.text()))
         if (e.text() == self.translate("TransportSettingPanel", "Delete")):
             self.tableWidgetUserCertificates.removeRow(currentRow)
         if (e.text() == self.translate("TransportSettingPanel", "New")):
@@ -301,7 +301,7 @@ class TransportPanel(TransportSettingPanel,
                         "httpSettings": {}
                         }
         self.translate = QCoreApplication.translate
-    
+
     def createTransportPanel(self):
         TransportSettingPanel = self.createTransportSettingPanel()
         self.mkcp = mkcpPanel.mKcpPanel()

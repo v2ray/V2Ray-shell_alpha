@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN" sourcelanguage="en_US">
+<!DOCTYPE TS><TS version="2.0" language="zh_CN" sourcelanguage="en_US">
 <context>
     <name>BlackholePanel</name>
     <message>
@@ -796,7 +795,6 @@
     <message>
         <location filename="../src/bridgehouse/editMap/outbound/vmessPanel.py" line="65"/>
         <source>New Sever</source>
-        <translatorcomment>新增伺服器</translatorcomment>
         <translation>新增服务器</translation>
     </message>
 </context>
@@ -943,8 +941,7 @@
     <message>
         <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="89"/>
         <source>Alpn: </source>
-        <translatorcomment>應用層協定協商(ALPN):</translatorcomment>
-        <translation>应用层协议协商(ALPN):</translation>
+        <translation>应用层协议协商(ALPN): </translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="210"/>
@@ -960,6 +957,19 @@
         <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="173"/>
         <source>Cancel</source>
         <translation>取消</translation>
+    </message>
+</context>
+<context>
+    <name>apiTAB</name>
+    <message>
+        <location filename="../src/bridgehouse/editMap/apiTAB.py" line="42"/>
+        <source>API&apos;s Tag: </source>
+        <translation>传出代理标识: </translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/apiTAB.py" line="50"/>
+        <source>Services: </source>
+        <translation>开启的API列表: </translation>
     </message>
 </context>
 <context>
@@ -1658,12 +1668,12 @@ How Fix:
 <context>
     <name>nauticalChartPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="137"/>
+        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="136"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="135"/>
+        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="134"/>
         <source>Exit</source>
         <translation>离开</translation>
     </message>
@@ -1703,7 +1713,7 @@ How Fix:
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="143"/>
+        <location filename="../src/bridgehouse/editMap/nauticalChartPanel.py" line="142"/>
         <source>Save V2Ray config.json File</source>
         <translation>保存V2Ray config.json 文件</translation>
     </message>
@@ -1865,7 +1875,7 @@ How Fix:
 <context>
     <name>transportTab</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/transportTAB.py" line="40"/>
+        <location filename="../src/bridgehouse/editMap/transportTAB.py" line="35"/>
         <source>Transport Setting (Global)</source>
         <translation>低层传输协议(通用)</translation>
     </message>
