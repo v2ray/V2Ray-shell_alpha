@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="zh_CN" sourcelanguage="en_US">
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN" sourcelanguage="en_US">
 <context>
     <name>BlackholePanel</name>
     <message>
@@ -1546,6 +1547,59 @@ How Fix:
         <location filename="../src/bridgehouse/editMap/dnsTAB.py" line="206"/>
         <source>Modify</source>
         <translation>修改</translation>
+    </message>
+</context>
+<context>
+    <name>geoSiteEditorPanel</name>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <source>Domain</source>
+        <translation>域名</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <source>Type</source>
+        <translation>类型</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="37"/>
+        <source>GeoSite Editor</source>
+        <translation>GeoSite文件修改工具</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="39"/>
+        <source>Code Tag</source>
+        <translation>标签</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="41"/>
+        <source>New Domain Sites</source>
+        <translation>新增域名列表</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="50"/>
+        <source>Open</source>
+        <translation>打开</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="51"/>
+        <source>New</source>
+        <translation>增加</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="52"/>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
+        <source>Open Geo Data File</source>
+        <translation>打开GEO数据文件</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
+        <source>Geo Data file (*.dat)</source>
+        <translation>Geo数据文件(*.dat)</translation>
     </message>
 </context>
 <context>

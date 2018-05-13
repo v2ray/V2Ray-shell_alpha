@@ -29,6 +29,7 @@ SOURCES += ./src/bridgehouse/bridge.py \
 		./src/bridgehouse/editMap/port/outboundPanel.py \
 		./src/bridgehouse/editMap/port/treasureChest.py \
 		./src/bridgehouse/editMap/port/updateListSignal.py \
+		./src/bridgehouse/editMap/router/geoSiteEditorPanel.py \
 		./src/bridgehouse/editMap/transport/certificatesPanel.py \
 		./src/bridgehouse/editMap/transport/http2Panel.py \
 		./src/bridgehouse/editMap/transport/mkcpPanel.py \

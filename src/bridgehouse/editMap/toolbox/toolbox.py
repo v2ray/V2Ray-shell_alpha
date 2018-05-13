@@ -71,9 +71,9 @@ class SpinBoxDelegate(QStyledItemDelegate):
         editor.setGeometry(option.rect)
         
         
-class ComboBoxDelegate(QStyledItemDelegate):
+class ComboBoxSpinBoxDelegate(QStyledItemDelegate):
     def __init__(self, comboList=None):
-        super(ComboBoxDelegate, self).__init__()
+        super(ComboBoxSpinBoxDelegate, self).__init__()
         self.comboList = comboList
         
     def createEditor(self, parent, option, index):
@@ -105,6 +105,31 @@ class ComboBoxDelegate(QStyledItemDelegate):
             value = comboBox.currentText()
         else:
             value = comboBox.value()
+        model.setData(index, value, Qt.EditRole)
+
+    def updateEditorGeometry(self, editor, option, index):
+        editor.setGeometry(option.rect)
+        
+class ComboBoxDelegate(QStyledItemDelegate):
+    def __init__(self, comboList=None):
+        super(ComboBoxDelegate, self).__init__()
+        self.comboList = comboList
+        
+    def createEditor(self, parent, option, index):
+        editor = QComboBox(parent)
+        if self.comboList:
+            editor.addItems(self.comboList)
+            
+        return editor
+
+    def setEditorData(self, comboBox, index):
+        value = index.model().data(index, Qt.EditRole)
+        if value in self.comboList:
+            comboBox.setCurrentText(value)
+
+    def setModelData(self, comboBox, model, index):
+        value = comboBox.currentText()
+
         model.setData(index, value, Qt.EditRole)
 
     def updateEditorGeometry(self, editor, option, index):

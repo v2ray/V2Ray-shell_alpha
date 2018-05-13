@@ -1223,6 +1223,59 @@ Feature Request Details:
     </message>
 </context>
 <context>
+    <name>geoSiteEditorPanel</name>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <source>Domain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="37"/>
+        <source>GeoSite Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="39"/>
+        <source>Code Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="41"/>
+        <source>New Domain Sites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="50"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="51"/>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="52"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
+        <source>Open Geo Data File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
+        <source>Geo Data file (*.dat)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>http2Panel</name>
     <message>
         <location filename="../src/bridgehouse/editMap/transport/http2Panel.py" line="30"/>

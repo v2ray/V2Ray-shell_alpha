@@ -58,7 +58,7 @@ class OutboundVmessSettingPanel(QWidget):
         self.treeViewOutboundVmessAddressMode.setHorizontalHeaderLabels(self.labeloutVmess)
         treeViewOutboundVmessAddress.setModel(self.treeViewOutboundVmessAddressMode)
         
-        treeViewOutboundVmessAddress.setItemDelegateForColumn(1, toolbox.ComboBoxDelegate(self.listMethodoutVmess))
+        treeViewOutboundVmessAddress.setItemDelegateForColumn(1, toolbox.ComboBoxSpinBoxDelegate(self.listMethodoutVmess))
         
         self.btnoutVmessNewUser = QPushButton(
             self.translate("OutboundVmessSettingPanel", "New User"))
