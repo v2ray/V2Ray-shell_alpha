@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QModelIndex, Qt
+from PyQt5.QtCore import QModelIndex, Qt, pyqtSignal, QObject, QTimer
 from PyQt5.QtGui import QStandardItemModel
 from PyQt5.QtWidgets import (QApplication, QStyledItemDelegate,
         QTableView, QWidget, QPushButton, QLineEdit, QStyle, QSpinBox,
@@ -134,3 +134,15 @@ class ComboBoxDelegate(QStyledItemDelegate):
 
     def updateEditorGeometry(self, editor, option, index):
         editor.setGeometry(option.rect)
+        
+        
+class MyComboBox(QComboBox, QObject):
+    previousTextChanged = pyqtSignal(str, str, name="previousTextChanged")
+    
+    def __init__(self, parent=None):
+        super(MyComboBox, self).__init__()
+        self.currentTextChanged.connect(self.previousTextChangedSlot)
+        self.oldText = None
+
+    def previousTextChangedSlot(self, newText):
+        self.previousTextChanged.emit(self.oldText, newText)
