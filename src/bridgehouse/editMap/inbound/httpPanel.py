@@ -145,7 +145,6 @@ class HttpPanel(QWidget):
                 self.tableWidgetHttp.setRowCount(row + 1)
 
     def onbtnHttpDelete(self):
-        self.onbtnHttpClear()
         if (not self.tableWidgetHttp.rowCount()): return
         row = self.tableWidgetHttp.currentRow()
         self.tableWidgetHttp.removeRow(row)

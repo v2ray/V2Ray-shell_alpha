@@ -145,4 +145,8 @@ class MyComboBox(QComboBox, QObject):
         self.oldText = None
 
     def previousTextChangedSlot(self, newText):
-        self.previousTextChanged.emit(self.oldText, newText)
+        oldText, self.oldText = self.oldText, newText
+        self.previousTextChanged.emit(oldText, newText)
+        
+        
+        
