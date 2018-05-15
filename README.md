@@ -20,6 +20,9 @@
    6. and find the black triangle, click it to run v2ray-core.
    7. in the v2ray-shell panel, find the menu "File->Save V2Ray-shell config file", click it to save v2ray-shell config file.
    
+### GeoSite.dat File Edit Support (but not perfect complete)
+   1. python -m pip install protobuf grpcio grpcio-tools 
+   
 ### Document and Help
 [see the wiki page](https://github.com/v2ray/V2Ray-shell_alpha/wiki/%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
 

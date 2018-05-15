@@ -1,6 +1,6 @@
 import os
 import sys
-import grpc_tools.protoc as proto
+import grpc_tools.protoc as proto # python -m pip install grpcio-tools
 
 protoFiles = [x for x in os.listdir() if x.endswith(".proto")]
 

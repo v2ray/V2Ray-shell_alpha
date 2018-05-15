@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
 from bridgehouse.editMap.toolbox import toolbox
 from bridgehouse.editMap.router import geoSite_pb2
-    
+
 class GeoSiteEditorPanel(QWidget):
     def __init__(self):
         super().__init__()
@@ -32,8 +32,7 @@ class GeoSiteEditorPanel(QWidget):
         self.domainType = ["Plain", "Regex", "Domain"]
         self.GeoSiteList = geoSite_pb2.GeoSiteList()
         self.CodeTagList = set()
-        self.GeoSiteDict = {}
-        self.fileName = None
+        self.GeoSiteDict = dict()
         self.DomainType = (geoSite_pb2.Domain.Plain,
                            geoSite_pb2.Domain.Regex,
                            geoSite_pb2.Domain.Domain)
@@ -43,7 +42,7 @@ class GeoSiteEditorPanel(QWidget):
 
         labelCodeTag = QLabel(self.translate("geoSiteEditorPanel", "Code Tag"))
         self.comboBoxCodeTag = toolbox.MyComboBox(self)
-        self.btnCodeTagNew = QPushButton(self.translate("geoSiteEditorPanel", "New Domain Sites"))
+        self.btnCodeTagNew = QPushButton(self.translate("geoSiteEditorPanel", "New Code Tag"))
         self.lineEditCodeTag = QLineEdit()
 
         gridCodeTag = QGridLayout()
@@ -57,6 +56,7 @@ class GeoSiteEditorPanel(QWidget):
         self.btnTableViewExport = QPushButton(self.translate("geoSiteEditorPanel", "Export..."))
         self.btnTableViewNew = QPushButton(self.translate("geoSiteEditorPanel", "New"))
         self.btnTableViewDelete = QPushButton(self.translate("geoSiteEditorPanel", "Delete"))
+        self.btnTableViewImport.setEnabled(False)
         
         vboxtableBtn = QVBoxLayout()
         vboxtableBtn.addStretch()
@@ -103,30 +103,33 @@ class GeoSiteEditorPanel(QWidget):
     
     def createGeoSiteEditorPanelSignals(self):
         self.btnTableViewGeoSiteOpen.clicked.connect(self.ongeoSiteFileOpen)
-        self.comboBoxCodeTag.previousTextChanged.connect(
-            self.oncomboBoxCodeTagChanged)
+        self.comboBoxCodeTag.previousTextChanged.connect(self.oncomboBoxCodeTagChanged)
         self.btnCodeTagNew.clicked.connect(self.onbtnCodeTagNew)
         self.btnTableViewNew.clicked.connect(self.onbtnTableViewNew)
         self.btnTableViewDelete.clicked.connect(self.onbtnTableViewDelete)
         self.btnTableViewExport.clicked.connect(self.onbtnTableViewExport)
         
     def onbtnTableViewExport(self):
-        self.GeoSiteList.Clear()
         self.rebackupTabelDataToGeoSiteDict(self.comboBoxCodeTag.currentText())
-        for codeTag, domain in self.GeoSiteDict.items():
-            site = self.GeoSiteList.entry.add()
-            self.addDatatoGeoSiteList(site, codeTag, domain)
-        if not self.fileName:
-            self.fileName = "geosite.dat"
-        with open(self.fileName, "wb") as f:
-            f.write(self.GeoSiteList.SerializeToString())
+        self.addDatatoGeoSiteList()
 
-    def addDatatoGeoSiteList(self, site, codeTag, data):
-        site.country_code = codeTag
-        for i in data:
-            domain = site.domain.add()
-            domain.value = i["value"]
-            domain.type = self.DomainType[self.domainType.index(i["type"])]
+        fileName = self.saveGeoSiteFileDialog()
+        if fileName:
+            with open(fileName, "wb") as f:
+                f.write(self.GeoSiteList.SerializeToString())
+
+    def addDatatoGeoSiteList(self):
+        self.GeoSiteList.Clear()
+        j = 0
+        entry = list()
+        for i, k in self.GeoSiteDict.items():
+            entry.append(self.GeoSiteList.entry.add())
+            entry[j].country_code = i
+            for c in k:
+               domain = entry[j].domain.add()
+               domain.type = self.DomainType[self.domainType.index(c["type"])]
+               domain.value = c["value"]
+            j += 1
         
     def onbtnTableViewDelete(self):
         if not self.tableViewGeoSitemodel.rowCount():
@@ -158,7 +161,7 @@ class GeoSiteEditorPanel(QWidget):
             self.tableViewGeoSitemodel.setRowCount(0)
 
     def addNewGeoSite(self, CodeTag):
-        self.GeoSiteDict[CodeTag] = []
+        self.GeoSiteDict[CodeTag] = list()
         self.CodeTagList.add(CodeTag)
         self.lineEditCodeTag.clear()
 
@@ -173,9 +176,8 @@ class GeoSiteEditorPanel(QWidget):
     def rebackupTabelDataToGeoSiteDict(self, CodeTag=None):
         if not CodeTag:
             CodeTag = self.comboBoxCodeTag.currentText()
-              
-        self.GeoSiteDict[CodeTag].clear()
-        self.GeoSiteDict[CodeTag] = []
+
+        self.GeoSiteDict[CodeTag] = list()
         for i in range(self.tableViewGeoSitemodel.rowCount()):
             valueIndex = self.tableViewGeoSitemodel.index(i, 0)
             typeIndex = self.tableViewGeoSitemodel.index(i, 1)
@@ -195,28 +197,29 @@ class GeoSiteEditorPanel(QWidget):
             # TODO
             # open a file type is wrong.
             pass
+        for d in entry:
+            self.GeoSiteDict[d.country_code] = list()
+            self.CodeTagList.add(d.country_code)
+            for k in d.domain:
+                t = dict()
+                t['type'] = self.domainType[int(k.type)]
+                t['value'] = k.value
+                self.GeoSiteDict[d.country_code].append(t)
+                del t
+        self.initTabelView()
 
-        codeTag = None
-
-        for site in entry:
-            self.CodeTagList.add(site.country_code)
-            self.GeoSiteDict[site.country_code] = []
+    def initTabelView(self):
+        if self.GeoSiteDict:
+            codeTag = None
+            self.tableViewGeoSitemodel.setRowCount(0)
+            for i, k in self.GeoSiteDict.items():
+                
+                codeTag = i
+                for row, data in enumerate(k):
+                    self.setGeoSiteTableView(row, data)
+                break
             self.resetComboBoxCodeTag()
-            for data in site.domain:
-                t = {}
-                t["type"] = self.domainType[int(data.type)]
-                t["value"] = data.value
-                self.GeoSiteDict[site.country_code].append(t)
-            if not codeTag:
-                codeTag = site.country_code
-                self.comboBoxCodeTag.setCurrentText(codeTag)
-                for row, data in enumerate(site.domain):
-                    t = {}
-                    t["type"] = self.domainType[int(data.type)]
-                    t["value"] = data.value
-                    self.setGeoSiteTableView(row, t)
-            else:
-                continue
+            self.comboBoxCodeTag.setCurrentText(codeTag)
 
     def resetComboBoxCodeTag(self):
         self.comboBoxCodeTag.clear()
@@ -229,7 +232,7 @@ class GeoSiteEditorPanel(QWidget):
         self.tableViewGeoSitemodel.setData(domainValueIndex, data["value"])
         self.tableViewGeoSitemodel.setData(typeIndex, data["type"])
 
-    def openGeoSiteFileDialog(self, _type=None):
+    def openGeoSiteFileDialog(self):
         options = QFileDialog.Options()
         filePath, _ = QFileDialog.getOpenFileName(
             self,
@@ -238,8 +241,18 @@ class GeoSiteEditorPanel(QWidget):
             self.translate("geoSiteEditorPanel", """Geo Data file (*.dat);;All file (*)"""),
             options = options)
         if (filePath):
-            self.fileName = QFileInfo(filePath).fileName()
             self.geoSiteDataClear()
+            return filePath
+        
+    def saveGeoSiteFileDialog(self):
+        options = QFileDialog.Options()
+        filePath, _ = QFileDialog.getSaveFileName(
+            self,
+            self.translate("geoSiteEditorPanel",  "Export Geo Data File"),
+            "",
+            self.translate("geoSiteEditorPanel", """Geo Data file (*.dat);;All file (*)"""),
+            options = options)
+        if (filePath):
             return filePath
     
     def geoSiteDataClear(self):
@@ -250,8 +263,7 @@ class GeoSiteEditorPanel(QWidget):
         self.CodeTagList.clear()
     
     def __show_country_code(self):
-        for i in self.GeoSiteList.entry:
-            print(i.country_code)
+        print(self.GeoSiteList.entry)
             
     def __show_GeoSiteDict(self):
         print(self.GeoSiteDict)

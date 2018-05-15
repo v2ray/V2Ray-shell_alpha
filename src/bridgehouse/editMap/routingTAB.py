@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtWidgets import (QWidget, QTextEdit,
-                             QVBoxLayout, QApplication)
+                             QVBoxLayout, QApplication, QGroupBox)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 import sys, json, copy
 
@@ -13,6 +13,8 @@ if __name__ == "__main__":
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
+
+from bridgehouse.editMap.router import geoSiteEditorPanel
 
 
 class routingTab(QWidget):
@@ -81,11 +83,15 @@ class routingTab(QWidget):
     def createRoutingTab(self):
         self.textEditRoutingJSONFile = QTextEdit()
         self.textEditRoutingJSONFile.setReadOnly(True)
+        self.textEditRoutingJSONFile.setVisible(False)
         
         self.textEditRoutingJSONFile.setPlainText(
             json.dumps(self.routingJSONFile, indent=4, sort_keys=False))
+        
+        self.geoSiteEditorPanel = geoSiteEditorPanel.GeoSiteEditorPanel()
+        self.panel = self.geoSiteEditorPanel.createGeoSiteEditorPanel()
 
-        return self.textEditRoutingJSONFile
+        return self.panel
     
     def settingRoutingTABFromJSONFile(self, routingJSONFile=None, openFromJSONFile=False):
         
