@@ -1225,53 +1225,113 @@ Feature Request Details:
 <context>
     <name>geoSiteEditorPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="30"/>
         <source>Domain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="30"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="37"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="42"/>
         <source>GeoSite Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="39"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="44"/>
         <source>Code Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="41"/>
-        <source>New Domain Sites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="50"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="298"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="51"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="63"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="52"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="64"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="253"/>
         <source>Open Geo Data File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
-        <source>Geo Data file (*.dat)</source>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="45"/>
+        <source>Delete Code Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="47"/>
+        <source>New Code Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="61"/>
+        <source>Import...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="62"/>
+        <source>Export...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="269"/>
+        <source>Geo Data file (*.dat);;All file (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="256"/>
+        <source>Import Customized List File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="257"/>
+        <source>All file (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="269"/>
+        <source>Export Geo Data File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="279"/>
+        <source>Types: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="282"/>
+        <source>Code Tag Name: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="297"/>
+        <source>gfwlist.txt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="299"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="318"/>
+        <source>Import Customized List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="338"/>
+        <source>You should name a code tag before import file.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

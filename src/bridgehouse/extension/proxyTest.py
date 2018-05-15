@@ -122,7 +122,7 @@ class proxyTest():
                 self.stopCheckProxy.setSingleShot(True)
                 if timeout > 15 or timeout < 0:
                     timeout = 5
-                # ## after five seconds stop checking the proxy and destroy this class
+                # after five seconds stop checking the proxy and destroy this class
                 self.stopCheckProxy.start(1000 * timeout)  
                 self.startRequest()
 

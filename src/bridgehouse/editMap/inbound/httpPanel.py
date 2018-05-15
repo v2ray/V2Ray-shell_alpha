@@ -3,7 +3,7 @@
 from PyQt5.QtWidgets import (QWidget, QLabel, QSpinBox,
                              QHBoxLayout, QGroupBox, QPushButton,
                              QTableWidget, QAbstractItemView, QButtonGroup,
-                             QVBoxLayout, QLineEdit, QGridLayout, QTableWidgetItem,
+                             QVBoxLayout, QTableWidgetItem,
                              QCheckBox)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 

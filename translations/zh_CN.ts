@@ -1552,54 +1552,124 @@ How Fix:
 <context>
     <name>geoSiteEditorPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="30"/>
         <source>Domain</source>
         <translation>域名</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="29"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="30"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="37"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="42"/>
         <source>GeoSite Editor</source>
         <translation>GeoSite文件修改工具</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="39"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="44"/>
         <source>Code Tag</source>
         <translation>标签</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="41"/>
         <source>New Domain Sites</source>
-        <translation>新增域名列表</translation>
+        <translation type="obsolete">新增域名列表</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="50"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="298"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="51"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="63"/>
         <source>New</source>
         <translation>增加</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="52"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="64"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="253"/>
         <source>Open Geo Data File</source>
         <translation>打开GEO数据文件</translation>
     </message>
     <message>
         <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="126"/>
         <source>Geo Data file (*.dat)</source>
-        <translation>Geo数据文件(*.dat)</translation>
+        <translation type="obsolete">Geo数据文件(*.dat)</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="45"/>
+        <source>Delete Code Tag</source>
+        <translation>删除标签名</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="47"/>
+        <source>New Code Tag</source>
+        <translation>新标签</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="61"/>
+        <source>Import...</source>
+        <translation>导入...</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="62"/>
+        <source>Export...</source>
+        <translation>导出...</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="269"/>
+        <source>Geo Data file (*.dat);;All file (*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="256"/>
+        <source>Import Customized List File</source>
+        <translation>导入自定义文件列表</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="257"/>
+        <source>All file (*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="269"/>
+        <source>Export Geo Data File</source>
+        <translation>导出 GeoSite.dat 文件</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="279"/>
+        <source>Types: </source>
+        <translation>类型: </translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="282"/>
+        <source>Code Tag Name: </source>
+        <translation>标签名: </translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="297"/>
+        <source>gfwlist.txt</source>
+        <translation>gfwlist.txt</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="299"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="318"/>
+        <source>Import Customized List</source>
+        <translation>导入定义列表</translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="338"/>
+        <source>You should name a code tag before import file.</source>
+        <translation></translation>
     </message>
 </context>
 <context>

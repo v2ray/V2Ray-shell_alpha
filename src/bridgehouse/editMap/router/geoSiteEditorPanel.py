@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import (QWidget, QLabel, QComboBox,
+from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit,
                              QHBoxLayout, QGroupBox, QPushButton, 
-                             QAbstractItemView, QVBoxLayout, QLineEdit,
-                             QGridLayout, QFileDialog, QTableView)
+                             QAbstractItemView, QVBoxLayout,
+                             QGridLayout, QFileDialog, QTableView, QDialog,
+                             QApplication, QComboBox, QCheckBox, QToolTip)
 from PyQt5.QtCore import QFileInfo, QCoreApplication, Qt, QModelIndex
+from PyQt5.QtGui import QStandardItemModel, QCursor
 
-import sys
-from PyQt5.QtGui import QStandardItemModel
+import sys, copy
 
 
 v2rayshellDebug = False
@@ -20,7 +21,7 @@ if __name__ == "__main__":
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.toolbox import toolbox
-from bridgehouse.editMap.router import geoSite_pb2
+from bridgehouse.editMap.router import geoSite_pb2, readgfwlist
 
 class GeoSiteEditorPanel(QWidget):
     def __init__(self):
@@ -41,15 +42,20 @@ class GeoSiteEditorPanel(QWidget):
         self.groupgeoSite = QGroupBox(self.translate("geoSiteEditorPanel", "GeoSite Editor"))
 
         labelCodeTag = QLabel(self.translate("geoSiteEditorPanel", "Code Tag"))
+        self.btnCodeTagDelete = QPushButton(self.translate("geoSiteEditorPanel", "Delete Code Tag"))
         self.comboBoxCodeTag = toolbox.MyComboBox(self)
         self.btnCodeTagNew = QPushButton(self.translate("geoSiteEditorPanel", "New Code Tag"))
         self.lineEditCodeTag = QLineEdit()
+        
+        hboxCodeTag = QHBoxLayout()
+        hboxCodeTag.addWidget(self.comboBoxCodeTag)
+        hboxCodeTag.addWidget(self.btnCodeTagDelete)
 
         gridCodeTag = QGridLayout()
         gridCodeTag.addWidget(labelCodeTag, 0, 0, 1, 1)
-        gridCodeTag.addWidget(self.comboBoxCodeTag, 0, 1, 1, 1)
+        gridCodeTag.addLayout(hboxCodeTag, 0, 1, 1, 1)
         gridCodeTag.addWidget(self.btnCodeTagNew, 1, 0, 1, 1, Qt.AlignLeft)
-        gridCodeTag.addWidget(self.lineEditCodeTag, 1, 1, 1, 1, Qt.AlignLeft)
+        gridCodeTag.addWidget(self.lineEditCodeTag, 1, 1, 1, 2, Qt.AlignLeft)
         
         self.btnTableViewGeoSiteOpen = QPushButton(self.translate("geoSiteEditorPanel", "Open"))
         self.btnTableViewImport = QPushButton(self.translate("geoSiteEditorPanel", "Import..."))
@@ -108,7 +114,17 @@ class GeoSiteEditorPanel(QWidget):
         self.btnTableViewNew.clicked.connect(self.onbtnTableViewNew)
         self.btnTableViewDelete.clicked.connect(self.onbtnTableViewDelete)
         self.btnTableViewExport.clicked.connect(self.onbtnTableViewExport)
+        self.btnTableViewImport.clicked.connect(self.importCustomizedListPanel)
+        self.btnCodeTagDelete.clicked.connect(self.onbtnCodeTagDelete)
         
+    def onbtnCodeTagDelete(self):
+        tagIndex = self.comboBoxCodeTag.currentIndex()
+        CodeTag = self.comboBoxCodeTag.currentText()
+        if tagIndex != -1:
+            self.comboBoxCodeTag.removeItem(tagIndex)
+            del self.GeoSiteDict[CodeTag]
+            self.CodeTagList.remove(CodeTag)
+
     def onbtnTableViewExport(self):
         self.rebackupTabelDataToGeoSiteDict(self.comboBoxCodeTag.currentText())
         self.addDatatoGeoSiteList()
@@ -126,9 +142,9 @@ class GeoSiteEditorPanel(QWidget):
             entry.append(self.GeoSiteList.entry.add())
             entry[j].country_code = i
             for c in k:
-               domain = entry[j].domain.add()
-               domain.type = self.DomainType[self.domainType.index(c["type"])]
-               domain.value = c["value"]
+                domain = entry[j].domain.add()
+                domain.type = self.DomainType[self.domainType.index(c["type"])]
+                domain.value = c["value"]
             j += 1
         
     def onbtnTableViewDelete(self):
@@ -172,6 +188,7 @@ class GeoSiteEditorPanel(QWidget):
             data = self.GeoSiteDict[newText]
             for row, data in enumerate(data):
                 self.setGeoSiteTableView(row, data)
+        self.btnTableViewImport.setEnabled(True)
         
     def rebackupTabelDataToGeoSiteDict(self, CodeTag=None):
         if not CodeTag:
@@ -232,16 +249,19 @@ class GeoSiteEditorPanel(QWidget):
         self.tableViewGeoSitemodel.setData(domainValueIndex, data["value"])
         self.tableViewGeoSitemodel.setData(typeIndex, data["type"])
 
-    def openGeoSiteFileDialog(self):
+    def openGeoSiteFileDialog(self, _type=None):
+        title = self.translate("geoSiteEditorPanel",  "Open Geo Data File")
+        fliter = self.translate("geoSiteEditorPanel", """Geo Data file (*.dat);;All file (*)""")
+        if _type:
+            title = self.translate("geoSiteEditorPanel",  "Import Customized List File")
+            fliter = self.translate("geoSiteEditorPanel", """All file (*)""")
+
         options = QFileDialog.Options()
-        filePath, _ = QFileDialog.getOpenFileName(
-            self,
-            self.translate("geoSiteEditorPanel",  "Open Geo Data File"),
-            "",
-            self.translate("geoSiteEditorPanel", """Geo Data file (*.dat);;All file (*)"""),
-            options = options)
+        filePath, _ = QFileDialog.getOpenFileName(self, title, "", fliter, options = options)
+
         if (filePath):
-            self.geoSiteDataClear()
+            if not _type:
+                self.geoSiteDataClear()
             return filePath
         
     def saveGeoSiteFileDialog(self):
@@ -254,7 +274,100 @@ class GeoSiteEditorPanel(QWidget):
             options = options)
         if (filePath):
             return filePath
+        
+    def importCustomizedListPanel(self):
+        labelTypes = QLabel(self.translate("geoSiteEditorPanel", "Types: "))
+        comboboxTypes = QComboBox()
+        comboboxTypes.addItems(self.domainType)
+        labelCodeTag = QLabel(self.translate("geoSiteEditorPanel", "Code Tag Name: "))
+        
+        # TODO
+        # user can name code tag here
+        # if code tag is not in self.CodeTagList, that create a new 
+        lineEditCodeTag = QLineEdit()
+        lineEditCodeTag.setReadOnly(True)
+        if self.comboBoxCodeTag.currentText():
+            lineEditCodeTag.setText(self.comboBoxCodeTag.currentText())
+
+        def setcomboboxTypes(e):
+            if e:
+                comboboxTypes.setCurrentText("Regex")
+            else:
+                comboboxTypes.setCurrentText("Plain")
+        checkBoxGFWList = QCheckBox(self.translate("geoSiteEditorPanel", "gfwlist.txt"))
+        btnOpen = QPushButton(self.translate("geoSiteEditorPanel", "Open"))
+        btnCancel = QPushButton(self.translate("geoSiteEditorPanel", "Cancel"))
+
+        grid = QGridLayout()
+        hboxBtn = QHBoxLayout()
+        vboxPanel = QVBoxLayout()
+
+        hboxBtn.addStretch()
+        hboxBtn.addWidget(btnOpen)
+        hboxBtn.addWidget(btnCancel)
+        grid.addWidget(labelTypes, 0, 0)
+        grid.addWidget(comboboxTypes, 0, 1)
+        grid.addWidget(labelCodeTag, 1, 0)
+        grid.addWidget(lineEditCodeTag, 1, 1)
+        grid.addWidget(checkBoxGFWList, 2, 0)
+        vboxPanel.addLayout(grid)
+        vboxPanel.addLayout(hboxBtn)
+
+        self.customizedListPanel = customizedListPanel = QDialog()
+        customizedListPanel.setAttribute(Qt.WA_DeleteOnClose)
+        customizedListPanel.setWindowTitle(
+            self.translate("geoSiteEditorPanel", "Import Customized List"))
+        customizedListPanel.move(
+            QApplication.desktop().screen().rect().center()-customizedListPanel.rect().center())
+        customizedListPanel.setLayout(vboxPanel)
+        btnCancel.clicked.connect(customizedListPanel.close)
+        btnOpen.clicked.connect(
+            lambda: self.onbtnimport(
+                btnOpen,
+                lineEditCodeTag.text(),
+                checkBoxGFWList.isChecked(),
+                comboboxTypes.currentText()))
+        checkBoxGFWList.clicked.connect(setcomboboxTypes)
+
+        customizedListPanel.open()
+        customizedListPanel.exec_()
+
+    def onbtnimport(self, btn, codeTag, gfwlist, comboboxtype):
+        if not codeTag or codeTag not in self.CodeTagList:
+            # this tip will never reach here
+            QToolTip.showText(QCursor.pos(),
+                                  self.translate(
+                                      "geoSiteEditorPanel",
+                                      "You should name a code tag before import file."),
+                                  btn)
+            return
+        fileName = self.openGeoSiteFileDialog(_type=True)
+        if fileName:
+            geosite = self.initComstomizedFileList(fileName, gfwlist)
+            if geosite:
+                self.setComstomizedListToTabel(geosite, comboboxtype)
+                self.customizedListPanel.close()
+
+    def initComstomizedFileList(self, path, gfwlist=False):
+        geosite = list()
+        openFile = None
+        if gfwlist:
+            geosite = copy.deepcopy(readgfwlist.openGWFLIST(path))
+        else:
+            with open(path, "r") as f:
+                openFile = f.read()
+        if openFile:
+            for i in openFile.split("\n"):
+                geosite.append(i)
+
+        return geosite
     
+    def setComstomizedListToTabel(self, geosite, _type="Plain"):
+        for i in geosite:
+            self.setGeoSiteTableView(
+                self.tableViewGeoSitemodel.rowCount(),
+                dict(value=i, type=_type))
+
     def geoSiteDataClear(self):
         self.tableViewGeoSitemodel.setRowCount(0)
         self.comboBoxCodeTag.clear()
@@ -269,9 +382,11 @@ class GeoSiteEditorPanel(QWidget):
         print(self.GeoSiteDict)
 
 if __name__ == "__main__":
-    from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)
     ex = GeoSiteEditorPanel()
-    ex.createGeoSiteEditorPanel().show()
-    ex.setGeometry(300, 300, 1024, 1000)
+    vbox = QVBoxLayout()
+    vbox.addWidget(ex.createGeoSiteEditorPanel())
+    ex.setLayout(vbox)
+    ex.setGeometry(300, 150, 1024, 800)
+    ex.show()
     sys.exit(app.exec_())
