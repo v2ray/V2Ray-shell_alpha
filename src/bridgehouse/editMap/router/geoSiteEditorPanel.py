@@ -343,12 +343,12 @@ class GeoSiteEditorPanel(QWidget):
             return
         fileName = self.openGeoSiteFileDialog(_type=True)
         if fileName:
-            geosite = self.initComstomizedFileList(fileName, gfwlist)
+            geosite = self.initCustomizedFileList(fileName, gfwlist)
             if geosite:
-                self.setComstomizedListToTabel(geosite, comboboxtype)
+                self.setCostomizedListToTabel(geosite, comboboxtype)
                 self.customizedListPanel.close()
 
-    def initComstomizedFileList(self, path, gfwlist=False):
+    def initCustomizedFileList(self, path, gfwlist=False):
         geosite = list()
         openFile = None
         if gfwlist:
@@ -362,7 +362,7 @@ class GeoSiteEditorPanel(QWidget):
 
         return geosite
     
-    def setComstomizedListToTabel(self, geosite, _type="Plain"):
+    def setCostomizedListToTabel(self, geosite, _type="Plain"):
         for i in geosite:
             self.setGeoSiteTableView(
                 self.tableViewGeoSitemodel.rowCount(),
