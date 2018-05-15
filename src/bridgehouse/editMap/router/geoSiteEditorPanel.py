@@ -198,10 +198,8 @@ class GeoSiteEditorPanel(QWidget):
         for i in range(self.tableViewGeoSitemodel.rowCount()):
             valueIndex = self.tableViewGeoSitemodel.index(i, 0)
             typeIndex = self.tableViewGeoSitemodel.index(i, 1)
-            t = {}
-            t["type"] = typeIndex.data()
-            t["value"] = valueIndex.data()
-            self.GeoSiteDict[CodeTag].append(t)
+            self.GeoSiteDict[CodeTag].append(dict(type=typeIndex.data(),
+                                                  value=valueIndex.data()))
 
     def ongeoSiteFileOpen(self):
         fileName = self.openGeoSiteFileDialog()
@@ -218,11 +216,9 @@ class GeoSiteEditorPanel(QWidget):
             self.GeoSiteDict[d.country_code] = list()
             self.CodeTagList.add(d.country_code)
             for k in d.domain:
-                t = dict()
-                t['type'] = self.domainType[int(k.type)]
-                t['value'] = k.value
-                self.GeoSiteDict[d.country_code].append(t)
-                del t
+                self.GeoSiteDict[d.country_code].append(
+                    dict(type=self.domainType[int(k.type)],
+                         value=k.value))
         self.initTabelView()
 
     def initTabelView(self):
@@ -295,6 +291,7 @@ class GeoSiteEditorPanel(QWidget):
             else:
                 comboboxTypes.setCurrentText("Plain")
         checkBoxGFWList = QCheckBox(self.translate("geoSiteEditorPanel", "gfwlist.txt"))
+        checkBoxGFWList.setCheckable(False) # need more fixed
         btnOpen = QPushButton(self.translate("geoSiteEditorPanel", "Open"))
         btnCancel = QPushButton(self.translate("geoSiteEditorPanel", "Cancel"))
 
@@ -367,6 +364,13 @@ class GeoSiteEditorPanel(QWidget):
             self.setGeoSiteTableView(
                 self.tableViewGeoSitemodel.rowCount(),
                 dict(value=i, type=_type))
+        codeTag = self.comboBoxCodeTag.currentText()
+        self.GeoSiteDict[codeTag].clear()
+        for i in range(self.tableViewGeoSitemodel.rowCount()):
+            valueIndex = self.tableViewGeoSitemodel.index(i, 0)
+            typeIndex = self.tableViewGeoSitemodel.index(i, 1)
+            self.GeoSiteDict[codeTag].append(dict(type=typeIndex.data(),
+                                                  value=valueIndex.data()))
 
     def geoSiteDataClear(self):
         self.tableViewGeoSitemodel.setRowCount(0)
