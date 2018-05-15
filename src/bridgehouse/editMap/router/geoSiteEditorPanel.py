@@ -182,6 +182,8 @@ class GeoSiteEditorPanel(QWidget):
         self.lineEditCodeTag.clear()
 
     def oncomboBoxCodeTagChanged(self, oldText, newText):
+        # TODO
+        # some bug here
         self.rebackupTabelDataToGeoSiteDict(CodeTag = oldText)
         self.tableViewGeoSitemodel.setRowCount(0)
         if newText:
@@ -203,6 +205,7 @@ class GeoSiteEditorPanel(QWidget):
 
     def ongeoSiteFileOpen(self):
         fileName = self.openGeoSiteFileDialog()
+        self.geoSiteDataClear()
         if fileName:
             with open(fileName, "rb") as f:
                 self.GeoSiteList.ParseFromString(f.read())
@@ -256,8 +259,6 @@ class GeoSiteEditorPanel(QWidget):
         filePath, _ = QFileDialog.getOpenFileName(self, title, "", fliter, options = options)
 
         if (filePath):
-            if not _type:
-                self.geoSiteDataClear()
             return filePath
         
     def saveGeoSiteFileDialog(self):
@@ -373,17 +374,23 @@ class GeoSiteEditorPanel(QWidget):
                                                   value=valueIndex.data()))
 
     def geoSiteDataClear(self):
-        self.tableViewGeoSitemodel.setRowCount(0)
+        # self.comboBoxCodeTag tag changed will restore table to self.GeoSiteDict
+        # disconnect it stop restore table
+        self.comboBoxCodeTag.previousTextChanged.disconnect(self.oncomboBoxCodeTagChanged)
         self.comboBoxCodeTag.clear()
+        self.tableViewGeoSitemodel.setRowCount(0)
         self.GeoSiteDict.clear()
         self.GeoSiteList.Clear()
         self.CodeTagList.clear()
+        self.comboBoxCodeTag.previousTextChanged.connect(self.oncomboBoxCodeTagChanged)
     
     def __show_country_code(self):
         print(self.GeoSiteList.entry)
             
     def __show_GeoSiteDict(self):
-        print(self.GeoSiteDict)
+        for i, k in self.GeoSiteDict.items():
+            print(i)
+            print(k[:3])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
