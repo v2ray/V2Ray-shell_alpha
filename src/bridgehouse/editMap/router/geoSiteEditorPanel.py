@@ -116,11 +116,21 @@ class GeoSiteEditorPanel(QWidget):
         self.btnCodeTagDelete.clicked.connect(self.onbtnCodeTagDelete)
         
     def onbtnCodeTagDelete(self):
-        tagIndex = self.comboBoxCodeTag.currentIndex()
-        CodeTag = self.comboBoxCodeTag.currentText()
-        if tagIndex != -1:
-            self.comboBoxCodeTag.removeItem(tagIndex)
-            del self.GeoSiteDict[CodeTag]
+        self.comboBoxCodeTag.previousTextChanged.disconnect(self.oncomboBoxCodeTagChanged)
+        currentIndex = self.comboBoxCodeTag.currentIndex()
+        currentTag = self.comboBoxCodeTag.currentText()
+        self.tableViewGeoSitemodel.setRowCount(0)
+        if currentIndex != -1:
+            del self.GeoSiteDict[currentTag]
+            self.comboBoxCodeTag.removeItem(currentIndex)
+            currentTag = self.comboBoxCodeTag.currentText()
+            if currentTag:
+                for row, data in enumerate(self.GeoSiteDict[currentTag]):
+                    self.setGeoSiteTableView(row, data)
+        else:
+            self.GeoSiteDict.clear()
+            self.GeoSiteList.Clear()
+        self.comboBoxCodeTag.previousTextChanged.connect(self.oncomboBoxCodeTagChanged)
 
     def onbtnTableViewExport(self):
         self.rebackupTabelDataToGeoSiteDict(self.comboBoxCodeTag.currentText())
@@ -189,7 +199,7 @@ class GeoSiteEditorPanel(QWidget):
     def rebackupTabelDataToGeoSiteDict(self, CodeTag):
         if CodeTag not in self.GeoSiteDict.keys():
             return
-        self.GeoSiteDict[CodeTag].clear()
+        self.GeoSiteDict[CodeTag] = list()
         for i in range(self.tableViewGeoSitemodel.rowCount()):
             valueIndex = self.tableViewGeoSitemodel.index(i, 0)
             typeIndex = self.tableViewGeoSitemodel.index(i, 1)
@@ -220,7 +230,7 @@ class GeoSiteEditorPanel(QWidget):
         if self.GeoSiteDict:
             codeTag = None
             self.tableViewGeoSitemodel.setRowCount(0)
-            for i, k in self.GeoSiteDict.items():
+            for i, _ in self.GeoSiteDict.items():
                 codeTag = i
                 break
             self.comboBoxCodeTag.clear()
@@ -228,8 +238,8 @@ class GeoSiteEditorPanel(QWidget):
             self.comboBoxCodeTag.setCurrentText(codeTag)
             if codeTag:
                 for row, data in enumerate(self.GeoSiteDict[codeTag]):
-                     self.setGeoSiteTableView(row, dict(value=data["value"],
-                                                        type=data["type"]))
+                    self.setGeoSiteTableView(row, dict(value=data["value"],
+                                                       type=data["type"]))
 
     def setGeoSiteTableView(self, row, data):
         self.tableViewGeoSitemodel.setRowCount(row+1)
@@ -349,7 +359,10 @@ class GeoSiteEditorPanel(QWidget):
     def initCustomizedFileList(self, path):
         geosite = list()
         with open(path, "r") as f:
-            openFile = f.read()
+            try:
+                openFile = f.read()
+            except (UnicodeDecodeError, UnicodeError):
+                return list()
             for i in openFile.split("\n"):
                 geosite.append(i)
         return geosite
@@ -371,7 +384,6 @@ class GeoSiteEditorPanel(QWidget):
         for i, k in self.GeoSiteDict.items():
             print(i)
             print(k[:3])
-            print(k[:-3])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

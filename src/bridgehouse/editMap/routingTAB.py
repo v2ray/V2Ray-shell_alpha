@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from PyQt5.QtWidgets import (QWidget, QTextEdit,
-                             QVBoxLayout, QApplication, QGroupBox)
+                             QVBoxLayout, QApplication)
 from PyQt5.QtCore import QFileInfo, QCoreApplication
 import sys, json, copy
 

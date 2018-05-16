@@ -1235,57 +1235,57 @@ Feature Request Details:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="42"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="41"/>
         <source>GeoSite Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="44"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="43"/>
         <source>Code Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="298"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="292"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="63"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="62"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="64"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="63"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="253"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="252"/>
         <source>Open Geo Data File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="45"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="44"/>
         <source>Delete Code Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="47"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="46"/>
         <source>New Code Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="61"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="60"/>
         <source>Import...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="62"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="61"/>
         <source>Export...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="269"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="267"/>
         <source>Geo Data file (*.dat);;All file (*)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1300,38 +1300,33 @@ Feature Request Details:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="269"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="267"/>
         <source>Export Geo Data File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="279"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="277"/>
         <source>Types: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="282"/>
-        <source>Code Tag Name: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="297"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="289"/>
         <source>gfwlist.txt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="299"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="293"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="318"/>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="313"/>
         <source>Import Customized List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="338"/>
-        <source>You should name a code tag before import file.</source>
+        <location filename="../src/bridgehouse/editMap/router/geoSiteEditorPanel.py" line="281"/>
+        <source>Data append to</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
