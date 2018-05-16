@@ -4,11 +4,11 @@ from PyQt5.QtWidgets import (QWidget, QLabel, QLineEdit,
                              QHBoxLayout, QGroupBox, QPushButton, 
                              QAbstractItemView, QVBoxLayout,
                              QGridLayout, QFileDialog, QTableView, QDialog,
-                             QApplication, QComboBox, QCheckBox, QToolTip)
+                             QApplication, QComboBox, QCheckBox)
 from PyQt5.QtCore import QFileInfo, QCoreApplication, Qt, QModelIndex
-from PyQt5.QtGui import QStandardItemModel, QCursor
+from PyQt5.QtGui import QStandardItemModel
 
-import sys, copy
+import sys
 
 
 v2rayshellDebug = False
@@ -61,7 +61,6 @@ class GeoSiteEditorPanel(QWidget):
         self.btnTableViewExport = QPushButton(self.translate("geoSiteEditorPanel", "Export..."))
         self.btnTableViewNew = QPushButton(self.translate("geoSiteEditorPanel", "New"))
         self.btnTableViewDelete = QPushButton(self.translate("geoSiteEditorPanel", "Delete"))
-        self.btnTableViewImport.setEnabled(False)
         
         vboxtableBtn = QVBoxLayout()
         vboxtableBtn.addStretch()
@@ -178,7 +177,6 @@ class GeoSiteEditorPanel(QWidget):
         countTag = self.comboBoxCodeTag.count()
         if countTag == 1:
             self.rebackupTabelDataToGeoSiteDict(newText)
-            self.btnTableViewImport.setEnabled(True)
             return
         if countTag > 1:
             self.rebackupTabelDataToGeoSiteDict(oldText)
@@ -187,7 +185,6 @@ class GeoSiteEditorPanel(QWidget):
                 for row, data in enumerate(self.GeoSiteDict[newText]):
                     self.setGeoSiteTableView(row, dict(value=data["value"],
                                                      type=data["type"]))
-            self.btnTableViewImport.setEnabled(True)
 
     def rebackupTabelDataToGeoSiteDict(self, CodeTag):
         if CodeTag not in self.GeoSiteDict.keys():
@@ -241,15 +238,16 @@ class GeoSiteEditorPanel(QWidget):
         self.tableViewGeoSitemodel.setData(domainValueIndex, data["value"])
         self.tableViewGeoSitemodel.setData(typeIndex, data["type"])
 
-    def openGeoSiteFileDialog(self, _type=None):
+    def openGeoSiteFileDialog(self, _type=False):
         title = self.translate("geoSiteEditorPanel",  "Open Geo Data File")
         fliter = self.translate("geoSiteEditorPanel", """Geo Data file (*.dat);;All file (*)""")
+        openFile = QFileDialog.getOpenFileName
         if _type:
             title = self.translate("geoSiteEditorPanel",  "Import Customized List File")
             fliter = self.translate("geoSiteEditorPanel", "All file (*)")
-
+            openFile = QFileDialog.getOpenFileNames
         options = QFileDialog.Options()
-        filePath, _ = QFileDialog.getOpenFileName(self, title, "", fliter, options = options)
+        filePath, _ = openFile(self, title, "", fliter, options = options)
 
         if (filePath):
             return filePath
@@ -269,23 +267,18 @@ class GeoSiteEditorPanel(QWidget):
         labelTypes = QLabel(self.translate("geoSiteEditorPanel", "Types: "))
         comboboxTypes = QComboBox()
         comboboxTypes.addItems(self.domainType)
-        labelCodeTag = QLabel(self.translate("geoSiteEditorPanel", "Code Tag Name: "))
-        
-        # TODO
-        # user can name code tag here
-        # if code tag is not in self.GeoSiteList.keys(), that create a new 
-        lineEditCodeTag = QLineEdit()
-        lineEditCodeTag.setReadOnly(True)
-        if self.comboBoxCodeTag.currentText():
-            lineEditCodeTag.setText(self.comboBoxCodeTag.currentText())
+        comboboxTypes.setCurrentText("Domain")
+        labelCodeTag = QLabel(self.translate("geoSiteEditorPanel", "Data append to"))
+        comboboxCodeTag = QComboBox()
+        comboboxCodeTag.addItems([x for x in self.GeoSiteDict.keys()])
+        comboboxCodeTag.setEnabled(False)
+        checkBoxAppend = QCheckBox()
+        checkBoxAppend.clicked.connect(
+            lambda e: comboboxCodeTag.setEnabled(True) if e else comboboxCodeTag.setEnabled(False))
 
-        def setcomboboxTypes(e):
-            if e:
-                comboboxTypes.setCurrentText("Regex")
-            else:
-                comboboxTypes.setCurrentText("Plain")
         checkBoxGFWList = QCheckBox(self.translate("geoSiteEditorPanel", "gfwlist.txt"))
         checkBoxGFWList.setCheckable(False) # need more fixed
+        checkBoxGFWList.setVisible(False)
         btnOpen = QPushButton(self.translate("geoSiteEditorPanel", "Open"))
         btnCancel = QPushButton(self.translate("geoSiteEditorPanel", "Cancel"))
 
@@ -299,7 +292,8 @@ class GeoSiteEditorPanel(QWidget):
         grid.addWidget(labelTypes, 0, 0)
         grid.addWidget(comboboxTypes, 0, 1)
         grid.addWidget(labelCodeTag, 1, 0)
-        grid.addWidget(lineEditCodeTag, 1, 1)
+        grid.addWidget(comboboxCodeTag, 1, 1)
+        grid.addWidget(checkBoxAppend, 1, 2)
         grid.addWidget(checkBoxGFWList, 2, 0)
         vboxPanel.addLayout(grid)
         vboxPanel.addLayout(hboxBtn)
@@ -312,59 +306,53 @@ class GeoSiteEditorPanel(QWidget):
             QApplication.desktop().screen().rect().center()-customizedListPanel.rect().center())
         customizedListPanel.setLayout(vboxPanel)
         btnCancel.clicked.connect(customizedListPanel.close)
-        btnOpen.clicked.connect(
-            lambda: self.onbtnimport(
-                btnOpen,
-                lineEditCodeTag.text(),
-                checkBoxGFWList.isChecked(),
-                comboboxTypes.currentText()))
-        checkBoxGFWList.clicked.connect(setcomboboxTypes)
-
+        btnOpen.clicked.connect(lambda: self.onbtnimport(comboboxTypes.currentText(),
+                                                         customizedListPanel,
+                                                         comboboxCodeTag.currentText(),
+                                                         checkBoxAppend.isChecked()))
         customizedListPanel.open()
         customizedListPanel.exec_()
 
-    def onbtnimport(self, btn, codeTag, gfwlist, comboboxtype):
-        if not codeTag or codeTag not in self.GeoSiteDict.keys():
-            # this tip will never reach here
-            QToolTip.showText(QCursor.pos(),
-                                  self.translate(
-                                      "geoSiteEditorPanel",
-                                      "You should name a code tag before import file."),
-                                  btn)
+    def onbtnimport(self, _type, panel, CodeTag=None, check=False):
+        if CodeTag in self.GeoSiteDict.keys() and check:
+            fileNames = self.openGeoSiteFileDialog(True)
+            for i in fileNames:
+                geosites = self.initCustomizedFileList(path=i)
+                for value in geosites: 
+                    self.GeoSiteDict[CodeTag].append(dict(type=_type,
+                                                          value=value))
+            self.tableViewGeoSitemodel.setRowCount(0)
+            for row, data in enumerate(self.GeoSiteDict[CodeTag]):
+                self.setGeoSiteTableView(row, data)
+            panel.close()
             return
-        fileName = self.openGeoSiteFileDialog(_type=True)
-        if fileName:
-            geosite = self.initCustomizedFileList(fileName, gfwlist)
-            if geosite:
-                self.setCostomizedListToTabel(geosite, comboboxtype)
-                self.customizedListPanel.close()
+        fileNames = self.openGeoSiteFileDialog(True)
+        CodeTag = None
+        if fileNames:
+            for i, k in enumerate(fileNames):
+                CodeTag = QFileInfo(k).baseName()
+                geosites = self.initCustomizedFileList(path=k)
+                self.GeoSiteDict[CodeTag] = list()
+                for data in geosites:
+                    self.GeoSiteDict[CodeTag].append(dict(value=data,
+                                                          type=_type))
+        if CodeTag:
+            self.comboBoxCodeTag.previousTextChanged.disconnect(self.oncomboBoxCodeTagChanged)
+            self.comboBoxCodeTag.clear()
+            self.comboBoxCodeTag.addItems([x for x in self.GeoSiteDict.keys()])
+            for row, data in enumerate(self.GeoSiteDict[CodeTag]):
+                self.setGeoSiteTableView(row, data)
+            self.comboBoxCodeTag.setCurrentText(CodeTag)
+            self.comboBoxCodeTag.previousTextChanged.connect(self.oncomboBoxCodeTagChanged)
+        panel.close()
 
-    def initCustomizedFileList(self, path, gfwlist=False):
+    def initCustomizedFileList(self, path):
         geosite = list()
-        openFile = None
-        if gfwlist:
-            geosite = copy.deepcopy(readgfwlist.openGWFLIST(path))
-        else:
-            with open(path, "r") as f:
-                openFile = f.read()
-        if openFile:
+        with open(path, "r") as f:
+            openFile = f.read()
             for i in openFile.split("\n"):
                 geosite.append(i)
-
         return geosite
-    
-    def setCostomizedListToTabel(self, geosite, _type="Plain"):
-        for i in geosite:
-            self.setGeoSiteTableView(
-                self.tableViewGeoSitemodel.rowCount(),
-                dict(value=i, type=_type))
-        codeTag = self.comboBoxCodeTag.currentText()
-        self.GeoSiteDict[codeTag].clear()
-        for i in range(self.tableViewGeoSitemodel.rowCount()):
-            valueIndex = self.tableViewGeoSitemodel.index(i, 0)
-            typeIndex = self.tableViewGeoSitemodel.index(i, 1)
-            self.GeoSiteDict[codeTag].append(dict(type=typeIndex.data(),
-                                                  value=valueIndex.data()))
 
     def geoSiteDataClear(self):
         # self.comboBoxCodeTag tag changed will restore table to self.GeoSiteDict
@@ -383,6 +371,7 @@ class GeoSiteEditorPanel(QWidget):
         for i, k in self.GeoSiteDict.items():
             print(i)
             print(k[:3])
+            print(k[:-3])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
