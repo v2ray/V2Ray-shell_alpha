@@ -14,7 +14,7 @@ if __name__ == "__main__":
     path = QFileInfo(sys.argv[0])
     srcPath = path.absoluteFilePath().split("/")
     sys.path.append("/".join(srcPath[:-3]))
-    
+
 from bridgehouse.editMap.port import (inboundPanel, outboundPanel, logbook, openV2rayJSONFile, treasureChest)
 from bridgehouse.editMap import (logTAB, dnsTAB, transportTAB, routingTAB, policyTAB, apiTAB)
 

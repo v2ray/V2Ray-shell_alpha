@@ -32,7 +32,6 @@ class GeoSiteEditorPanel(QWidget):
             self.translate("geoSiteEditorPanel", "Type"))
         self.domainType = ["Plain", "Regex", "Domain"]
         self.GeoSiteList = geoSite_pb2.GeoSiteList()
-        self.CodeTagList = set()
         self.GeoSiteDict = dict()
         self.DomainType = (geoSite_pb2.Domain.Plain,
                            geoSite_pb2.Domain.Regex,
@@ -123,7 +122,6 @@ class GeoSiteEditorPanel(QWidget):
         if tagIndex != -1:
             self.comboBoxCodeTag.removeItem(tagIndex)
             del self.GeoSiteDict[CodeTag]
-            self.CodeTagList.remove(CodeTag)
 
     def onbtnTableViewExport(self):
         self.rebackupTabelDataToGeoSiteDict(self.comboBoxCodeTag.currentText())
@@ -165,38 +163,36 @@ class GeoSiteEditorPanel(QWidget):
 
     def onbtnCodeTagNew(self):
         CodeTag = self.lineEditCodeTag.text()
-        if not self.comboBoxCodeTag.count():
-            self.addNewGeoSite(CodeTag)
+        self.lineEditCodeTag.clear()
+        if CodeTag and not self.comboBoxCodeTag.count():
+            self.GeoSiteDict[CodeTag] = dict()
             self.comboBoxCodeTag.addItem(CodeTag)
             return
-        
-        if CodeTag and CodeTag not in self.CodeTagList:
-            self.addNewGeoSite(CodeTag)
+
+        if CodeTag and CodeTag not in self.GeoSiteDict.keys():
+            self.GeoSiteDict[CodeTag] = dict()
             self.comboBoxCodeTag.addItem(CodeTag)
             self.comboBoxCodeTag.setCurrentText(CodeTag)
-            self.tableViewGeoSitemodel.setRowCount(0)
-
-    def addNewGeoSite(self, CodeTag):
-        self.GeoSiteDict[CodeTag] = list()
-        self.CodeTagList.add(CodeTag)
-        self.lineEditCodeTag.clear()
 
     def oncomboBoxCodeTagChanged(self, oldText, newText):
-        # TODO
-        # some bug here
-        self.rebackupTabelDataToGeoSiteDict(CodeTag = oldText)
-        self.tableViewGeoSitemodel.setRowCount(0)
-        if newText:
-            data = self.GeoSiteDict[newText]
-            for row, data in enumerate(data):
-                self.setGeoSiteTableView(row, data)
-        self.btnTableViewImport.setEnabled(True)
-        
-    def rebackupTabelDataToGeoSiteDict(self, CodeTag=None):
-        if not CodeTag:
-            CodeTag = self.comboBoxCodeTag.currentText()
+        countTag = self.comboBoxCodeTag.count()
+        if countTag == 1:
+            self.rebackupTabelDataToGeoSiteDict(newText)
+            self.btnTableViewImport.setEnabled(True)
+            return
+        if countTag > 1:
+            self.rebackupTabelDataToGeoSiteDict(oldText)
+            self.tableViewGeoSitemodel.setRowCount(0)
+            if newText in self.GeoSiteDict.keys():
+                for row, data in enumerate(self.GeoSiteDict[newText]):
+                    self.setGeoSiteTableView(row, dict(value=data["value"],
+                                                     type=data["type"]))
+            self.btnTableViewImport.setEnabled(True)
 
-        self.GeoSiteDict[CodeTag] = list()
+    def rebackupTabelDataToGeoSiteDict(self, CodeTag):
+        if CodeTag not in self.GeoSiteDict.keys():
+            return
+        self.GeoSiteDict[CodeTag].clear()
         for i in range(self.tableViewGeoSitemodel.rowCount()):
             valueIndex = self.tableViewGeoSitemodel.index(i, 0)
             typeIndex = self.tableViewGeoSitemodel.index(i, 1)
@@ -217,7 +213,6 @@ class GeoSiteEditorPanel(QWidget):
             pass
         for d in entry:
             self.GeoSiteDict[d.country_code] = list()
-            self.CodeTagList.add(d.country_code)
             for k in d.domain:
                 self.GeoSiteDict[d.country_code].append(
                     dict(type=self.domainType[int(k.type)],
@@ -229,18 +224,16 @@ class GeoSiteEditorPanel(QWidget):
             codeTag = None
             self.tableViewGeoSitemodel.setRowCount(0)
             for i, k in self.GeoSiteDict.items():
-                
                 codeTag = i
-                for row, data in enumerate(k):
-                    self.setGeoSiteTableView(row, data)
                 break
-            self.resetComboBoxCodeTag()
+            self.comboBoxCodeTag.clear()
+            self.comboBoxCodeTag.addItems([x for x in self.GeoSiteDict.keys()])   
             self.comboBoxCodeTag.setCurrentText(codeTag)
+            if codeTag:
+                for row, data in enumerate(self.GeoSiteDict[codeTag]):
+                     self.setGeoSiteTableView(row, dict(value=data["value"],
+                                                        type=data["type"]))
 
-    def resetComboBoxCodeTag(self):
-        self.comboBoxCodeTag.clear()
-        self.comboBoxCodeTag.addItems(self.CodeTagList)        
-        
     def setGeoSiteTableView(self, row, data):
         self.tableViewGeoSitemodel.setRowCount(row+1)
         domainValueIndex = self.tableViewGeoSitemodel.index(row, 0, QModelIndex())
@@ -253,7 +246,7 @@ class GeoSiteEditorPanel(QWidget):
         fliter = self.translate("geoSiteEditorPanel", """Geo Data file (*.dat);;All file (*)""")
         if _type:
             title = self.translate("geoSiteEditorPanel",  "Import Customized List File")
-            fliter = self.translate("geoSiteEditorPanel", """All file (*)""")
+            fliter = self.translate("geoSiteEditorPanel", "All file (*)")
 
         options = QFileDialog.Options()
         filePath, _ = QFileDialog.getOpenFileName(self, title, "", fliter, options = options)
@@ -280,7 +273,7 @@ class GeoSiteEditorPanel(QWidget):
         
         # TODO
         # user can name code tag here
-        # if code tag is not in self.CodeTagList, that create a new 
+        # if code tag is not in self.GeoSiteList.keys(), that create a new 
         lineEditCodeTag = QLineEdit()
         lineEditCodeTag.setReadOnly(True)
         if self.comboBoxCodeTag.currentText():
@@ -331,7 +324,7 @@ class GeoSiteEditorPanel(QWidget):
         customizedListPanel.exec_()
 
     def onbtnimport(self, btn, codeTag, gfwlist, comboboxtype):
-        if not codeTag or codeTag not in self.CodeTagList:
+        if not codeTag or codeTag not in self.GeoSiteDict.keys():
             # this tip will never reach here
             QToolTip.showText(QCursor.pos(),
                                   self.translate(
@@ -381,7 +374,6 @@ class GeoSiteEditorPanel(QWidget):
         self.tableViewGeoSitemodel.setRowCount(0)
         self.GeoSiteDict.clear()
         self.GeoSiteList.Clear()
-        self.CodeTagList.clear()
         self.comboBoxCodeTag.previousTextChanged.connect(self.oncomboBoxCodeTagChanged)
     
     def __show_country_code(self):
