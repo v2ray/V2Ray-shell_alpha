@@ -19,7 +19,9 @@ if __name__ == "__main__":
     sys.path.append("/".join(srcPath[:-4]))
 
 from bridgehouse.editMap.port import treasureChest, logbook, openV2rayJSONFile
-from bridgehouse.editMap.inbound import (dokodemodoorPanel, httpPanel, shadowsocksPanel, socksPanel, vmessPanel)
+from bridgehouse.editMap.inbound import (dokodemodoorPanel, httpPanel,
+                                         shadowsocksPanel, socksPanel, vmessPanel,
+                                         mtPanel)
 from bridgehouse.editMap.transport import transportPanel
 
 
@@ -177,14 +179,15 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
                            httpPanel.HttpPanel,
                            shadowsocksPanel.InboundShadowsocksPanel,
                            socksPanel.InboundSocksPanel,
-                           vmessPanel.InboundVmessPanel):
+                           vmessPanel.InboundVmessPanel,
+                           mtPanel.InboundMtPanel):
 
     def __init__(self):
         super().__init__()
         self.translate = QCoreApplication.translate
 
     def createInboundPortocolPanel(self):
-        listComboxProtocol = "socks", "vmess", "shadowsocks", "http", "dokodemo-door" 
+        listComboxProtocol = "socks", "vmess", "shadowsocks", "http", "dokodemo-door", "mtproto"
         labelProtocol = QLabel(
             self.translate("InboundPortocolPanel", "Protocol: "), self)
         self.comboBoxInboundProtocol = QComboBox()
@@ -195,12 +198,14 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
         self.inshadowsocks = self.createShadowsocksSettingPanel()
         self.invmess = self.createVmessSettingPanel()
         self.insocks = self.createSocksSettingPanel()
+        self.inmt = self.createmtSettingPanel()
         
         self.insocks.show()
         self.http.hide()
         self.invmess.hide()
         self.inshadowsocks.hide()
         self.dokodemodoor.hide()
+        self.inmt.hide()
         
         hboxInboundProtocol = QHBoxLayout()
         hboxInboundProtocol.addWidget(labelProtocol)
@@ -214,6 +219,7 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
         vboxInboundProtocol.addWidget(self.inshadowsocks)
         vboxInboundProtocol.addWidget(self.invmess)
         vboxInboundProtocol.addWidget(self.insocks)
+        vboxInboundProtocol.addWidget(self.inmt)
         # vboxInboundProtocol.addStretch()
         
         self.createInboundPortocolPanelSignals()
@@ -222,7 +228,7 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
         
     def createInboundPortocolPanelSignals(self):
         self.comboBoxInboundProtocol.currentTextChanged.connect(self.oncomboBoxInboundProtocol)
-        
+
     def oncomboBoxInboundProtocol(self, e):
         protocol=e
         self.insocks.hide()
@@ -230,6 +236,7 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
         self.invmess.hide()
         self.inshadowsocks.hide()
         self.dokodemodoor.hide()
+        self.inmt.hide()
         if (protocol == "socks"):
             self.insocks.show()
         elif (protocol == "vmess"):
@@ -240,6 +247,8 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
             self.http.show()
         elif (protocol == "dokodemo-door"):
             self.dokodemodoor.show()
+        elif (protocol == 'mtproto'):
+            self.inmt.show()
 
     def ScrollLayout(self, layout):
         box = QVBoxLayout(self)
@@ -274,6 +283,7 @@ class InboundPortocolPanel(dokodemodoorPanel.DokodemodoorPanel,
         self.clearinboundShadowsocksPanel()
         self.clearinboundsocksPanel()
         self.clearinboundVmessPanel()
+        self.clearinboundMtPanel()
 
  
 class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.TransportPanel):
@@ -689,6 +699,9 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
             if (protocol == "dokodemo-door"):
                 self.settingdokodemodoorPanelFromJSONFile(settings, openFromJSONFile)
                 self.comboBoxInboundProtocol.setCurrentText("dokodemo-door")
+            if (protocol == "mtproto"):
+                self.settingInboundMtPanelFromJSONFile(settings, openFromJSONFile)
+                self.comboBoxInboundProtocol.setCurrentText("mtproto")
 
         if (not tranport or not inboundJSONFile["streamSettings"]):
             self.checkBoxTransportSetting.setChecked(False)
@@ -742,6 +755,8 @@ class InboundPanel(InboundSettingPanel, InboundPortocolPanel, transportPanel.Tra
             inboundJSONFile["settings"] = copy.deepcopy(self.createDokodemodorrJSONFile())
         if (protocol == "shadowsocks"):
             inboundJSONFile["settings"] = copy.deepcopy(self.createInboundShadowsocksJSONFile())
+        if (protocol == 'mtproto'):
+            inboundJSONFile["settings"] = copy.deepcopy(self.createInboundMtJSONFile())
         else:
             pass
             

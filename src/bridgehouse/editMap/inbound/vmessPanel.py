@@ -114,7 +114,7 @@ class InboundVmessPanel(QWidget):
         vboxVmessPanel.addWidget(self.createVmessDefaultSettingPanel())
         vboxVmessPanel.addWidget(groupBoxClientsSetting)
 
-        self.createVmessPanelSignals()
+        self.createInboundVmessPanelSignals()
 
         if (v2rayshellDebug):
             self.__debugBtn = QPushButton("__debugTest", self)
@@ -155,7 +155,7 @@ class InboundVmessPanel(QWidget):
 
         return groupBoxDefault
     
-    def createVmessPanelSignals(self):
+    def createInboundVmessPanelSignals(self):
         self.btnInVmessDelete.clicked.connect(self.onbtnInVmessDelete)
         self.btnInVmessNew.clicked.connect(self.onbtnInVmessNew)
         

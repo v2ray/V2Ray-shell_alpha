@@ -19,6 +19,7 @@ SOURCES += ./src/bridgehouse/bridge.py \
 		./src/bridgehouse/editMap/inbound/shadowsocksPanel.py \
 		./src/bridgehouse/editMap/inbound/socksPanel.py \
 		./src/bridgehouse/editMap/inbound/vmessPanel.py \
+		./src/bridgehouse/editMap/inbound/mtPanel.py \
 		./src/bridgehouse/editMap/outbound/blackholePanel.py \
 		./src/bridgehouse/editMap/outbound/freedomPanel.py \
 		./src/bridgehouse/editMap/outbound/shadowsocksPanel.py \
@@ -35,6 +36,7 @@ SOURCES += ./src/bridgehouse/bridge.py \
 		./src/bridgehouse/editMap/transport/mkcpPanel.py \
 		./src/bridgehouse/editMap/transport/muxPanel.py \
 		./src/bridgehouse/editMap/transport/tcpPanel.py \
+		./src/bridgehouse/editMap/transport/dsPanel.py \
 		./src/bridgehouse/editMap/transport/transportPanel.py \
 		./src/bridgehouse/editMap/transport/wsPanel.py
 		

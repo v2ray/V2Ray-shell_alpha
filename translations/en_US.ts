@@ -138,34 +138,72 @@
     </message>
 </context>
 <context>
-    <name>InboundPanel</name>
+    <name>InboundMtPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="307"/>
-        <source>Tag name</source>
+        <location filename="../src/bridgehouse/editMap/inbound/mtPanel.py" line="36"/>
+        <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="307"/>
-        <source>Listen: port</source>
+        <location filename="../src/bridgehouse/editMap/inbound/mtPanel.py" line="36"/>
+        <source>Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="307"/>
-        <source>Protocol</source>
+        <location filename="../src/bridgehouse/editMap/inbound/mtPanel.py" line="36"/>
+        <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="435"/>
-        <source>Add</source>
+        <location filename="../src/bridgehouse/editMap/inbound/mtPanel.py" line="41"/>
+        <source>Gerate UUID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="437"/>
+        <location filename="../src/bridgehouse/editMap/inbound/mtPanel.py" line="91"/>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/inbound/mtPanel.py" line="93"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="439"/>
+        <location filename="../src/bridgehouse/editMap/inbound/mtPanel.py" line="73"/>
+        <source>MTProto</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InboundPanel</name>
+    <message>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="317"/>
+        <source>Tag name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="317"/>
+        <source>Listen: port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="317"/>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="445"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="447"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="449"/>
         <source>Apply</source>
         <translation type="unfinished"></translation>
     </message>
@@ -173,7 +211,7 @@
 <context>
     <name>InboundPortocolPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="188"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="191"/>
         <source>Protocol: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -181,62 +219,62 @@
 <context>
     <name>InboundSettingPanel</name>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="33"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="35"/>
         <source>TAG: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="36"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="38"/>
         <source>Listen: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="39"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="41"/>
         <source>Port: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="43"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="45"/>
         <source>Domain Override: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="45"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="47"/>
         <source>HTTP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="47"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="49"/>
         <source>TLS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="50"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="52"/>
         <source>Strategy: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="148"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="150"/>
         <source>Always</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="150"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="152"/>
         <source>Random</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="56"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="58"/>
         <source>Refresh: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="59"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="61"/>
         <source>Concurrency: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="121"/>
+        <location filename="../src/bridgehouse/editMap/port/inboundPanel.py" line="123"/>
         <source>Multiple Port Allocate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -611,7 +649,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="326"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="336"/>
         <source>Transport Setting</source>
         <translation type="unfinished"></translation>
     </message>
@@ -634,47 +672,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="369"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="380"/>
         <source>TCP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="365"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="376"/>
         <source>mKcp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="367"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="378"/>
         <source>ws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="87"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="91"/>
         <source>Server Name: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="208"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="212"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="96"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="100"/>
         <source>Allow Insecure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="133"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="137"/>
         <source>TLS Setting: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="161"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="165"/>
         <source>Open Certificates File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="371"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="382"/>
         <source>http</source>
         <translation type="unfinished"></translation>
     </message>
@@ -684,33 +722,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="190"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="194"/>
         <source>Certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="192"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="196"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="89"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="93"/>
         <source>Alpn: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="210"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="214"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="172"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="176"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="173"/>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="177"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/transport/transportPanel.py" line="384"/>
+        <source>ds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -830,7 +873,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="826"/>
+        <location filename="../src/bridgehouse/bridge.py" line="827"/>
         <source>Bug Report</source>
         <translation type="unfinished"></translation>
     </message>
@@ -865,56 +908,56 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="594"/>
+        <location filename="../src/bridgehouse/bridge.py" line="595"/>
         <source>Proxy Time Lag Check</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="606"/>
+        <location filename="../src/bridgehouse/bridge.py" line="607"/>
         <source>Warnnig...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="608"/>
+        <location filename="../src/bridgehouse/bridge.py" line="609"/>
         <source>There no any server is running, 
 [File]-&gt;[Add V2Ray-core Config File] (Ctrl+n) add a config.json.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="659"/>
+        <location filename="../src/bridgehouse/bridge.py" line="660"/>
         <source>Open V2Ray-sehll Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="676"/>
+        <location filename="../src/bridgehouse/bridge.py" line="677"/>
         <source>Open V2Ray-core Config File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="758"/>
+        <location filename="../src/bridgehouse/bridge.py" line="759"/>
         <source>V2Ray config file edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="802"/>
+        <location filename="../src/bridgehouse/bridge.py" line="803"/>
         <source>Across the Great Wall, we can reach every corner in the world.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="804"/>
+        <location filename="../src/bridgehouse/bridge.py" line="805"/>
         <source>You weren&apos;t thinking about that when you were creating it.
 Because if you did? You never would have gone through with it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="806"/>
+        <location filename="../src/bridgehouse/bridge.py" line="807"/>
         <source>May you do good and not evil.
 May you find forgiveness for yourself and forgive others.
 May you share freely, never taking more than you give.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/bridgehouse/bridge.py" line="815"/>
+        <location filename="../src/bridgehouse/bridge.py" line="816"/>
         <source>About V2Ray-shell</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1219,6 +1262,19 @@ Feature Request Details:
     <message>
         <location filename="../src/bridgehouse/editMap/dnsTAB.py" line="206"/>
         <source>Modify</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>domainSocketPanel</name>
+    <message>
+        <location filename="../src/bridgehouse/editMap/transport/dsPanel.py" line="28"/>
+        <source>Path:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/bridgehouse/editMap/transport/dsPanel.py" line="35"/>
+        <source>Domain Socket Setting</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

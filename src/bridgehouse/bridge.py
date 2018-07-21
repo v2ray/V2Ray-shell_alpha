@@ -580,6 +580,7 @@ class bridgePanel(QMainWindow, QObject):
                 break
         if (currentActiveRow and currentActiveRow.isChecked()):
             proxy = self.getProxyAddressFromTableWidget(currentRow)
+            if not proxy: return
             protocol = proxy[0]
             hostName = proxy[1]
             hostPort = int(proxy[2])
